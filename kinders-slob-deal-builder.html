@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SLOB Deal Builder - Kinder's</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Open Sans', sans-serif; background: #F9FAFB; color: #1B1B1B; }
+    .font-display { font-family: 'Playfair Display', serif; }
+    
+    /* Animations */
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes slideIn { from { transform: translateX(-100%); } to { transform: translateX(0); } }
+    @keyframes toastIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+    .fade-in { animation: fadeIn 0.3s ease-out; }
+    .slide-in { animation: slideIn 0.3s ease-out; }
+    .toast-enter { animation: toastIn 0.3s ease-out; }
+    
+    /* Scrollbar */
+    .scrollbar-thin::-webkit-scrollbar { width: 6px; height: 6px; }
+    .scrollbar-thin::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 3px; }
+    .scrollbar-thin::-webkit-scrollbar-thumb { background: #E0A885; border-radius: 3px; }
+    
+    /* Focus & Hover */
+    input:focus, select:focus { outline: 2px solid #DB6013; outline-offset: -2px; }
+    button { cursor: pointer; }
+    button:hover { opacity: 0.9; }
+    button:disabled { cursor: not-allowed; opacity: 0.5; }
+    
+    /* Layout */
+    .header { background: white; border-bottom: 1px solid #e5e7eb; box-shadow: 0 1px 3px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 40; }
+    .header-inner { padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; }
+    .logo-section { display: flex; align-items: center; gap: 8px; padding-left: 16px; border-left: 1px solid #e5e7eb; }
+    .logo-box { width: 40px; height: 40px; background: #DB6013; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+    .logo-letter { color: white; font-weight: bold; font-size: 18px; }
+    
+    .main-container { display: flex; }
+    .filter-drawer { width: 280px; background: white; border-right: 1px solid #e5e7eb; padding: 20px; height: calc(100vh - 73px); position: sticky; top: 73px; overflow-y: auto; }
+    .filter-drawer.hidden { display: none; }
+    .main-content { flex: 1; padding: 24px; }
+    
+    /* Buttons */
+    .btn { padding: 8px 16px; border-radius: 8px; font-weight: 500; border: 1px solid #d1d5db; background: white; color: #374151; display: flex; align-items: center; gap: 8px; }
+    .btn-primary { background: #DB6013; color: white; border: 1px solid #DB6013; }
+    .btn-primary:disabled { background: #d1d5db; border-color: #d1d5db; }
+    .btn-active { background: #DB6013; color: white; border-color: #DB6013; }
+    
+    /* Filter Select */
+    .filter-group { margin-bottom: 16px; }
+    .filter-label { display: block; font-size: 14px; font-weight: 500; margin-bottom: 6px; }
+    .filter-select { width: 100%; padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 14px; background: white; }
+    
+    /* Filter Pills */
+    .filter-pills { margin-bottom: 16px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .filter-pill { padding: 4px 12px; background: rgba(219,96,19,0.1); color: #DB6013; border-radius: 9999px; font-size: 13px; cursor: pointer; border: none; }
+    
+    /* KPI Cards */
+    .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+    .kpi-card { background: white; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); border: 1px solid #e5e7eb; overflow: hidden; }
+    .kpi-accent { height: 6px; background: #DB6013; }
+    .kpi-content { padding: 16px; }
+    .kpi-title { font-size: 11px; font-weight: 600; color: #6b7280; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+    .kpi-value { font-size: 24px; font-weight: bold; }
+    .kpi-footer { margin-top: 12px; padding-top: 12px; border-top: 1px solid #f3f4f6; display: flex; justify-content: space-between; align-items: center; }
+    .kpi-change { padding: 2px 8px; border-radius: 9999px; font-size: 12px; font-weight: 500; }
+    .kpi-change.positive { background: #dcfce7; color: #166534; }
+    .kpi-change.negative { background: #fee2e2; color: #dc2626; }
+    .kpi-benchmark { font-size: 11px; color: #9ca3af; }
+    
+    /* Analytics Section - 1:2 Layout */
+    .analytics-section { display: grid; grid-template-columns: 1fr 2fr; gap: 16px; margin-bottom: 24px; min-height: 480px; }
+    .analytics-left { display: flex; flex-direction: column; gap: 16px; }
+    .analytics-right { display: flex; flex-direction: column; }
+    
+    /* Chart Cards */
+    .chart-card { background: white; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); border: 1px solid #e5e7eb; overflow: hidden; display: flex; flex-direction: column; }
+    .chart-card.equal-height { flex: 1; }
+    .chart-card.full-height { flex: 1; }
+    .chart-header { padding: 12px 16px; border-bottom: 1px solid #f3f4f6; }
+    .chart-title { font-weight: 600; font-size: 14px; }
+    .chart-body { padding: 12px; flex: 1; display: flex; flex-direction: column; justify-content: center; }
+    .chart-body-compact { padding: 10px 12px; flex: 1; overflow-y: auto; }
+    
+    /* SKU Table Styles */
+    .sku-table { width: 100%; font-size: 12px; border-collapse: collapse; }
+    .sku-table thead { background: #f9fafb; position: sticky; top: 0; }
+    .sku-table th { padding: 10px 8px; text-align: left; font-weight: 600; font-size: 11px; color: #6b7280; text-transform: uppercase; border-bottom: 1px solid #e5e7eb; }
+    .sku-table th.right { text-align: right; }
+    .sku-table tbody tr { border-bottom: 1px solid #f3f4f6; cursor: pointer; transition: background 0.15s; }
+    .sku-table tbody tr:hover { background: #f9fafb; }
+    .sku-table tbody tr.dimmed { opacity: 0.4; }
+    .sku-table tbody tr.active { background: rgba(219,96,19,0.08); }
+    .sku-table td { padding: 8px; vertical-align: middle; }
+    .sku-table td.right { text-align: right; }
+    .sku-table td.mono { font-family: monospace; font-size: 10px; }
+    
+    /* Data Bar */
+    .data-bar-cell { width: 140px; }
+    .data-bar-container { display: flex; align-items: center; gap: 8px; }
+    .data-bar-track { flex: 1; height: 18px; background: #f3f4f6; border-radius: 3px; overflow: hidden; }
+    .data-bar-fill { height: 100%; background: linear-gradient(90deg, #DB6013, #E0A885); border-radius: 3px; }
+    .data-bar-value { font-size: 11px; font-weight: 600; color: #DB6013; white-space: nowrap; min-width: 50px; text-align: right; }
+    
+    /* Recovery Rate Heatmap Cell */
+    .recovery-cell { padding: 4px 10px; border-radius: 4px; font-weight: 600; font-size: 11px; text-align: center; color: white; min-width: 50px; display: inline-block; }
+    
+    /* Bar Charts - Compact */
+    .bar-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; cursor: pointer; transition: opacity 0.2s; }
+    .bar-row.dimmed { opacity: 0.4; }
+    .bar-label { width: 70px; font-size: 11px; text-align: right; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .bar-track { flex: 1; height: 18px; background: #f3f4f6; border-radius: 3px; overflow: hidden; display: flex; }
+    .bar-track.active { outline: 2px solid #DB6013; }
+    .bar-segment { height: 100%; }
+    .bar-segment.chicago { background: #DB6013; }
+    .bar-segment.la { background: #814000; }
+    .bar-value { width: 55px; font-size: 11px; font-weight: 600; text-align: right; color: #DB6013; }
+    
+    /* Vertical Bars - Compact */
+    .vbar-container { display: flex; align-items: flex-end; justify-content: space-around; height: 80px; gap: 6px; }
+    .vbar-group { display: flex; flex-direction: column; align-items: center; flex: 1; cursor: pointer; transition: opacity 0.2s; }
+    .vbar-group.dimmed { opacity: 0.4; }
+    .vbar-value { font-size: 8px; color: #DB6013; font-weight: 600; margin-bottom: 2px; }
+    .vbar-stack { width: 100%; max-width: 40px; display: flex; flex-direction: column-reverse; border-radius: 3px 3px 0 0; overflow: hidden; }
+    .vbar-stack.active { outline: 2px solid #DB6013; }
+    .vbar-segment { width: 100%; }
+    .vbar-segment.chicago { background: #DB6013; }
+    .vbar-segment.la { background: #814000; }
+    .vbar-label { margin-top: 3px; font-size: 7px; color: #6b7280; text-align: center; max-width: 50px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    
+    /* Chart Legend - Compact */
+    .chart-legend { display: flex; gap: 12px; justify-content: center; margin-top: 8px; }
+    .legend-item { display: flex; align-items: center; gap: 4px; font-size: 10px; color: #6b7280; }
+    .legend-dot { width: 10px; height: 10px; border-radius: 2px; }
+    .legend-dot.chicago { background: #DB6013; }
+    .legend-dot.la { background: #814000; }
+    
+    /* Heatmap - Compact */
+    .heatmap-cell { display: flex; justify-content: space-between; padding: 8px 12px; border-radius: 6px; margin-bottom: 6px; cursor: pointer; border: none; width: 100%; transition: opacity 0.2s; }
+    .heatmap-cell.dimmed { opacity: 0.4; }
+    .heatmap-cell.active { outline: 2px solid #1B1B1B; }
+    .heatmap-label { color: white; font-weight: 600; font-size: 12px; }
+    .heatmap-value { color: rgba(255,255,255,0.9); font-weight: bold; font-size: 12px; }
+    
+    /* Detail Section */
+    .detail-section { background: white; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); border: 1px solid #e5e7eb; overflow: hidden; }
+    .detail-header { padding: 16px; border-bottom: 1px solid #e5e7eb; display: flex; justify-content: space-between; align-items: center; }
+    .detail-title { font-size: 18px; font-weight: bold; }
+    .detail-subtitle { font-size: 14px; color: #6b7280; margin-top: 4px; }
+    
+    /* Table */
+    .table-container { overflow-x: auto; }
+    table { width: 100%; font-size: 13px; border-collapse: collapse; }
+    thead tr { background: #f9fafb; color: #1B1B1B; }
+    th { padding: 12px; text-align: left; font-weight: 600; font-size: 12px; color: #6b7280; text-transform: uppercase; border-bottom: 1px solid #e5e7eb; }
+    th.right, td.right { text-align: right; }
+    tbody tr { border-bottom: 1px solid #f3f4f6; }
+    tbody tr:nth-child(even) { background: #f9fafb; }
+    tbody tr.selected { background: rgba(219,96,19,0.05); }
+    td { padding: 10px 12px; }
+    td.mono { font-family: monospace; font-size: 11px; }
+    tfoot tr { background: #f3f4f6; font-weight: 600; }
+    
+    /* Badges */
+    .badge { padding: 2px 8px; border-radius: 4px; font-size: 11px; }
+    .badge-gray { background: #f3f4f6; }
+    .badge-chicago { background: rgba(219,96,19,0.1); color: #DB6013; }
+    .badge-la { background: rgba(129,64,0,0.1); color: #814000; }
+    .badge-red { background: #fee2e2; color: #dc2626; }
+    .badge-yellow { background: #fef3c7; color: #d97706; }
+    .badge-green { background: #dcfce7; color: #166534; }
+    
+    /* Modal */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 50; padding: 16px; }
+    .modal-overlay.hidden { display: none; }
+    .modal { background: white; border-radius: 12px; box-shadow: 0 25px 50px rgba(0,0,0,0.25); max-width: 800px; width: 100%; max-height: 90vh; overflow: hidden; display: flex; flex-direction: column; }
+    .modal-header { background: linear-gradient(to right, #DB6013, #814000); padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; }
+    .modal-title { font-size: 20px; font-weight: bold; color: white; }
+    .modal-subtitle { color: rgba(255,255,255,0.8); font-size: 14px; }
+    .modal-close { color: white; background: none; border: none; font-size: 24px; cursor: pointer; }
+    .modal-body { padding: 24px; overflow-y: auto; flex: 1; }
+    .modal-footer { padding: 16px 24px; background: #f9fafb; border-top: 1px solid #e5e7eb; display: flex; justify-content: space-between; align-items: center; }
+    
+    /* Form */
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+    .form-group { }
+    .form-label { display: block; font-size: 14px; font-weight: 500; margin-bottom: 6px; }
+    .form-input { width: 100%; padding: 10px 12px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 14px; }
+    .form-input-dollar { padding-left: 28px; }
+    .input-wrapper { position: relative; }
+    .input-prefix { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #6b7280; }
+    
+    /* Impact Summary */
+    .impact-section { background: #f9fafb; border-radius: 12px; padding: 16px; border: 1px solid #e5e7eb; }
+    .impact-title { font-weight: 600; font-size: 14px; margin-bottom: 12px; }
+    .impact-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    .impact-card { background: white; padding: 12px; border-radius: 8px; border: 1px solid #e5e7eb; }
+    .impact-card.highlight { border: 2px solid #DB6013; }
+    .impact-label { font-size: 10px; color: #6b7280; text-transform: uppercase; margin-bottom: 4px; }
+    .impact-label.highlight { color: #DB6013; }
+    .impact-value { font-size: 18px; font-weight: bold; }
+    .impact-value.highlight { color: #DB6013; }
+    .impact-value.green { color: #4F7942; }
+    .impact-value.orange { color: #DB6013; }
+    .impact-value.red { color: #E73E09; }
+    .impact-footer { margin-top: 12px; display: flex; justify-content: space-between; font-size: 14px; }
+    .impact-footer-label { color: #6b7280; }
+    .impact-footer-value { font-weight: bold; }
+    .impact-footer-value.green { color: #4F7942; }
+    .impact-footer-value.red { color: #E73E09; }
+    
+    /* Toast */
+    .toast { position: fixed; bottom: 24px; right: 24px; z-index: 60; }
+    .toast.hidden { display: none; }
+    .toast-content { padding: 16px 24px; border-radius: 8px; background: #4F7942; color: white; box-shadow: 0 10px 25px rgba(0,0,0,0.2); display: flex; align-items: center; gap: 12px; font-weight: 500; }
+    
+    /* Selected Items Table in Modal */
+    .selected-items-table { background: #f9fafb; border-radius: 8px; max-height: 140px; overflow-y: auto; margin-bottom: 20px; }
+    .selected-items-table table { font-size: 12px; }
+    .selected-items-table thead { background: #f3f4f6; }
+    .selected-items-table th { padding: 8px; }
+    .selected-items-table td { padding: 8px; }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-inner">
+      <h1 style="font-size: 24px; font-weight: 600;">SLOB Deal Builder</h1>
+      <div style="display: flex; align-items: center; gap: 16px;">
+        <button id="filterToggle" class="btn">☰ Filters</button>
+        <div class="logo-section">
+          <div class="logo-box"><span class="font-display logo-letter">K</span></div>
+          <span class="font-display" style="font-size: 20px; font-weight: bold;">Kinder's</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="main-container">
+    <!-- Filter Drawer -->
+    <aside id="filterDrawer" class="filter-drawer hidden slide-in scrollbar-thin">
+      <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+        <h3 style="font-weight: 600;">Filters</h3>
+        <button id="clearFilters" style="font-size: 14px; color: #DB6013; background: none; border: none; cursor: pointer;">Clear All</button>
+      </div>
+      <div class="filter-group">
+        <label class="filter-label">Location</label>
+        <select id="filterLocation" class="filter-select"><option value="All">All</option></select>
+      </div>
+      <div class="filter-group">
+        <label class="filter-label">SLOB Reason</label>
+        <select id="filterReason" class="filter-select"><option value="All">All</option></select>
+      </div>
+      <div class="filter-group">
+        <label class="filter-label">Expiration Bucket</label>
+        <select id="filterExpiration" class="filter-select"><option value="All">All</option></select>
+      </div>
+      <div class="filter-group">
+        <label class="filter-label">Lifecycle Status</label>
+        <select id="filterLifecycle" class="filter-select"><option value="All">All</option></select>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Cross Filter Pills -->
+      <div id="crossFilterPills" class="filter-pills" style="display: none;"></div>
+
+      <!-- KPI Cards -->
+      <div id="kpiGrid" class="kpi-grid"></div>
+
+      <!-- Analytics Section - 1:2 Layout -->
+      <div class="analytics-section">
+        <!-- Left Column (1/3) - Stacked Charts -->
+        <div class="analytics-left">
+          <div class="chart-card equal-height">
+            <div class="chart-header"><h3 class="chart-title">Top Categories</h3></div>
+            <div class="chart-body" id="categoryChart"></div>
+          </div>
+          <div class="chart-card equal-height">
+            <div class="chart-header"><h3 class="chart-title">Expiration Buckets</h3></div>
+            <div class="chart-body" id="expirationChart"></div>
+          </div>
+          <div class="chart-card equal-height">
+            <div class="chart-header"><h3 class="chart-title">Primary SLOB Reason</h3></div>
+            <div class="chart-body" id="reasonChart"></div>
+          </div>
+        </div>
+        
+        <!-- Right Column (2/3) - Top 10 SKUs Table -->
+        <div class="analytics-right">
+          <div class="chart-card full-height">
+            <div class="chart-header"><h3 class="chart-title">Top 10 SKUs by COGS</h3></div>
+            <div class="chart-body-compact scrollbar-thin" id="skuTableContainer"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Detail Section -->
+      <div class="detail-section">
+        <div class="detail-header">
+          <div>
+            <h3 class="detail-title">Item & Lot Detail</h3>
+            <p class="detail-subtitle" id="detailSubtitle">0 items • 0 selected</p>
+          </div>
+          <button id="buildDealBtn" class="btn btn-primary" disabled>+ Build Deal (0)</button>
+        </div>
+        <div class="table-container scrollbar-thin">
+          <table>
+            <thead>
+              <tr>
+                <th style="width: 40px;"><input type="checkbox" id="selectAll"></th>
+                <th>Item #</th>
+                <th>Description</th>
+                <th>Category</th>
+                <th>Location</th>
+                <th>Lot #</th>
+                <th>Expiration</th>
+                <th>SLOB Reason</th>
+                <th class="right">COGS</th>
+                <th class="right">Qty</th>
+              </tr>
+            </thead>
+            <tbody id="detailTableBody"></tbody>
+            <tfoot id="detailTableFoot"></tfoot>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Modal -->
+  <div id="dealModal" class="modal-overlay hidden">
+    <div class="modal fade-in">
+      <div class="modal-header">
+        <div>
+          <h2 class="font-display modal-title">Deal Builder</h2>
+          <p class="modal-subtitle" id="modalSubtitle">0 items selected</p>
+        </div>
+        <button id="closeModal" class="modal-close">×</button>
+      </div>
+      <div class="modal-body scrollbar-thin">
+        <h3 style="font-weight: 600; font-size: 14px; margin-bottom: 8px;">Selected Items</h3>
+        <div class="selected-items-table scrollbar-thin">
+          <table>
+            <thead><tr><th>Item</th><th>Location</th><th class="right">COGS</th><th class="right">Qty</th></tr></thead>
+            <tbody id="modalItemsBody"></tbody>
+          </table>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Proposed Price *</label>
+            <div class="input-wrapper">
+              <span class="input-prefix">$</span>
+              <input type="number" id="proposedPrice" class="form-input form-input-dollar" placeholder="0.00">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Buyer Name *</label>
+            <input type="text" id="buyerName" class="form-input" placeholder="e.g., Grocery Outlet">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Reason Code</label>
+            <select id="reasonCode" class="form-input">
+              <option>Closeout Sale</option>
+              <option>Clearance</option>
+              <option>Approaching Expiration</option>
+              <option>Promotional Bundle</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Approver Email *</label>
+            <input type="email" id="approverEmail" class="form-input" placeholder="manager@kinders.com">
+          </div>
+        </div>
+        <div class="impact-section">
+          <h3 class="impact-title">Deal Impact Summary</h3>
+          <div class="impact-grid">
+            <div class="impact-card">
+              <p class="impact-label">Total COGS</p>
+              <p class="impact-value" id="impactCogs">$0</p>
+            </div>
+            <div class="impact-card">
+              <p class="impact-label">Total Qty</p>
+              <p class="impact-value" id="impactQty">0</p>
+            </div>
+            <div class="impact-card highlight">
+              <p class="impact-label highlight">Recovery</p>
+              <p class="impact-value highlight" id="impactRecovery">$0</p>
+            </div>
+            <div class="impact-card">
+              <p class="impact-label">Rate</p>
+              <p class="impact-value" id="impactRate">0%</p>
+            </div>
+          </div>
+          <div class="impact-footer">
+            <span class="impact-footer-label">Variance from COGS:</span>
+            <span class="impact-footer-value" id="impactVariance">$0</span>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <p style="font-size: 13px; color: #6b7280;">Send to: <span id="approverDisplay" style="font-weight: 500;">(enter email)</span></p>
+        <div style="display: flex; gap: 12px;">
+          <button id="cancelDeal" class="btn">Cancel</button>
+          <button id="submitDeal" class="btn btn-primary" disabled>Submit Deal</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="toast hidden">
+    <div class="toast-content">✓ <span id="toastMessage">Deal submitted!</span></div>
+  </div>
+
+  <script>
+    // ============================================
+    // DATA
+    // ============================================
+    const inventoryData = [
+      { id: 1, itemNumber: "KIN-RUB-001", itemDescription: "The Blend Seasoning", category: "Rub", location: "RJW (Chicago)", lotNumber: "166297", expirationDate: "2025-03-15", expirationBucket: "< 3 Months", lifecycleStatus: "Discontinued", slobReason: "Discontinued", cogsValue: 12500, onHandQty: 450, junkValue: 3200, soldOrPromised: false },
+      { id: 2, itemNumber: "KIN-RUB-001", itemDescription: "The Blend Seasoning", category: "Rub", location: "States (Los Angeles)", lotNumber: "166298", expirationDate: "2025-04-20", expirationBucket: "3-6 Months", lifecycleStatus: "Discontinued", slobReason: "Discontinued", cogsValue: 8900, onHandQty: 320, junkValue: 2100, soldOrPromised: false },
+      { id: 3, itemNumber: "KIN-RUB-002", itemDescription: "Woodfired Garlic Rub", category: "Rub", location: "RJW (Chicago)", lotNumber: "167001", expirationDate: "2025-02-28", expirationBucket: "< 3 Months", lifecycleStatus: "Active", slobReason: "Expiring Soon", cogsValue: 15800, onHandQty: 580, junkValue: 4500, soldOrPromised: false },
+      { id: 4, itemNumber: "KIN-RUB-003", itemDescription: "Buttery Steakhouse Rub", category: "Rub", location: "States (Los Angeles)", lotNumber: "167102", expirationDate: "2025-06-30", expirationBucket: "3-6 Months", lifecycleStatus: "Active", slobReason: "No Orders 120+ Days", cogsValue: 6200, onHandQty: 210, junkValue: 1800, soldOrPromised: false },
+      { id: 5, itemNumber: "KIN-SAU-001", itemDescription: "Gold Label BBQ Sauce", category: "Sauce", location: "RJW (Chicago)", lotNumber: "168501", expirationDate: "2025-01-31", expirationBucket: "< 3 Months", lifecycleStatus: "Active", slobReason: "Expiring Soon", cogsValue: 22400, onHandQty: 890, junkValue: 6700, soldOrPromised: false },
+      { id: 6, itemNumber: "KIN-SAU-001", itemDescription: "Gold Label BBQ Sauce", category: "Sauce", location: "States (Los Angeles)", lotNumber: "168502", expirationDate: "2025-02-15", expirationBucket: "< 3 Months", lifecycleStatus: "Active", slobReason: "Expiring Soon", cogsValue: 18200, onHandQty: 720, junkValue: 5400, soldOrPromised: false },
+      { id: 7, itemNumber: "KIN-SAU-002", itemDescription: "Honey Hot BBQ Sauce", category: "Sauce", location: "RJW (Chicago)", lotNumber: "168601", expirationDate: "2025-08-20", expirationBucket: "6-12 Months", lifecycleStatus: "Inactive", slobReason: "Discontinued", cogsValue: 9800, onHandQty: 380, junkValue: 2900, soldOrPromised: true },
+      { id: 8, itemNumber: "KIN-SAU-003", itemDescription: "Roasted Garlic BBQ", category: "Sauce", location: "States (Los Angeles)", lotNumber: "168701", expirationDate: "2025-05-10", expirationBucket: "3-6 Months", lifecycleStatus: "Active", slobReason: "No Orders 120+ Days", cogsValue: 7600, onHandQty: 290, junkValue: 2200, soldOrPromised: false },
+      { id: 9, itemNumber: "KIN-SEA-001", itemDescription: "Lemon Pepper Seasoning", category: "Seasoning", location: "RJW (Chicago)", lotNumber: "169001", expirationDate: "2025-03-25", expirationBucket: "< 3 Months", lifecycleStatus: "Discontinued", slobReason: "Discontinued", cogsValue: 11200, onHandQty: 420, junkValue: 3300, soldOrPromised: false },
+      { id: 10, itemNumber: "KIN-SEA-001", itemDescription: "Lemon Pepper Seasoning", category: "Seasoning", location: "States (Los Angeles)", lotNumber: "169002", expirationDate: "2025-04-05", expirationBucket: "3-6 Months", lifecycleStatus: "Discontinued", slobReason: "Discontinued", cogsValue: 8400, onHandQty: 310, junkValue: 2500, soldOrPromised: false },
+      { id: 11, itemNumber: "KIN-SEA-002", itemDescription: "Prime Rib Seasoning", category: "Seasoning", location: "RJW (Chicago)", lotNumber: "169101", expirationDate: "2025-07-15", expirationBucket: "6-12 Months", lifecycleStatus: "Active", slobReason: "No Orders 120+ Days", cogsValue: 5400, onHandQty: 190, junkValue: 1600, soldOrPromised: false },
+      { id: 12, itemNumber: "KIN-SEA-003", itemDescription: "Cajun Seasoning", category: "Seasoning", location: "States (Los Angeles)", lotNumber: "169201", expirationDate: "2025-09-30", expirationBucket: "6-12 Months", lifecycleStatus: "Active", slobReason: "No Orders 120+ Days", cogsValue: 4200, onHandQty: 150, junkValue: 1200, soldOrPromised: false },
+      { id: 13, itemNumber: "KIN-RUB-004", itemDescription: "Cali Gold Rub", category: "Rub", location: "RJW (Chicago)", lotNumber: "167201", expirationDate: "2025-02-10", expirationBucket: "< 3 Months", lifecycleStatus: "Active", slobReason: "Expiring Soon", cogsValue: 19600, onHandQty: 720, junkValue: 5800, soldOrPromised: false },
+      { id: 14, itemNumber: "KIN-RUB-005", itemDescription: "Cherry Chipotle Rub", category: "Rub", location: "States (Los Angeles)", lotNumber: "167301", expirationDate: "2025-12-01", expirationBucket: "> 12 Months", lifecycleStatus: "Inactive", slobReason: "Discontinued", cogsValue: 3800, onHandQty: 140, junkValue: 1100, soldOrPromised: false },
+      { id: 15, itemNumber: "KIN-SAU-004", itemDescription: "Mild BBQ Sauce", category: "Sauce", location: "RJW (Chicago)", lotNumber: "168801", expirationDate: "2025-04-30", expirationBucket: "3-6 Months", lifecycleStatus: "Active", slobReason: "No Orders 120+ Days", cogsValue: 6800, onHandQty: 260, junkValue: 2000, soldOrPromised: false },
+      { id: 16, itemNumber: "KIN-SAU-005", itemDescription: "Teriyaki Sauce", category: "Sauce", location: "States (Los Angeles)", lotNumber: "168901", expirationDate: "2025-01-20", expirationBucket: "< 3 Months", lifecycleStatus: "Active", slobReason: "Expiring Soon", cogsValue: 14200, onHandQty: 540, junkValue: 4200, soldOrPromised: false },
+      { id: 17, itemNumber: "KIN-SEA-004", itemDescription: "Taco Seasoning", category: "Seasoning", location: "RJW (Chicago)", lotNumber: "169301", expirationDate: "2025-05-20", expirationBucket: "3-6 Months", lifecycleStatus: "Discontinued", slobReason: "Discontinued", cogsValue: 7200, onHandQty: 270, junkValue: 2100, soldOrPromised: false },
+      { id: 18, itemNumber: "KIN-SEA-005", itemDescription: "Italian Herb Blend", category: "Seasoning", location: "States (Los Angeles)", lotNumber: "169401", expirationDate: "2025-06-15", expirationBucket: "3-6 Months", lifecycleStatus: "Active", slobReason: "No Orders 120+ Days", cogsValue: 5600, onHandQty: 200, junkValue: 1700, soldOrPromised: false },
+      { id: 19, itemNumber: "KIN-RUB-006", itemDescription: "Korean BBQ Rub", category: "Rub", location: "RJW (Chicago)", lotNumber: "167401", expirationDate: "2025-03-01", expirationBucket: "< 3 Months", lifecycleStatus: "Active", slobReason: "Expiring Soon", cogsValue: 16800, onHandQty: 620, junkValue: 5000, soldOrPromised: false },
+      { id: 20, itemNumber: "KIN-RUB-006", itemDescription: "Korean BBQ Rub", category: "Rub", location: "States (Los Angeles)", lotNumber: "167402", expirationDate: "2025-03-10", expirationBucket: "< 3 Months", lifecycleStatus: "Active", slobReason: "Expiring Soon", cogsValue: 13400, onHandQty: 490, junkValue: 4000, soldOrPromised: false }
+    ];
+
+    const benchmarks = { avgCogs: 185000, avgQty: 6800, avgJunk: 52000, avgRecovery: 0.42 };
+
+    // ============================================
+    // STATE
+    // ============================================
+    let state = {
+      filters: { location: 'All', expirationBucket: 'All', lifecycleStatus: 'All', slobReason: 'All' },
+      crossFilter: { category: null, sku: null, expiration: null, reason: null },
+      selectedItems: [],
+      showFilterDrawer: false
+    };
+
+    // ============================================
+    // UTILITIES
+    // ============================================
+    function formatCurrency(v) { return '$' + v.toLocaleString(); }
+    function formatNumber(v) { return v.toLocaleString(); }
+    function formatPercent(v) { return (v * 100).toFixed(1) + '%'; }
+
+    function getAvailableInventory() {
+      return inventoryData.filter(item => !item.soldOrPromised);
+    }
+
+    function getFilteredData() {
+      return getAvailableInventory().filter(item => {
+        const f = state.filters;
+        const c = state.crossFilter;
+        return (f.location === 'All' || item.location === f.location) &&
+               (f.expirationBucket === 'All' || item.expirationBucket === f.expirationBucket) &&
+               (f.lifecycleStatus === 'All' || item.lifecycleStatus === f.lifecycleStatus) &&
+               (f.slobReason === 'All' || item.slobReason === f.slobReason) &&
+               (!c.category || item.category === c.category) &&
+               (!c.sku || item.itemNumber === c.sku) &&
+               (!c.expiration || item.expirationBucket === c.expiration) &&
+               (!c.reason || item.slobReason === c.reason);
+      });
+    }
+
+    // ============================================
+    // RENDER FUNCTIONS
+    // ============================================
+    function render() {
+      const data = getFilteredData();
+      renderKPIs(data);
+      renderCategoryChart(data);
+      renderExpirationChart(data);
+      renderSkuTable(data);
+      renderReasonChart(data);
+      renderDetailTable(data);
+      renderCrossFilterPills();
+      updateBuildDealButton();
+    }
+
+    function renderKPIs(data) {
+      const totalCogs = data.reduce((s, i) => s + i.cogsValue, 0);
+      const totalQty = data.reduce((s, i) => s + i.onHandQty, 0);
+      const totalJunk = data.reduce((s, i) => s + i.junkValue, 0);
+      const recovery = totalCogs > 0 ? (totalCogs - totalJunk) / totalCogs : 0;
+
+      const kpis = [
+        { title: 'Financial Exposure', value: formatCurrency(totalCogs), change: ((totalCogs - benchmarks.avgCogs) / benchmarks.avgCogs) * 100, benchmark: formatCurrency(benchmarks.avgCogs), inverse: true },
+        { title: 'Inventory Volume', value: formatNumber(totalQty) + ' units', change: ((totalQty - benchmarks.avgQty) / benchmarks.avgQty) * 100, benchmark: formatNumber(benchmarks.avgQty), inverse: true },
+        { title: 'Junk Value', value: formatCurrency(totalJunk), change: ((totalJunk - benchmarks.avgJunk) / benchmarks.avgJunk) * 100, benchmark: formatCurrency(benchmarks.avgJunk), inverse: true },
+        { title: 'Recovery Rate', value: formatPercent(recovery), change: ((recovery - benchmarks.avgRecovery) / benchmarks.avgRecovery) * 100, benchmark: formatPercent(benchmarks.avgRecovery), inverse: false }
+      ];
+
+      document.getElementById('kpiGrid').innerHTML = kpis.map(kpi => {
+        const isPositive = kpi.inverse ? kpi.change < 0 : kpi.change > 0;
+        return `
+          <div class="kpi-card">
+            <div class="kpi-accent"></div>
+            <div class="kpi-content">
+              <p class="kpi-title">${kpi.title}</p>
+              <p class="kpi-value">${kpi.value}</p>
+              <div class="kpi-footer">
+                <span class="kpi-change ${isPositive ? 'positive' : 'negative'}">${isPositive ? '↑' : '↓'} ${Math.abs(kpi.change).toFixed(1)}%</span>
+                <span class="kpi-benchmark">vs ${kpi.benchmark}</span>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderCategoryChart(data) {
+      const grouped = {};
+      data.forEach(i => {
+        if (!grouped[i.category]) grouped[i.category] = { label: i.category, chicago: 0, la: 0, total: 0 };
+        if (i.location === 'RJW (Chicago)') grouped[i.category].chicago += i.cogsValue;
+        else grouped[i.category].la += i.cogsValue;
+        grouped[i.category].total += i.cogsValue;
+      });
+      const chartData = Object.values(grouped).sort((a, b) => b.total - a.total).slice(0, 5);
+      renderHorizontalBarChart('categoryChart', chartData, 'category');
+    }
+
+    function renderExpirationChart(data) {
+      const order = ['< 3 Months', '3-6 Months', '6-12 Months', '> 12 Months'];
+      const grouped = {};
+      order.forEach(b => { grouped[b] = { label: b, chicago: 0, la: 0, total: 0 }; });
+      data.forEach(i => {
+        if (grouped[i.expirationBucket]) {
+          if (i.location === 'RJW (Chicago)') grouped[i.expirationBucket].chicago += i.cogsValue;
+          else grouped[i.expirationBucket].la += i.cogsValue;
+          grouped[i.expirationBucket].total += i.cogsValue;
+        }
+      });
+      const chartData = order.map(b => grouped[b]).filter(d => d.total > 0);
+      renderVerticalBarChart('expirationChart', chartData, 'expiration');
+    }
+
+    function renderSkuTable(data) {
+      // Aggregate by SKU (itemNumber) with all needed metrics
+      const grouped = {};
+      data.forEach(i => {
+        if (!grouped[i.itemNumber]) {
+          grouped[i.itemNumber] = { 
+            sku: i.itemNumber, 
+            description: i.itemDescription,
+            totalCogs: 0, 
+            totalQty: 0,
+            totalJunk: 0
+          };
+        }
+        grouped[i.itemNumber].totalCogs += i.cogsValue;
+        grouped[i.itemNumber].totalQty += i.onHandQty;
+        grouped[i.itemNumber].totalJunk += i.junkValue;
+      });
+      
+      // Calculate derived fields and sort
+      const skuData = Object.values(grouped).map(s => ({
+        ...s,
+        unitPrice: s.totalQty > 0 ? s.totalCogs / s.totalQty : 0,
+        recoveryRate: s.totalCogs > 0 ? ((s.totalCogs - s.totalJunk) / s.totalCogs) * 100 : 0,
+        suggestedUnitPrice: s.totalQty > 0 ? (s.totalCogs * 0.42) / s.totalQty : 0 // Target 42% recovery per unit
+      })).sort((a, b) => b.totalCogs - a.totalCogs).slice(0, 10);
+      
+      const maxCogs = Math.max(...skuData.map(d => d.totalCogs));
+      const activeItem = state.crossFilter.sku;
+      
+      // Build table HTML
+      let html = `
+        <table class="sku-table">
+          <thead>
+            <tr>
+              <th>SKU</th>
+              <th>Description</th>
+              <th class="data-bar-cell">COGS Value</th>
+              <th class="right">Recovery %</th>
+              <th class="right">Unit Price</th>
+              <th class="right">Suggested Unit Price</th>
+            </tr>
+          </thead>
+          <tbody>
+      `;
+      
+      skuData.forEach(item => {
+        const barWidth = maxCogs > 0 ? (item.totalCogs / maxCogs) * 100 : 0;
+        const isActive = activeItem === item.sku;
+        const isDimmed = activeItem && !isActive;
+        
+        // Recovery rate heatmap color
+        let recoveryColor;
+        if (item.recoveryRate >= 70) recoveryColor = '#4F7942'; // Green
+        else if (item.recoveryRate >= 50) recoveryColor = '#6B8E23'; // Olive green
+        else if (item.recoveryRate >= 35) recoveryColor = '#DB6013'; // Orange
+        else recoveryColor = '#B84F0F'; // Dark orange/red
+        
+        html += `
+          <tr class="${isDimmed ? 'dimmed' : ''} ${isActive ? 'active' : ''}" onclick="toggleCrossFilter('sku', '${item.sku}')">
+            <td class="mono" style="font-weight: 500;">${item.sku}</td>
+            <td style="max-width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${item.description}">${item.description}</td>
+            <td class="data-bar-cell">
+              <div class="data-bar-container">
+                <div class="data-bar-track">
+                  <div class="data-bar-fill" style="width: ${barWidth}%"></div>
+                </div>
+                <span class="data-bar-value">${formatCurrency(item.totalCogs)}</span>
+              </div>
+            </td>
+            <td class="right">
+              <span class="recovery-cell" style="background: ${recoveryColor};">${item.recoveryRate.toFixed(1)}%</span>
+            </td>
+            <td class="right" style="font-weight: 500;">$${item.unitPrice.toFixed(2)}</td>
+            <td class="right" style="color: #4F7942; font-weight: 600;">$${item.suggestedUnitPrice.toFixed(2)}</td>
+          </tr>
+        `;
+      });
+      
+      html += '</tbody></table>';
+      document.getElementById('skuTableContainer').innerHTML = html;
+    }
+
+    function renderReasonChart(data) {
+      const grouped = {};
+      data.forEach(i => {
+        if (!grouped[i.slobReason]) grouped[i.slobReason] = { reason: i.slobReason, value: 0 };
+        grouped[i.slobReason].value += i.cogsValue;
+      });
+      const chartData = Object.values(grouped).sort((a, b) => b.value - a.value);
+      const maxVal = Math.max(...chartData.map(d => d.value));
+      
+      document.getElementById('reasonChart').innerHTML = chartData.map(item => {
+        const intensity = item.value / maxVal;
+        const color = intensity > 0.7 ? '#B84F0F' : intensity > 0.4 ? '#DB6013' : '#F5A66B';
+        const isActive = state.crossFilter.reason === item.reason;
+        const isDimmed = state.crossFilter.reason && !isActive;
+        return `<button class="heatmap-cell ${isDimmed ? 'dimmed' : ''} ${isActive ? 'active' : ''}" style="background: ${color};" onclick="toggleCrossFilter('reason', '${item.reason}')">
+          <span class="heatmap-label">${item.reason}</span>
+          <span class="heatmap-value">${formatCurrency(item.value)}</span>
+        </button>`;
+      }).join('');
+    }
+
+    function renderHorizontalBarChart(containerId, data, filterType) {
+      const maxVal = Math.max(...data.map(d => d.total));
+      const activeItem = state.crossFilter[filterType];
+      
+      let html = data.map(item => {
+        const chicagoW = maxVal > 0 ? (item.chicago / maxVal) * 100 : 0;
+        const laW = maxVal > 0 ? (item.la / maxVal) * 100 : 0;
+        const isActive = activeItem === item.label;
+        const isDimmed = activeItem && !isActive;
+        return `
+          <div class="bar-row ${isDimmed ? 'dimmed' : ''}" onclick="toggleCrossFilter('${filterType}', '${item.label}')">
+            <div class="bar-label" title="${item.label}">${item.label}</div>
+            <div class="bar-track ${isActive ? 'active' : ''}">
+              <div class="bar-segment chicago" style="width: ${chicagoW}%"></div>
+              <div class="bar-segment la" style="width: ${laW}%"></div>
+            </div>
+            <div class="bar-value">${formatCurrency(item.total)}</div>
+          </div>
+        `;
+      }).join('');
+      
+      html += `<div class="chart-legend">
+        <div class="legend-item"><div class="legend-dot chicago"></div>RJW (Chicago)</div>
+        <div class="legend-item"><div class="legend-dot la"></div>States (Los Angeles)</div>
+      </div>`;
+      
+      document.getElementById(containerId).innerHTML = html;
+    }
+
+    function renderVerticalBarChart(containerId, data, filterType) {
+      const maxVal = Math.max(...data.map(d => d.total));
+      const activeItem = state.crossFilter[filterType];
+      
+      let html = '<div class="vbar-container">';
+      html += data.map(item => {
+        const chicagoH = maxVal > 0 ? (item.chicago / maxVal) * 70 : 0;
+        const laH = maxVal > 0 ? (item.la / maxVal) * 70 : 0;
+        const isActive = activeItem === item.label;
+        const isDimmed = activeItem && !isActive;
+        return `
+          <div class="vbar-group ${isDimmed ? 'dimmed' : ''}" onclick="toggleCrossFilter('${filterType}', '${item.label}')">
+            <div class="vbar-value">${formatCurrency(item.total)}</div>
+            <div class="vbar-stack ${isActive ? 'active' : ''}">
+              <div class="vbar-segment chicago" style="height: ${chicagoH}px"></div>
+              <div class="vbar-segment la" style="height: ${laH}px"></div>
+            </div>
+            <div class="vbar-label" title="${item.label}">${item.label}</div>
+          </div>
+        `;
+      }).join('');
+      html += '</div>';
+      
+      html += `<div class="chart-legend">
+        <div class="legend-item"><div class="legend-dot chicago"></div>RJW (Chicago)</div>
+        <div class="legend-item"><div class="legend-dot la"></div>States (Los Angeles)</div>
+      </div>`;
+      
+      document.getElementById(containerId).innerHTML = html;
+    }
+
+    function renderDetailTable(data) {
+      document.getElementById('detailSubtitle').textContent = `${data.length} items • ${state.selectedItems.length} selected`;
+      
+      document.getElementById('detailTableBody').innerHTML = data.map((item, idx) => {
+        const isSelected = state.selectedItems.includes(item.id);
+        const locBadge = item.location === 'RJW (Chicago)' ? 'badge-chicago' : 'badge-la';
+        const expBadge = item.expirationBucket === '< 3 Months' ? 'badge-red' : item.expirationBucket === '3-6 Months' ? 'badge-yellow' : 'badge-green';
+        return `
+          <tr class="${isSelected ? 'selected' : ''}">
+            <td><input type="checkbox" ${isSelected ? 'checked' : ''} onchange="toggleItemSelection(${item.id})"></td>
+            <td class="mono">${item.itemNumber}</td>
+            <td style="font-weight: 500;">${item.itemDescription}</td>
+            <td><span class="badge badge-gray">${item.category}</span></td>
+            <td><span class="badge ${locBadge}">${item.location}</span></td>
+            <td class="mono">${item.lotNumber}</td>
+            <td>
+              <span style="font-size: 11px;">${new Date(item.expirationDate).toLocaleDateString()}</span>
+              <span class="badge ${expBadge}" style="margin-left: 6px; font-size: 10px;">${item.expirationBucket}</span>
+            </td>
+            <td style="font-size: 11px;">${item.slobReason}</td>
+            <td class="right" style="font-weight: 600; color: #DB6013;">${formatCurrency(item.cogsValue)}</td>
+            <td class="right">${formatNumber(item.onHandQty)}</td>
+          </tr>
+        `;
+      }).join('');
+
+      const totalCogs = data.reduce((s, i) => s + i.cogsValue, 0);
+      const totalQty = data.reduce((s, i) => s + i.onHandQty, 0);
+      document.getElementById('detailTableFoot').innerHTML = `
+        <tr>
+          <td colspan="8">Total (${data.length} items)</td>
+          <td class="right" style="color: #DB6013;">${formatCurrency(totalCogs)}</td>
+          <td class="right">${formatNumber(totalQty)}</td>
+        </tr>
+      `;
+
+      // Update select all checkbox
+      const allSelected = data.length > 0 && data.every(item => state.selectedItems.includes(item.id));
+      document.getElementById('selectAll').checked = allSelected;
+    }
+
+    function renderCrossFilterPills() {
+      const c = state.crossFilter;
+      const pills = [];
+      if (c.category) pills.push({ key: 'category', label: 'Category: ' + c.category });
+      if (c.expiration) pills.push({ key: 'expiration', label: 'Expiration: ' + c.expiration });
+      if (c.sku) pills.push({ key: 'sku', label: 'SKU: ' + c.sku });
+      if (c.reason) pills.push({ key: 'reason', label: 'Reason: ' + c.reason });
+
+      const container = document.getElementById('crossFilterPills');
+      if (pills.length === 0) {
+        container.style.display = 'none';
+      } else {
+        container.style.display = 'flex';
+        container.innerHTML = '<span style="font-size: 14px; color: #6b7280;">Active:</span>' +
+          pills.map(p => `<button class="filter-pill" onclick="toggleCrossFilter('${p.key}', null)">${p.label} ✕</button>`).join('');
+      }
+    }
+
+    function updateBuildDealButton() {
+      const btn = document.getElementById('buildDealBtn');
+      btn.textContent = `+ Build Deal (${state.selectedItems.length})`;
+      btn.disabled = state.selectedItems.length === 0;
+    }
+
+    // ============================================
+    // EVENT HANDLERS
+    // ============================================
+    function toggleCrossFilter(type, value) {
+      state.crossFilter[type] = state.crossFilter[type] === value ? null : value;
+      render();
+    }
+
+    function toggleItemSelection(id) {
+      const idx = state.selectedItems.indexOf(id);
+      if (idx > -1) {
+        state.selectedItems.splice(idx, 1);
+      } else {
+        state.selectedItems.push(id);
+      }
+      render();
+    }
+
+    function selectAllVisible() {
+      const data = getFilteredData();
+      const visibleIds = data.map(item => item.id);
+      const allSelected = visibleIds.every(id => state.selectedItems.includes(id));
+      
+      if (allSelected) {
+        state.selectedItems = state.selectedItems.filter(id => !visibleIds.includes(id));
+      } else {
+        visibleIds.forEach(id => {
+          if (!state.selectedItems.includes(id)) state.selectedItems.push(id);
+        });
+      }
+      render();
+    }
+
+    function openDealModal() {
+      if (state.selectedItems.length === 0) return;
+      
+      const data = getFilteredData().filter(item => state.selectedItems.includes(item.id));
+      document.getElementById('modalSubtitle').textContent = `${data.length} items selected`;
+      
+      document.getElementById('modalItemsBody').innerHTML = data.map(item => `
+        <tr style="border-top: 1px solid #e5e7eb;">
+          <td><div style="font-weight: 500;">${item.itemDescription}</div><div style="font-size: 10px; color: #6b7280;">${item.itemNumber}</div></td>
+          <td>${item.location}</td>
+          <td class="right" style="font-weight: 500;">${formatCurrency(item.cogsValue)}</td>
+          <td class="right">${formatNumber(item.onHandQty)}</td>
+        </tr>
+      `).join('');
+
+      const totalCogs = data.reduce((s, i) => s + i.cogsValue, 0);
+      const totalQty = data.reduce((s, i) => s + i.onHandQty, 0);
+      document.getElementById('impactCogs').textContent = formatCurrency(totalCogs);
+      document.getElementById('impactQty').textContent = formatNumber(totalQty);
+      
+      document.getElementById('proposedPrice').value = '';
+      document.getElementById('buyerName').value = '';
+      document.getElementById('approverEmail').value = '';
+      document.getElementById('reasonCode').value = 'Closeout Sale';
+      updateModalImpact();
+      
+      document.getElementById('dealModal').classList.remove('hidden');
+    }
+
+    function closeDealModal() {
+      document.getElementById('dealModal').classList.add('hidden');
+    }
+
+    function updateModalImpact() {
+      const data = getFilteredData().filter(item => state.selectedItems.includes(item.id));
+      const totalCogs = data.reduce((s, i) => s + i.cogsValue, 0);
+      const priceNum = parseFloat(document.getElementById('proposedPrice').value) || 0;
+      const recoveryRate = totalCogs > 0 ? (priceNum / totalCogs) * 100 : 0;
+      const variance = priceNum - totalCogs;
+      
+      document.getElementById('impactRecovery').textContent = formatCurrency(priceNum);
+      
+      const rateEl = document.getElementById('impactRate');
+      rateEl.textContent = recoveryRate.toFixed(1) + '%';
+      rateEl.className = 'impact-value ' + (recoveryRate >= 50 ? 'green' : recoveryRate >= 25 ? 'orange' : 'red');
+      
+      const varianceEl = document.getElementById('impactVariance');
+      varianceEl.textContent = (variance >= 0 ? '+' : '') + formatCurrency(variance);
+      varianceEl.className = 'impact-footer-value ' + (variance >= 0 ? 'green' : 'red');
+      
+      document.getElementById('approverDisplay').textContent = document.getElementById('approverEmail').value || '(enter email)';
+      
+      const canSubmit = document.getElementById('proposedPrice').value && document.getElementById('buyerName').value && document.getElementById('approverEmail').value;
+      document.getElementById('submitDeal').disabled = !canSubmit;
+    }
+
+    function submitDeal() {
+      const count = state.selectedItems.length;
+      closeDealModal();
+      state.selectedItems = [];
+      render();
+      showToast(`Deal submitted! ${count} items sent for approval.`);
+    }
+
+    function showToast(message) {
+      document.getElementById('toastMessage').textContent = message;
+      const toast = document.getElementById('toast');
+      toast.classList.remove('hidden');
+      toast.classList.add('toast-enter');
+      setTimeout(() => {
+        toast.classList.add('hidden');
+      }, 4000);
+    }
+
+    // ============================================
+    // INITIALIZATION
+    // ============================================
+    function init() {
+      // Populate filter dropdowns
+      const available = getAvailableInventory();
+      const locations = [...new Set(available.map(i => i.location))];
+      const expirations = [...new Set(available.map(i => i.expirationBucket))];
+      const lifecycles = [...new Set(available.map(i => i.lifecycleStatus))];
+      const reasons = [...new Set(available.map(i => i.slobReason))];
+
+      document.getElementById('filterLocation').innerHTML = '<option value="All">All</option>' + locations.map(l => `<option value="${l}">${l}</option>`).join('');
+      document.getElementById('filterExpiration').innerHTML = '<option value="All">All</option>' + expirations.map(e => `<option value="${e}">${e}</option>`).join('');
+      document.getElementById('filterLifecycle').innerHTML = '<option value="All">All</option>' + lifecycles.map(l => `<option value="${l}">${l}</option>`).join('');
+      document.getElementById('filterReason').innerHTML = '<option value="All">All</option>' + reasons.map(r => `<option value="${r}">${r}</option>`).join('');
+
+      // Event listeners
+      document.getElementById('filterToggle').addEventListener('click', () => {
+        state.showFilterDrawer = !state.showFilterDrawer;
+        document.getElementById('filterDrawer').classList.toggle('hidden', !state.showFilterDrawer);
+        document.getElementById('filterToggle').classList.toggle('btn-active', state.showFilterDrawer);
+      });
+
+      document.getElementById('clearFilters').addEventListener('click', () => {
+        state.filters = { location: 'All', expirationBucket: 'All', lifecycleStatus: 'All', slobReason: 'All' };
+        state.crossFilter = { category: null, sku: null, expiration: null, reason: null };
+        document.getElementById('filterLocation').value = 'All';
+        document.getElementById('filterExpiration').value = 'All';
+        document.getElementById('filterLifecycle').value = 'All';
+        document.getElementById('filterReason').value = 'All';
+        render();
+      });
+
+      document.getElementById('filterLocation').addEventListener('change', (e) => { state.filters.location = e.target.value; render(); });
+      document.getElementById('filterExpiration').addEventListener('change', (e) => { state.filters.expirationBucket = e.target.value; render(); });
+      document.getElementById('filterLifecycle').addEventListener('change', (e) => { state.filters.lifecycleStatus = e.target.value; render(); });
+      document.getElementById('filterReason').addEventListener('change', (e) => { state.filters.slobReason = e.target.value; render(); });
+
+      document.getElementById('selectAll').addEventListener('change', selectAllVisible);
+      document.getElementById('buildDealBtn').addEventListener('click', openDealModal);
+      document.getElementById('closeModal').addEventListener('click', closeDealModal);
+      document.getElementById('cancelDeal').addEventListener('click', closeDealModal);
+      document.getElementById('submitDeal').addEventListener('click', submitDeal);
+
+      document.getElementById('proposedPrice').addEventListener('input', updateModalImpact);
+      document.getElementById('buyerName').addEventListener('input', updateModalImpact);
+      document.getElementById('approverEmail').addEventListener('input', updateModalImpact);
+
+      // Initial render
+      render();
+    }
+
+    // Start the app
+    init();
+  </script>
+</body>
+</html>
