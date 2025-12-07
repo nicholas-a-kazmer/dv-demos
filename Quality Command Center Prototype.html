@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quality Command Center | Project Ouroboros</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Jost:wght@400;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', sans-serif; line-height: 1.5; -webkit-font-smoothing: antialiased; background: #fff; }
+    h1, h2, h3, h4 { font-family: 'Jost', sans-serif; }
+    button { cursor: pointer; border: none; background: none; font: inherit; }
+    table { border-collapse: collapse; width: 100%; }
+    
+    @keyframes slideUp { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+    @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+    
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb { background: #c1c1c1; border-radius: 4px; }
+    
+    #app { display: flex; height: 100vh; }
+    .sidebar { width: 256px; background: #fff; border-right: 1px solid #E5E7EB; display: flex; flex-direction: column; flex-shrink: 0; }
+    .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+    .content { flex: 1; overflow: auto; padding: 24px; background: #F9FAFB; }
+    
+    .logo-area { padding: 24px; border-bottom: 1px solid #E5E7EB; display: flex; align-items: center; gap: 12px; }
+    .logo-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #14B8A6, #0D9488); border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+    .logo-text h1 { font-size: 18px; font-weight: 700; color: #111827; }
+    .logo-text p { font-size: 12px; color: #0D9488; font-weight: 500; }
+    
+    .nav { flex: 1; padding: 16px; }
+    .nav-btn { width: 100%; display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 8px; color: #4B5563; font-weight: 500; transition: all 0.15s; margin-bottom: 8px; text-align: left; }
+    .nav-btn:hover { background: #F9FAFB; color: #111827; }
+    .nav-btn.active { background: #F0FDFA; color: #0F766E; border: 1px solid #99F6E4; }
+    
+    .ai-btn-container { padding: 16px; border-top: 1px solid #E5E7EB; }
+    .ai-btn { width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px; background: linear-gradient(90deg, #9333EA, #2563EB); color: #fff; border-radius: 8px; font-weight: 500; transition: all 0.15s; }
+    .ai-btn:hover { opacity: 0.9; }
+    
+    .status-area { padding: 16px; border-top: 1px solid #E5E7EB; }
+    .status-box { background: #F9FAFB; border-radius: 8px; padding: 12px; }
+    .status-indicator { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+    .status-dot { width: 8px; height: 8px; background: #10B981; border-radius: 50%; animation: pulse 2s infinite; }
+    .status-label { font-size: 12px; color: #6B7280; }
+    .status-time { font-size: 12px; color: #111827; font-family: monospace; }
+    .status-msg { font-size: 12px; color: #9CA3AF; margin-top: 4px; }
+    
+    .header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+    .header h2 { font-size: 24px; font-weight: 700; color: #111827; }
+    .header p { color: #6B7280; margin-top: 4px; }
+    .refresh-btn { display: flex; align-items: center; gap: 8px; padding: 8px 16px; background: #fff; border: 1px solid #E5E7EB; border-radius: 8px; color: #374151; transition: all 0.15s; }
+    .refresh-btn:hover { background: #F9FAFB; }
+    
+    .ai-summary { background: linear-gradient(90deg, #F0FDFA, #EFF6FF); border: 1px solid #99F6E4; border-radius: 12px; padding: 20px; margin-bottom: 24px; display: flex; gap: 16px; }
+    .ai-summary-icon { width: 40px; height: 40px; background: #0D9488; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .ai-summary h3 { font-weight: 600; color: #111827; margin-bottom: 8px; }
+    .ai-summary p { font-size: 14px; color: #374151; line-height: 1.6; }
+    .highlight-orange { color: #EA580C; font-weight: 500; }
+    .highlight-teal { color: #0F766E; font-weight: 500; }
+    .highlight-red { color: #DC2626; font-weight: 500; }
+    
+    .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+    .kpi-card { background: #fff; border: 1px solid #E5E7EB; border-radius: 12px; padding: 20px; }
+    .kpi-card.danger { background: #FEF2F2; border-color: #FECACA; }
+    .kpi-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+    .kpi-label { font-size: 14px; color: #6B7280; font-weight: 500; }
+    .kpi-value { font-size: 28px; font-weight: 700; color: #111827; margin-bottom: 8px; }
+    .kpi-card.danger .kpi-value { color: #DC2626; }
+    .kpi-change { display: flex; align-items: center; gap: 4px; font-size: 14px; }
+    .kpi-change.positive { color: #059669; }
+    .kpi-change.negative { color: #DC2626; }
+    
+    .main-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 24px; margin-bottom: 24px; }
+    .card { background: #fff; border: 1px solid #E5E7EB; border-radius: 12px; padding: 20px; }
+    .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+    .card-title { font-size: 16px; font-weight: 600; color: #111827; }
+    .card-subtitle { font-size: 12px; color: #6B7280; margin-top: 4px; }
+    .legend { display: flex; gap: 16px; }
+    .legend-item { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #6B7280; }
+    .legend-dot { width: 12px; height: 12px; border-radius: 2px; }
+    .legend-dot.teal { background: #14B8A6; }
+    .legend-dot.orange { background: #F97316; }
+    .legend-dot.red { background: #EF4444; }
+    
+    .chart-container { height: 280px; position: relative; }
+    .chart-note { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #6B7280; margin-top: 12px; }
+    
+    .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 500; }
+    .badge.red { background: #FEE2E2; color: #DC2626; }
+    .badge.critical { background: #EF4444; color: #fff; }
+    .badge.high { background: #F97316; color: #fff; }
+    .badge.medium { background: #EAB308; color: #fff; }
+    .badge.low { background: #10B981; color: #fff; }
+    
+    .alerts-list { display: flex; flex-direction: column; gap: 12px; }
+    .alert-item { border-left: 4px solid; border-radius: 0 8px 8px 0; padding: 16px; cursor: pointer; transition: all 0.15s; }
+    .alert-item:hover { box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+    .alert-item.critical { border-color: #EF4444; background: #FEF2F2; }
+    .alert-item.high { border-color: #F97316; background: #FFF7ED; }
+    .alert-item.medium { border-color: #EAB308; background: #FEFCE8; }
+    .alert-header { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+    .alert-title { font-size: 14px; font-weight: 600; color: #111827; }
+    .alert-desc { font-size: 12px; color: #4B5563; margin-bottom: 8px; }
+    .alert-time { font-size: 12px; color: #9CA3AF; }
+    
+    .map-container { height: 256px; background: #F9FAFB; border-radius: 8px; border: 1px solid #E5E7EB; position: relative; overflow: hidden; }
+    .map-legend { position: absolute; bottom: 12px; right: 12px; background: rgba(255,255,255,0.95); border-radius: 8px; padding: 12px; font-size: 12px; border: 1px solid #E5E7EB; }
+    .map-legend-item { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+    .map-legend-item:last-child { margin-bottom: 0; }
+    .map-legend-dot { width: 12px; height: 12px; border-radius: 50%; }
+    
+    .risk-list { display: flex; flex-direction: column; gap: 8px; }
+    .risk-item { display: flex; align-items: center; justify-content: space-between; padding: 12px; background: #F9FAFB; border-radius: 8px; }
+    .risk-item:hover { background: #F3F4F6; }
+    .risk-info { display: flex; align-items: center; gap: 12px; }
+    .risk-city { font-size: 14px; font-weight: 500; color: #111827; }
+    .risk-type { font-size: 12px; color: #6B7280; }
+    .risk-stats { display: flex; align-items: center; gap: 12px; }
+    .risk-count { font-size: 14px; color: #4B5563; }
+    
+    .engineer-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+    .pending-badge { display: flex; align-items: center; gap: 8px; background: #FFFBEB; border: 1px solid #FDE68A; border-radius: 8px; padding: 8px 16px; }
+    .pending-badge span { font-size: 14px; color: #B45309; font-weight: 500; }
+    
+    .anomaly-box { background: #FEF2F2; border: 1px solid #FECACA; border-radius: 8px; padding: 16px; display: flex; gap: 12px; margin-top: 16px; }
+    .anomaly-box h4 { font-size: 14px; font-weight: 600; color: #B91C1C; margin-bottom: 4px; }
+    .anomaly-box p { font-size: 12px; color: #374151; line-height: 1.5; }
+    
+    .prediction-card { background: linear-gradient(135deg, #FAF5FF, #EFF6FF); border: 1px solid #E9D5FF; border-radius: 12px; padding: 20px; margin-bottom: 16px; }
+    .prediction-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+    .prediction-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #9333EA, #2563EB); border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+    .prediction-title { font-weight: 600; color: #111827; }
+    .prediction-confidence { font-size: 12px; color: #9333EA; font-weight: 500; }
+    .prediction-content { background: #fff; border: 1px solid #E5E7EB; border-radius: 8px; padding: 16px; margin-bottom: 16px; }
+    .prediction-label { color: #9333EA; font-weight: 600; }
+    .prediction-detail { font-size: 12px; color: #6B7280; margin-top: 8px; }
+    .prediction-question { font-size: 12px; color: #4B5563; margin-bottom: 12px; }
+    .prediction-buttons { display: flex; gap: 12px; }
+    .confirm-btn, .reject-btn { flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px; border-radius: 8px; font-weight: 500; transition: all 0.15s; border: 1px solid #E5E7EB; background: #fff; color: #374151; }
+    .confirm-btn:hover { background: #ECFDF5; color: #047857; border-color: #6EE7B7; }
+    .reject-btn:hover { background: #FEF2F2; color: #B91C1C; border-color: #FCA5A5; }
+    .confirm-btn.active { background: #059669; color: #fff; border-color: #059669; }
+    .reject-btn.active { background: #DC2626; color: #fff; border-color: #DC2626; }
+    .feedback-msg { background: #ECFDF5; border: 1px solid #A7F3D0; border-radius: 8px; padding: 12px; margin-top: 12px; font-size: 12px; color: #047857; }
+    
+    .genealogy-card { background: #fff; border: 1px solid #E5E7EB; border-radius: 12px; padding: 20px; }
+    .genealogy-card h3 { font-weight: 600; color: #111827; margin-bottom: 12px; }
+    .genealogy-item { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #4B5563; margin-bottom: 8px; }
+    .genealogy-tree { margin-left: 16px; padding-left: 8px; border-left: 2px solid #E5E7EB; }
+    .genealogy-tree div { color: #374151; margin-bottom: 4px; font-size: 12px; }
+    
+    .triggers-section { background: #fff; border: 1px solid #E5E7EB; border-radius: 12px; padding: 20px; margin-top: 24px; }
+    .triggers-title { display: flex; align-items: center; gap: 8px; font-weight: 600; color: #111827; margin-bottom: 16px; }
+    .triggers-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .trigger-card { background: #F9FAFB; border: 1px solid #E5E7EB; border-radius: 12px; padding: 16px; }
+    .trigger-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+    .trigger-icon { width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+    .trigger-icon.orange { background: #FFEDD5; }
+    .trigger-icon.red { background: #FEE2E2; }
+    .trigger-icon.blue { background: #DBEAFE; }
+    .trigger-title { font-size: 14px; font-weight: 500; color: #111827; }
+    .trigger-subtitle { font-size: 12px; color: #6B7280; }
+    .trigger-desc { font-size: 12px; color: #4B5563; margin-bottom: 12px; }
+    .trigger-value { font-size: 20px; font-weight: 700; color: #111827; margin-bottom: 12px; }
+    .trigger-btn { width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 10px; border-radius: 8px; color: #fff; font-weight: 500; transition: all 0.15s; }
+    .trigger-btn.orange { background: #F97316; }
+    .trigger-btn.orange:hover { background: #EA580C; }
+    .trigger-btn.red { background: #EF4444; }
+    .trigger-btn.red:hover { background: #DC2626; }
+    .trigger-btn.blue { background: #3B82F6; }
+    .trigger-btn.blue:hover { background: #2563EB; }
+    
+    .lims-section { background: #fff; border: 1px solid #E5E7EB; border-radius: 12px; padding: 20px; margin-top: 24px; }
+    .lims-section h3 { font-weight: 600; color: #111827; margin-bottom: 16px; }
+    .lims-table th { text-align: left; padding: 12px 16px; font-size: 14px; font-weight: 500; color: #6B7280; border-bottom: 1px solid #E5E7EB; }
+    .lims-table td { padding: 12px 16px; font-size: 14px; color: #374151; border-bottom: 1px solid #F3F4F6; }
+    .lims-table tr.highlight { background: #FEF2F2; }
+    .lims-table tr.highlight td:first-child { color: #DC2626; font-weight: 700; font-family: monospace; }
+    .lims-table .mono { font-family: monospace; }
+    .lims-table .good { color: #059669; }
+    .lims-table .bad { color: #DC2626; font-weight: 500; }
+    .status-badge { display: inline-block; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 500; }
+    .status-badge.good { background: #D1FAE5; color: #047857; }
+    .status-badge.degraded { background: #FEE2E2; color: #B91C1C; }
+    .lims-note { font-size: 12px; color: #9CA3AF; margin-top: 12px; }
+    
+    .toast { position: fixed; bottom: 24px; right: 24px; padding: 16px 24px; border-radius: 12px; color: #fff; display: flex; align-items: center; gap: 12px; animation: slideUp 0.3s ease-out; z-index: 100; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); }
+    .toast.success { background: #059669; }
+    .toast.warning { background: #F59E0B; }
+    .toast.info { background: #2563EB; }
+    .toast-close { margin-left: 16px; opacity: 0.7; cursor: pointer; font-size: 18px; }
+    .toast-close:hover { opacity: 1; }
+    
+    .panel-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.2); z-index: 50; }
+    .ai-panel { position: fixed; top: 0; right: 0; height: 100%; width: 480px; background: #fff; box-shadow: -4px 0 20px rgba(0,0,0,0.15); z-index: 60; display: flex; flex-direction: column; }
+    .panel-header { background: linear-gradient(90deg, #9333EA, #2563EB); padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; }
+    .panel-header-left { display: flex; align-items: center; gap: 12px; }
+    .panel-header-icon { width: 40px; height: 40px; background: rgba(255,255,255,0.2); border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+    .panel-header h2 { color: #fff; font-weight: 700; }
+    .panel-header p { color: rgba(255,255,255,0.7); font-size: 12px; }
+    .panel-header-btns { display: flex; gap: 8px; }
+    .panel-header-btn { padding: 8px; border-radius: 8px; transition: all 0.15s; }
+    .panel-header-btn:hover { background: rgba(255,255,255,0.1); }
+    
+    .chat-container { flex: 1; overflow-y: auto; padding: 20px; }
+    .chat-message { display: flex; gap: 12px; margin-bottom: 16px; }
+    .chat-message.user { flex-direction: row-reverse; }
+    .chat-avatar { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .chat-avatar.ai { background: linear-gradient(135deg, #A855F7, #3B82F6); }
+    .chat-avatar.user { background: #0D9488; }
+    .chat-bubble { max-width: 85%; padding: 12px 16px; border-radius: 16px; font-size: 14px; line-height: 1.5; }
+    .chat-bubble.ai { background: #F3F4F6; color: #111827; border-top-left-radius: 4px; }
+    .chat-bubble.user { background: #0D9488; color: #fff; border-top-right-radius: 4px; }
+    .typing-dots { display: flex; gap: 4px; padding: 8px 0; }
+    .typing-dot { width: 8px; height: 8px; background: #9CA3AF; border-radius: 50%; animation: bounce 0.6s infinite; }
+    .typing-dot:nth-child(2) { animation-delay: 0.15s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.3s; }
+    
+    .suggestions { background: #F9FAFB; border-top: 1px solid #E5E7EB; padding: 16px 20px; }
+    .suggestions p { font-size: 12px; color: #6B7280; margin-bottom: 12px; }
+    .suggestion-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .suggestion-chip { display: flex; align-items: center; gap: 8px; padding: 8px 16px; background: #fff; border: 1px solid #E5E7EB; border-radius: 9999px; font-size: 14px; color: #374151; transition: all 0.15s; }
+    .suggestion-chip:hover { background: #F0FDFA; border-color: #2DD4BF; color: #0F766E; }
+    
+    .icon { width: 18px; height: 18px; display: inline-flex; align-items: center; justify-content: center; vertical-align: middle; }
+    
+    /* CSS Charts */
+    .css-chart { display: flex; align-items: flex-end; gap: 8px; height: 200px; padding: 20px 0; }
+    .css-bar-group { display: flex; flex-direction: column; align-items: center; flex: 1; }
+    .css-bar { width: 100%; max-width: 40px; border-radius: 4px 4px 0 0; transition: height 0.3s; }
+    .css-bar.teal { background: #14B8A6; }
+    .css-bar.orange { background: #F97316; }
+    .css-bar-label { font-size: 10px; color: #6B7280; margin-top: 8px; }
+    
+    .css-line-chart { position: relative; height: 200px; border-left: 1px solid #E5E7EB; border-bottom: 1px solid #E5E7EB; margin: 20px 0; }
+    .css-line { position: absolute; bottom: 0; left: 0; right: 0; }
+    .css-line svg { width: 100%; height: 200px; }
+    
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="logo-area">
+        <div class="logo-icon">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M10 2v7.31"/><path d="M14 9.3V1.99"/><path d="M8.5 2h7"/><path d="M14 9.3a6.5 6.5 0 1 1-4 0"/><path d="M5.52 16h12.96"/></svg>
+        </div>
+        <div class="logo-text">
+          <h1>Quality</h1>
+          <p>Command Center</p>
+        </div>
+      </div>
+      <nav class="nav">
+        <button class="nav-btn active" id="nav-executive" onclick="showView('executive')">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          Executive Pulse
+        </button>
+        <button class="nav-btn" id="nav-engineer" onclick="showView('engineer')">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+          Engineer RCA
+        </button>
+      </nav>
+      <div class="ai-btn-container">
+        <button class="ai-btn" onclick="openAIPanel()">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/></svg>
+          Ask Genie AI
+        </button>
+      </div>
+      <div class="status-area">
+        <div class="status-box">
+          <div class="status-indicator">
+            <div class="status-dot"></div>
+            <span class="status-label">System Status</span>
+          </div>
+          <div class="status-time" id="clock">--:--:--</div>
+          <div class="status-msg">All sensors online</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main">
+      <div class="content">
+        <!-- Executive View -->
+        <div id="executive-view" style="max-width: 1280px; margin: 0 auto;">
+          <div class="header">
+            <div>
+              <h2>Morning Brief</h2>
+              <p>Real-time quality intelligence • <span id="date">--</span></p>
+            </div>
+            <button class="refresh-btn">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg>
+              Refresh
+            </button>
+          </div>
+
+          <div class="ai-summary">
+            <div class="ai-summary-icon">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z"/></svg>
+            </div>
+            <div>
+              <h3>AI Summary</h3>
+              <p>
+                Overall sentiment is trending down (92% → 63%). A critical cluster of <span class="highlight-orange">'Cheesy'</span> complaints 
+                has emerged linked to <span class="highlight-teal">Batch #992</span> (West Coast IPA). 
+                Geospatial analysis shows <span class="highlight-red">'Skunky'</span> complaints clustering in the Southwest region, 
+                potentially indicating cold chain issues with Distributor Route 66.
+              </p>
+            </div>
+          </div>
+
+          <div class="kpi-grid">
+            <div class="kpi-card danger">
+              <div class="kpi-header">
+                <span class="kpi-label">COPQ Risk</span>
+                <svg class="icon" style="color:#DC2626" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="2" x2="12" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+              </div>
+              <div class="kpi-value">$142k</div>
+              <div class="kpi-change negative">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+                +23% vs. last week
+              </div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-header">
+                <span class="kpi-label">Active Complaints</span>
+                <svg class="icon" style="color:#0D9488" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              </div>
+              <div class="kpi-value">847</div>
+              <div class="kpi-change negative">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 17 13.5 8.5 8.5 13.5 2 7"/><polyline points="16 17 22 17 22 11"/></svg>
+                +342 (7d)
+              </div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-header">
+                <span class="kpi-label">Sentiment Score</span>
+                <svg class="icon" style="color:#0D9488" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              </div>
+              <div class="kpi-value">63%</div>
+              <div class="kpi-change negative">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 17 13.5 8.5 8.5 13.5 2 7"/><polyline points="16 17 22 17 22 11"/></svg>
+                -29 pts
+              </div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-header">
+                <span class="kpi-label">First Pass Yield</span>
+                <svg class="icon" style="color:#0D9488" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              </div>
+              <div class="kpi-value">94.2%</div>
+              <div class="kpi-change positive">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+                +0.3%
+              </div>
+            </div>
+          </div>
+
+          <div class="main-grid">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Sentiment Trend vs. Complaints</h3>
+                <div class="legend">
+                  <div class="legend-item"><div class="legend-dot teal"></div>Sentiment</div>
+                  <div class="legend-item"><div class="legend-dot orange"></div>Complaints</div>
+                </div>
+              </div>
+              <div class="chart-container">
+                <svg viewBox="0 0 600 200" style="width:100%;height:100%">
+                  <!-- Grid -->
+                  <line x1="50" y1="20" x2="50" y2="180" stroke="#E5E7EB" stroke-width="1"/>
+                  <line x1="50" y1="180" x2="580" y2="180" stroke="#E5E7EB" stroke-width="1"/>
+                  <line x1="50" y1="100" x2="580" y2="100" stroke="#E5E7EB" stroke-dasharray="4"/>
+                  <line x1="50" y1="60" x2="580" y2="60" stroke="#EF4444" stroke-dasharray="4" opacity="0.5"/>
+                  <text x="45" y="64" fill="#EF4444" font-size="8" text-anchor="end">70%</text>
+                  
+                  <!-- Sentiment Line (Area) -->
+                  <path d="M70,30 L130,35 L190,45 L250,60 L310,110 L370,130 L430,150 L490,140 L550,135" 
+                        fill="none" stroke="#14B8A6" stroke-width="2"/>
+                  <path d="M70,30 L130,35 L190,45 L250,60 L310,110 L370,130 L430,150 L490,140 L550,135 L550,180 L70,180 Z" 
+                        fill="#14B8A6" fill-opacity="0.15"/>
+                  
+                  <!-- Complaint Bars -->
+                  <rect x="60" y="172" width="20" height="8" fill="#F97316" rx="2"/>
+                  <rect x="120" y="170" width="20" height="10" fill="#F97316" rx="2"/>
+                  <rect x="180" y="166" width="20" height="14" fill="#F97316" rx="2"/>
+                  <rect x="240" y="158" width="20" height="22" fill="#F97316" rx="2"/>
+                  <rect x="300" y="130" width="20" height="50" fill="#F97316" rx="2"/>
+                  <rect x="360" y="100" width="20" height="80" fill="#F97316" rx="2"/>
+                  <rect x="420" y="70" width="20" height="110" fill="#F97316" rx="2"/>
+                  <rect x="480" y="90" width="20" height="90" fill="#F97316" rx="2"/>
+                  <rect x="540" y="105" width="20" height="75" fill="#F97316" rx="2"/>
+                  
+                  <!-- Labels -->
+                  <text x="70" y="195" fill="#6B7280" font-size="9" text-anchor="middle">Nov 1</text>
+                  <text x="190" y="195" fill="#6B7280" font-size="9" text-anchor="middle">Nov 10</text>
+                  <text x="310" y="195" fill="#6B7280" font-size="9" text-anchor="middle">Nov 18</text>
+                  <text x="430" y="195" fill="#6B7280" font-size="9" text-anchor="middle">Nov 25</text>
+                  <text x="550" y="195" fill="#6B7280" font-size="9" text-anchor="middle">Dec 1</text>
+                </svg>
+              </div>
+              <div class="chart-note">
+                <svg class="icon" style="color:#F97316" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                Batch #992 introduced Nov 18 - correlates with sentiment drop
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Active Alerts</h3>
+                <span class="badge red">3 Active</span>
+              </div>
+              <div class="alerts-list">
+                <div class="alert-item critical" onclick="openAIPanel()">
+                  <div class="alert-header">
+                    <svg class="icon" style="color:#EF4444" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                    <span class="alert-title">Isovaleric Spike in Batch #992</span>
+                  </div>
+                  <p class="alert-desc">400% increase in "Cheesy" complaints for West Coast IPA</p>
+                  <span class="alert-time">2h ago</span>
+                </div>
+                <div class="alert-item high" onclick="openAIPanel()">
+                  <div class="alert-header">
+                    <svg class="icon" style="color:#F97316" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                    <span class="alert-title">Thermal Excursion Route 66</span>
+                  </div>
+                  <p class="alert-desc">Phoenix distribution - cargo temp reached 38°C</p>
+                  <span class="alert-time">4h ago</span>
+                </div>
+                <div class="alert-item medium" onclick="openAIPanel()">
+                  <div class="alert-header">
+                    <svg class="icon" style="color:#EAB308" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                    <span class="alert-title">Pressure Drift Line 4</span>
+                  </div>
+                  <p class="alert-desc">Filler bowl pressure dropped to 12 PSI</p>
+                  <span class="alert-time">6h ago</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="main-grid">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Geospatial Risk Map - "Hot Zones"</h3>
+                <span style="font-size:12px;color:#9CA3AF">Last 30 days</span>
+              </div>
+              <div class="map-container">
+                <svg viewBox="0 0 800 256" style="width:100%;height:100%">
+                  <path d="M100,80 L700,80 L720,128 L700,176 L100,176 L80,128 Z" fill="#F9FAFB" stroke="#E5E7EB" stroke-width="2"/>
+                  <path d="M300,80 L300,176" stroke="#E5E7EB" stroke-width="1"/>
+                  <path d="M450,80 L450,176" stroke="#E5E7EB" stroke-width="1"/>
+                  <path d="M580,80 L580,176" stroke="#E5E7EB" stroke-width="1"/>
+                  
+                  <circle cx="320" cy="150" r="30" fill="#EF4444" fill-opacity="0.2"><animate attributeName="r" values="30;35;30" dur="2s" repeatCount="indefinite"/></circle>
+                  <circle cx="320" cy="150" r="16" fill="#EF4444" fill-opacity="0.4"/>
+                  <circle cx="320" cy="150" r="6" fill="#EF4444"/>
+                  <text x="320" y="186" fill="#DC2626" font-size="10" text-anchor="middle" font-weight="600">Phoenix, AZ</text>
+                  
+                  <circle cx="280" cy="110" r="22" fill="#F59E0B" fill-opacity="0.2"><animate attributeName="r" values="22;26;22" dur="2s" repeatCount="indefinite"/></circle>
+                  <circle cx="280" cy="110" r="10" fill="#F59E0B" fill-opacity="0.4"/>
+                  <circle cx="280" cy="110" r="4" fill="#F59E0B"/>
+                  <text x="280" y="94" fill="#D97706" font-size="10" text-anchor="middle" font-weight="600">Las Vegas, NV</text>
+                  
+                  <circle cx="150" cy="96" r="8" fill="#10B981" fill-opacity="0.3"/>
+                  <circle cx="150" cy="96" r="3" fill="#10B981"/>
+                  <text x="150" y="84" fill="#059669" font-size="10" text-anchor="middle">Seattle</text>
+                  
+                  <circle cx="380" cy="110" r="10" fill="#3B82F6" fill-opacity="0.3"/>
+                  <circle cx="380" cy="110" r="3" fill="#3B82F6"/>
+                  <text x="380" y="98" fill="#2563EB" font-size="10" text-anchor="middle">Denver</text>
+                  
+                  <path d="M280,110 Q305,130 320,150" stroke="#EF4444" stroke-width="2" stroke-dasharray="5,5" fill="none"/>
+                  <text x="340" y="126" fill="#EF4444" font-size="9" font-style="italic">Route 66</text>
+                </svg>
+                <div class="map-legend">
+                  <div class="map-legend-item"><div class="map-legend-dot" style="background:#EF4444"></div><span>Critical</span></div>
+                  <div class="map-legend-item"><div class="map-legend-dot" style="background:#F97316"></div><span>High</span></div>
+                  <div class="map-legend-item"><div class="map-legend-dot" style="background:#10B981"></div><span>Normal</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3 class="card-title" style="margin-bottom:16px">Risk Zone Rankings</h3>
+              <div class="risk-list">
+                <div class="risk-item">
+                  <div class="risk-info">
+                    <svg class="icon" style="color:#9CA3AF" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                    <div>
+                      <div class="risk-city">Phoenix, AZ</div>
+                      <div class="risk-type">Thermal Abuse</div>
+                    </div>
+                  </div>
+                  <div class="risk-stats">
+                    <span class="risk-count">234 complaints</span>
+                    <span class="badge critical">Critical</span>
+                  </div>
+                </div>
+                <div class="risk-item">
+                  <div class="risk-info">
+                    <svg class="icon" style="color:#9CA3AF" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                    <div>
+                      <div class="risk-city">Las Vegas, NV</div>
+                      <div class="risk-type">Cold Chain</div>
+                    </div>
+                  </div>
+                  <div class="risk-stats">
+                    <span class="risk-count">156 complaints</span>
+                    <span class="badge high">High</span>
+                  </div>
+                </div>
+                <div class="risk-item">
+                  <div class="risk-info">
+                    <svg class="icon" style="color:#9CA3AF" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                    <div>
+                      <div class="risk-city">Tucson, AZ</div>
+                      <div class="risk-type">Thermal</div>
+                    </div>
+                  </div>
+                  <div class="risk-stats">
+                    <span class="risk-count">89 complaints</span>
+                    <span class="badge medium">Medium</span>
+                  </div>
+                </div>
+                <div class="risk-item">
+                  <div class="risk-info">
+                    <svg class="icon" style="color:#9CA3AF" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                    <div>
+                      <div class="risk-city">Denver, CO</div>
+                      <div class="risk-type">Normal</div>
+                    </div>
+                  </div>
+                  <div class="risk-stats">
+                    <span class="risk-count">23 complaints</span>
+                    <span class="badge low">Low</span>
+                  </div>
+                </div>
+                <div class="risk-item">
+                  <div class="risk-info">
+                    <svg class="icon" style="color:#9CA3AF" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                    <div>
+                      <div class="risk-city">Seattle, WA</div>
+                      <div class="risk-type">Control</div>
+                    </div>
+                  </div>
+                  <div class="risk-stats">
+                    <span class="risk-count">12 complaints</span>
+                    <span class="badge low">Low</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Engineer View -->
+        <div id="engineer-view" class="hidden" style="max-width:1280px;margin:0 auto">
+          <div class="engineer-header">
+            <div>
+              <h2>Root Cause Analysis</h2>
+              <p style="color:#6B7280;margin-top:4px">Human-in-the-Loop validation and operational triggers</p>
+            </div>
+            <div class="pending-badge">
+              <svg class="icon" style="color:#D97706" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              <span>Pending Validation</span>
+            </div>
+          </div>
+
+          <div class="main-grid">
+            <div class="card">
+              <div class="card-header">
+                <div>
+                  <h3 class="card-title">Digital Twin Overlay: Line 4 Filler Bowl Pressure</h3>
+                  <p class="card-subtitle">Bad Batch #992 vs. Golden Batch #975</p>
+                </div>
+                <div class="legend">
+                  <div class="legend-item"><div class="legend-dot red"></div>Batch #992 (Bad)</div>
+                  <div class="legend-item"><div class="legend-dot teal"></div>Batch #975 (Golden)</div>
+                </div>
+              </div>
+              <div style="height:280px">
+                <svg viewBox="0 0 600 220" style="width:100%;height:100%">
+                  <!-- Grid -->
+                  <line x1="50" y1="20" x2="50" y2="180" stroke="#E5E7EB" stroke-width="1"/>
+                  <line x1="50" y1="180" x2="580" y2="180" stroke="#E5E7EB" stroke-width="1"/>
+                  <line x1="50" y1="60" x2="580" y2="60" stroke="#E5E7EB" stroke-dasharray="4"/>
+                  <line x1="50" y1="100" x2="580" y2="100" stroke="#E5E7EB" stroke-dasharray="4"/>
+                  <line x1="50" y1="140" x2="580" y2="140" stroke="#E5E7EB" stroke-dasharray="4"/>
+                  
+                  <!-- Min Safe Line -->
+                  <line x1="50" y1="120" x2="580" y2="120" stroke="#EF4444" stroke-dasharray="5,5"/>
+                  <text x="55" y="116" fill="#EF4444" font-size="8">Min Safe: 14 PSI</text>
+                  
+                  <!-- Golden Batch Line -->
+                  <path d="M70,45 L130,50 L190,45 L250,52 L310,45 L370,50 L430,45 L490,52 L550,50" 
+                        fill="none" stroke="#14B8A6" stroke-width="2"/>
+                  
+                  <!-- Bad Batch Line -->
+                  <path d="M70,55 L130,65 L190,75 L250,95 L310,140 L370,155 L430,150 L490,125 L550,100" 
+                        fill="none" stroke="#EF4444" stroke-width="2"/>
+                  <circle cx="310" cy="140" r="4" fill="#EF4444"/>
+                  <circle cx="370" cy="155" r="4" fill="#EF4444"/>
+                  <circle cx="430" cy="150" r="4" fill="#EF4444"/>
+                  
+                  <!-- Y-Axis Labels -->
+                  <text x="45" y="64" fill="#6B7280" font-size="9" text-anchor="end">17</text>
+                  <text x="45" y="104" fill="#6B7280" font-size="9" text-anchor="end">15</text>
+                  <text x="45" y="144" fill="#6B7280" font-size="9" text-anchor="end">13</text>
+                  <text x="45" y="184" fill="#6B7280" font-size="9" text-anchor="end">11</text>
+                  
+                  <!-- X-Axis Labels -->
+                  <text x="70" y="198" fill="#6B7280" font-size="9" text-anchor="middle">08:00</text>
+                  <text x="190" y="198" fill="#6B7280" font-size="9" text-anchor="middle">08:30</text>
+                  <text x="310" y="198" fill="#6B7280" font-size="9" text-anchor="middle">09:00</text>
+                  <text x="430" y="198" fill="#6B7280" font-size="9" text-anchor="middle">09:30</text>
+                  <text x="550" y="198" fill="#6B7280" font-size="9" text-anchor="middle">10:00</text>
+                </svg>
+              </div>
+              <div class="anomaly-box">
+                <svg class="icon" style="color:#DC2626;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                <div>
+                  <h4>Anomaly Detected: 09:15 - 09:45</h4>
+                  <p>Filler bowl pressure dropped to <span style="color:#DC2626;font-weight:500">11.8 PSI</span> (minimum safe: 14 PSI). This 26% deviation from target caused CO₂ breakout, resulting in under-carbonated product. Duration: 30 minutes. Estimated affected cans: 4,200.</p>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <div class="prediction-card">
+                <div class="prediction-header">
+                  <div class="prediction-icon">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z"/></svg>
+                  </div>
+                  <div>
+                    <div class="prediction-title">AI Prediction</div>
+                    <div class="prediction-confidence">Confidence: 89%</div>
+                  </div>
+                </div>
+                <div class="prediction-content">
+                  <p><span class="prediction-label">Root Cause:</span> Seamer Micro-Leak on Seaming Head #3</p>
+                  <p class="prediction-detail">The pressure variance pattern correlates with known seamer chuck wear signatures. Seaming Head #3 last calibrated 47 days ago (SOP: 30 days).</p>
+                </div>
+                <p class="prediction-question">Is this prediction correct?</p>
+                <div class="prediction-buttons">
+                  <button class="confirm-btn" id="confirm-btn" onclick="confirmPrediction()">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                    Confirm
+                  </button>
+                  <button class="reject-btn" id="reject-btn" onclick="rejectPrediction()">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+                    Reject
+                  </button>
+                </div>
+                <div class="feedback-msg hidden" id="feedback-msg">✓ Feedback recorded. Model accuracy improved by 0.3%.</div>
+              </div>
+
+              <div class="genealogy-card">
+                <h3>Batch Genealogy</h3>
+                <div class="genealogy-item">
+                  <svg class="icon" style="color:#0D9488" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
+                  <span style="font-weight:500">Batch #992 • West Coast IPA</span>
+                </div>
+                <div class="genealogy-tree">
+                  <div>Hop Lot: #8821 (Pacific Hops)</div>
+                  <div>Malt Lot: #M-4420 (Briess)</div>
+                  <div>Yeast: WLP001 (Gen 7)</div>
+                </div>
+                <div class="genealogy-item" style="margin-top:8px">
+                  <svg class="icon" style="color:#F97316" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8l-7 5V8l-7 5V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M17 18h1"/><path d="M12 18h1"/><path d="M7 18h1"/></svg>
+                  <span>Canning Line #4 • Nov 18</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="triggers-section">
+            <h3 class="triggers-title">
+              <svg class="icon" style="color:#F59E0B" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              Operational Triggers
+            </h3>
+            <div class="triggers-grid">
+              <div class="trigger-card">
+                <div class="trigger-header">
+                  <div class="trigger-icon orange">
+                    <svg class="icon" style="color:#EA580C" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="2" x2="12" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                  </div>
+                  <div>
+                    <div class="trigger-title">Supplier Chargeback</div>
+                    <div class="trigger-subtitle">Pacific Hops Co. • Lot #8821</div>
+                  </div>
+                </div>
+                <p class="trigger-desc">Generate claim with evidence package: Genealogy + LIMS data + Consumer sentiment</p>
+                <div class="trigger-value">$47,250</div>
+                <button class="trigger-btn orange" onclick="triggerAction('chargeback')">
+                  <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="2" x2="12" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                  Initiate Supplier Chargeback
+                </button>
+              </div>
+              <div class="trigger-card">
+                <div class="trigger-header">
+                  <div class="trigger-icon red">
+                    <svg class="icon" style="color:#DC2626" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                  </div>
+                  <div>
+                    <div class="trigger-title">Inventory Quarantine</div>
+                    <div class="trigger-subtitle">Batch #992 • All Locations</div>
+                  </div>
+                </div>
+                <p class="trigger-desc">Place quality hold on all remaining pallets in WMS to prevent further shipments</p>
+                <div class="trigger-value">847 Pallets</div>
+                <button class="trigger-btn red" onclick="triggerAction('quarantine')">
+                  <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                  Lock Inventory in WMS
+                </button>
+              </div>
+              <div class="trigger-card">
+                <div class="trigger-header">
+                  <div class="trigger-icon blue">
+                    <svg class="icon" style="color:#2563EB" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                  </div>
+                  <div>
+                    <div class="trigger-title">Dispatch Maintenance</div>
+                    <div class="trigger-subtitle">Line 4 • Seamer Head #3</div>
+                  </div>
+                </div>
+                <p class="trigger-desc">Create high-priority work order with sensor graphs attached</p>
+                <div class="trigger-value">Priority: Critical</div>
+                <button class="trigger-btn blue" onclick="triggerAction('maintenance')">
+                  <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                  Generate Work Order
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="lims-section">
+            <h3>Hop Storage Index (HSI) - LIMS Data</h3>
+            <table class="lims-table">
+              <thead>
+                <tr><th>Lot Number</th><th>Supplier</th><th>HSI Value</th><th>Alpha Acid %</th><th>Status</th></tr>
+              </thead>
+              <tbody>
+                <tr><td class="mono">#8815</td><td>Yakima Farms</td><td class="mono good">0.28</td><td>12.4%</td><td><span class="status-badge good">Good</span></td></tr>
+                <tr><td class="mono">#8818</td><td>Yakima Farms</td><td class="mono good">0.31</td><td>11.9%</td><td><span class="status-badge good">Good</span></td></tr>
+                <tr class="highlight"><td class="mono">#8821</td><td>Pacific Hops Co.</td><td class="mono bad">0.67</td><td>8.2%</td><td><span class="status-badge degraded">Degraded</span></td></tr>
+                <tr><td class="mono">#8824</td><td>Cascade Valley</td><td class="mono good">0.29</td><td>13.1%</td><td><span class="status-badge good">Good</span></td></tr>
+                <tr><td class="mono">#9901</td><td>Oregon Hop Growers</td><td class="mono good">0.25</td><td>14.2%</td><td><span class="status-badge good">Good</span></td></tr>
+              </tbody>
+            </table>
+            <p class="lims-note">* HSI threshold: 0.35 maximum. Values above indicate significant oxidation and hop degradation.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI Panel -->
+    <div class="panel-backdrop hidden" id="panel-backdrop" onclick="closeAIPanel()"></div>
+    <div class="ai-panel hidden" id="ai-panel">
+      <div class="panel-header">
+        <div class="panel-header-left">
+          <div class="panel-header-icon">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+          </div>
+          <div>
+            <h2>Genie AI</h2>
+            <p>Quality Investigation Agent</p>
+          </div>
+        </div>
+        <div class="panel-header-btns">
+          <button class="panel-header-btn" onclick="resetChat()">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="2"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg>
+          </button>
+          <button class="panel-header-btn" onclick="closeAIPanel()">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="chat-container" id="chat-container">
+        <div class="chat-message">
+          <div class="chat-avatar ai">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+          </div>
+          <div class="chat-bubble ai">I've detected a 400% spike in 'Cheesy' complaints for West Coast IPA Batch #992. This flavor profile (Isovaleric Acid) typically indicates hop degradation from improper storage conditions. How would you like to proceed with the investigation?</div>
+        </div>
+      </div>
+      <div class="suggestions">
+        <p>Suggested follow-ups:</p>
+        <div class="suggestion-chips" id="suggestion-chips">
+          <button class="suggestion-chip" onclick="askGenealogyQuestion()">
+            <svg class="icon" style="color:#0D9488" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+            Check raw material genealogy
+          </button>
+          <button class="suggestion-chip" onclick="goToRootCause()">
+            <svg class="icon" style="color:#0D9488" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+            Proceed to Root Cause
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast hidden" id="toast">
+      <span id="toast-icon"></span>
+      <span id="toast-message"></span>
+      <span class="toast-close" onclick="hideToast()">×</span>
+    </div>
+  </div>
+
+  <script>
+    // Clock
+    function updateClock() {
+      const now = new Date();
+      document.getElementById('clock').textContent = now.toLocaleTimeString();
+      document.getElementById('date').textContent = now.toLocaleDateString();
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Navigation
+    function showView(view) {
+      document.getElementById('executive-view').classList.toggle('hidden', view !== 'executive');
+      document.getElementById('engineer-view').classList.toggle('hidden', view !== 'engineer');
+      document.getElementById('nav-executive').classList.toggle('active', view === 'executive');
+      document.getElementById('nav-engineer').classList.toggle('active', view === 'engineer');
+    }
+
+    // AI Panel
+    function openAIPanel() {
+      document.getElementById('panel-backdrop').classList.remove('hidden');
+      document.getElementById('ai-panel').classList.remove('hidden');
+    }
+
+    function closeAIPanel() {
+      document.getElementById('panel-backdrop').classList.add('hidden');
+      document.getElementById('ai-panel').classList.add('hidden');
+    }
+
+    function resetChat() {
+      document.getElementById('chat-container').innerHTML = `
+        <div class="chat-message">
+          <div class="chat-avatar ai">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+          </div>
+          <div class="chat-bubble ai">I've detected a 400% spike in 'Cheesy' complaints for West Coast IPA Batch #992. This flavor profile (Isovaleric Acid) typically indicates hop degradation from improper storage conditions. How would you like to proceed with the investigation?</div>
+        </div>
+      `;
+      document.getElementById('suggestion-chips').innerHTML = `
+        <button class="suggestion-chip" onclick="askGenealogyQuestion()">
+          <svg class="icon" style="color:#0D9488" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+          Check raw material genealogy
+        </button>
+        <button class="suggestion-chip" onclick="goToRootCause()">
+          <svg class="icon" style="color:#0D9488" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+          Proceed to Root Cause
+        </button>
+      `;
+    }
+
+    function askGenealogyQuestion() {
+      const chat = document.getElementById('chat-container');
+      chat.innerHTML += `
+        <div class="chat-message user">
+          <div class="chat-avatar user">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </div>
+          <div class="chat-bubble user">Check raw material genealogy</div>
+        </div>
+        <div class="chat-message">
+          <div class="chat-avatar ai">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+          </div>
+          <div class="chat-bubble ai">
+            <strong>FINDING:</strong> Hop Lot #8821 from Pacific Hops Co. is the common denominator. The Hop Storage Index (HSI) of 0.67 is significantly above the acceptable threshold of 0.35, indicating severe oxidation.
+          </div>
+        </div>
+      `;
+      document.getElementById('suggestion-chips').innerHTML = `
+        <button class="suggestion-chip" onclick="goToRootCause()">
+          <svg class="icon" style="color:#0D9488" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+          Proceed to Root Cause
+        </button>
+      `;
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    function goToRootCause() {
+      closeAIPanel();
+      showView('engineer');
+    }
+
+    // Prediction buttons
+    function confirmPrediction() {
+      document.getElementById('confirm-btn').classList.add('active');
+      document.getElementById('reject-btn').classList.remove('active');
+      document.getElementById('feedback-msg').classList.remove('hidden');
+    }
+
+    function rejectPrediction() {
+      document.getElementById('reject-btn').classList.add('active');
+      document.getElementById('confirm-btn').classList.remove('active');
+      document.getElementById('feedback-msg').classList.add('hidden');
+    }
+
+    // Toast
+    function showToast(message, type) {
+      const toast = document.getElementById('toast');
+      const iconSpan = document.getElementById('toast-icon');
+      document.getElementById('toast-message').textContent = message;
+      toast.className = 'toast ' + type;
+      
+      if (type === 'success') {
+        iconSpan.innerHTML = '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>';
+      } else if (type === 'warning') {
+        iconSpan.innerHTML = '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>';
+      } else {
+        iconSpan.innerHTML = '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>';
+      }
+      
+      setTimeout(() => toast.classList.add('hidden'), 4000);
+    }
+
+    function hideToast() {
+      document.getElementById('toast').classList.add('hidden');
+    }
+
+    function triggerAction(type) {
+      if (type === 'chargeback') {
+        showToast('Supplier claim generated for Pacific Hops Co. ($47,250)', 'success');
+      } else if (type === 'quarantine') {
+        showToast('Batch #992 quarantined - 847 pallets locked', 'warning');
+      } else if (type === 'maintenance') {
+        showToast('Work order #WO-4421 created for Line 4', 'info');
+      }
+    }
+  </script>
+</body>
+</html>
