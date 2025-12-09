@@ -726,24 +726,24 @@
     const inventoryData = [
       { id: 1, itemNumber: "KIN-RUB-001", itemDescription: "The Blend Seasoning", category: "Rub", location: "RJW (Chicago)", lotNumber: "166297", expirationDate: "2025-03-15", expirationBucket: "< 3 Months", lifecycleStatus: "Discontinued", slobReason: "Discontinued", cogsValue: 12500, onHandQty: 450, junkValue: 3200, soldOrPromised: false },
       { id: 2, itemNumber: "KIN-RUB-001", itemDescription: "The Blend Seasoning", category: "Rub", location: "States (Los Angeles)", lotNumber: "166298", expirationDate: "2025-04-20", expirationBucket: "3-6 Months", lifecycleStatus: "Discontinued", slobReason: "Discontinued", cogsValue: 8900, onHandQty: 320, junkValue: 2100, soldOrPromised: false },
-      { id: 3, itemNumber: "KIN-RUB-002", itemDescription: "Woodfired Garlic Rub", category: "Rub", location: "RJW (Chicago)", lotNumber: "167001", expirationDate: "2025-02-28", expirationBucket: "< 3 Months", lifecycleStatus: "Active", slobReason: "Expiring Soon", cogsValue: 15800, onHandQty: 580, junkValue: 4500, soldOrPromised: false },
-      { id: 4, itemNumber: "KIN-RUB-003", itemDescription: "Buttery Steakhouse Rub", category: "Rub", location: "States (Los Angeles)", lotNumber: "167102", expirationDate: "2025-06-30", expirationBucket: "3-6 Months", lifecycleStatus: "Active", slobReason: "No Orders 120+ Days", cogsValue: 6200, onHandQty: 210, junkValue: 1800, soldOrPromised: false },
+      { id: 3, itemNumber: "KIN-RUB-002", itemDescription: "Woodfired Garlic Rub", category: "Rub", location: "RJW (Chicago)", lotNumber: "167001", expirationDate: "2025-08-28", expirationBucket: "6-12 Months", lifecycleStatus: "Active", slobReason: "No Orders 120+ Days", cogsValue: 15800, onHandQty: 580, junkValue: 4500, soldOrPromised: false },
+      { id: 4, itemNumber: "KIN-RUB-003", itemDescription: "Buttery Steakhouse Rub", category: "Rub", location: "States (Los Angeles)", lotNumber: "167102", expirationDate: "2026-02-15", expirationBucket: "> 12 Months", lifecycleStatus: "Active", slobReason: "No Orders 120+ Days", cogsValue: 14200, onHandQty: 510, junkValue: 4100, soldOrPromised: false },
       { id: 5, itemNumber: "KIN-SAU-001", itemDescription: "Gold Label BBQ Sauce", category: "Sauce", location: "RJW (Chicago)", lotNumber: "168501", expirationDate: "2025-01-31", expirationBucket: "< 3 Months", lifecycleStatus: "Active", slobReason: "Expiring Soon", cogsValue: 22400, onHandQty: 890, junkValue: 6700, soldOrPromised: false },
-      { id: 6, itemNumber: "KIN-SAU-001", itemDescription: "Gold Label BBQ Sauce", category: "Sauce", location: "States (Los Angeles)", lotNumber: "168502", expirationDate: "2025-02-15", expirationBucket: "< 3 Months", lifecycleStatus: "Active", slobReason: "Expiring Soon", cogsValue: 18200, onHandQty: 720, junkValue: 5400, soldOrPromised: false },
+      { id: 6, itemNumber: "KIN-SAU-001", itemDescription: "Gold Label BBQ Sauce", category: "Sauce", location: "States (Los Angeles)", lotNumber: "168502", expirationDate: "2025-09-15", expirationBucket: "6-12 Months", lifecycleStatus: "Active", slobReason: "No Orders 120+ Days", cogsValue: 18200, onHandQty: 720, junkValue: 5400, soldOrPromised: false },
       { id: 7, itemNumber: "KIN-SAU-002", itemDescription: "Honey Hot BBQ Sauce", category: "Sauce", location: "RJW (Chicago)", lotNumber: "168601", expirationDate: "2025-08-20", expirationBucket: "6-12 Months", lifecycleStatus: "Inactive", slobReason: "Discontinued", cogsValue: 9800, onHandQty: 380, junkValue: 2900, soldOrPromised: true },
-      { id: 8, itemNumber: "KIN-SAU-003", itemDescription: "Roasted Garlic BBQ", category: "Sauce", location: "States (Los Angeles)", lotNumber: "168701", expirationDate: "2025-05-10", expirationBucket: "3-6 Months", lifecycleStatus: "Active", slobReason: "No Orders 120+ Days", cogsValue: 7600, onHandQty: 290, junkValue: 2200, soldOrPromised: false },
+      { id: 8, itemNumber: "KIN-SAU-003", itemDescription: "Roasted Garlic BBQ", category: "Sauce", location: "States (Los Angeles)", lotNumber: "168701", expirationDate: "2026-03-10", expirationBucket: "> 12 Months", lifecycleStatus: "Active", slobReason: "No Orders 120+ Days", cogsValue: 12600, onHandQty: 490, junkValue: 3700, soldOrPromised: false },
       { id: 9, itemNumber: "KIN-SEA-001", itemDescription: "Lemon Pepper Seasoning", category: "Seasoning", location: "RJW (Chicago)", lotNumber: "169001", expirationDate: "2025-03-25", expirationBucket: "< 3 Months", lifecycleStatus: "Discontinued", slobReason: "Discontinued", cogsValue: 11200, onHandQty: 420, junkValue: 3300, soldOrPromised: false },
       { id: 10, itemNumber: "KIN-SEA-001", itemDescription: "Lemon Pepper Seasoning", category: "Seasoning", location: "States (Los Angeles)", lotNumber: "169002", expirationDate: "2025-04-05", expirationBucket: "3-6 Months", lifecycleStatus: "Discontinued", slobReason: "Discontinued", cogsValue: 8400, onHandQty: 310, junkValue: 2500, soldOrPromised: false },
-      { id: 11, itemNumber: "KIN-SEA-002", itemDescription: "Prime Rib Seasoning", category: "Seasoning", location: "RJW (Chicago)", lotNumber: "169101", expirationDate: "2025-07-15", expirationBucket: "6-12 Months", lifecycleStatus: "Active", slobReason: "No Orders 120+ Days", cogsValue: 5400, onHandQty: 190, junkValue: 1600, soldOrPromised: false },
-      { id: 12, itemNumber: "KIN-SEA-003", itemDescription: "Cajun Seasoning", category: "Seasoning", location: "States (Los Angeles)", lotNumber: "169201", expirationDate: "2025-09-30", expirationBucket: "6-12 Months", lifecycleStatus: "Active", slobReason: "No Orders 120+ Days", cogsValue: 4200, onHandQty: 150, junkValue: 1200, soldOrPromised: false },
+      { id: 11, itemNumber: "KIN-SEA-002", itemDescription: "Prime Rib Seasoning", category: "Seasoning", location: "RJW (Chicago)", lotNumber: "169101", expirationDate: "2025-07-15", expirationBucket: "6-12 Months", lifecycleStatus: "Active", slobReason: "No Orders 120+ Days", cogsValue: 13400, onHandQty: 490, junkValue: 3900, soldOrPromised: false },
+      { id: 12, itemNumber: "KIN-SEA-003", itemDescription: "Cajun Seasoning", category: "Seasoning", location: "States (Los Angeles)", lotNumber: "169201", expirationDate: "2026-01-30", expirationBucket: "> 12 Months", lifecycleStatus: "Active", slobReason: "No Orders 120+ Days", cogsValue: 11200, onHandQty: 410, junkValue: 3300, soldOrPromised: false },
       { id: 13, itemNumber: "KIN-RUB-004", itemDescription: "Cali Gold Rub", category: "Rub", location: "RJW (Chicago)", lotNumber: "167201", expirationDate: "2025-02-10", expirationBucket: "< 3 Months", lifecycleStatus: "Active", slobReason: "Expiring Soon", cogsValue: 19600, onHandQty: 720, junkValue: 5800, soldOrPromised: false },
-      { id: 14, itemNumber: "KIN-RUB-005", itemDescription: "Cherry Chipotle Rub", category: "Rub", location: "States (Los Angeles)", lotNumber: "167301", expirationDate: "2025-12-01", expirationBucket: "> 12 Months", lifecycleStatus: "Inactive", slobReason: "Discontinued", cogsValue: 3800, onHandQty: 140, junkValue: 1100, soldOrPromised: false },
+      { id: 14, itemNumber: "KIN-RUB-005", itemDescription: "Cherry Chipotle Rub", category: "Rub", location: "States (Los Angeles)", lotNumber: "167301", expirationDate: "2026-04-01", expirationBucket: "> 12 Months", lifecycleStatus: "Inactive", slobReason: "Discontinued", cogsValue: 9800, onHandQty: 360, junkValue: 2900, soldOrPromised: false },
       { id: 15, itemNumber: "KIN-SAU-004", itemDescription: "Mild BBQ Sauce", category: "Sauce", location: "RJW (Chicago)", lotNumber: "168801", expirationDate: "2025-04-30", expirationBucket: "3-6 Months", lifecycleStatus: "Active", slobReason: "No Orders 120+ Days", cogsValue: 6800, onHandQty: 260, junkValue: 2000, soldOrPromised: false },
       { id: 16, itemNumber: "KIN-SAU-005", itemDescription: "Teriyaki Sauce", category: "Sauce", location: "States (Los Angeles)", lotNumber: "168901", expirationDate: "2025-01-20", expirationBucket: "< 3 Months", lifecycleStatus: "Active", slobReason: "Expiring Soon", cogsValue: 14200, onHandQty: 540, junkValue: 4200, soldOrPromised: false },
       { id: 17, itemNumber: "KIN-SEA-004", itemDescription: "Taco Seasoning", category: "Seasoning", location: "RJW (Chicago)", lotNumber: "169301", expirationDate: "2025-05-20", expirationBucket: "3-6 Months", lifecycleStatus: "Discontinued", slobReason: "Discontinued", cogsValue: 7200, onHandQty: 270, junkValue: 2100, soldOrPromised: false },
       { id: 18, itemNumber: "KIN-SEA-005", itemDescription: "Italian Herb Blend", category: "Seasoning", location: "States (Los Angeles)", lotNumber: "169401", expirationDate: "2025-06-15", expirationBucket: "3-6 Months", lifecycleStatus: "Active", slobReason: "No Orders 120+ Days", cogsValue: 5600, onHandQty: 200, junkValue: 1700, soldOrPromised: false },
-      { id: 19, itemNumber: "KIN-RUB-006", itemDescription: "Korean BBQ Rub", category: "Rub", location: "RJW (Chicago)", lotNumber: "167401", expirationDate: "2025-03-01", expirationBucket: "< 3 Months", lifecycleStatus: "Active", slobReason: "Expiring Soon", cogsValue: 16800, onHandQty: 620, junkValue: 5000, soldOrPromised: false },
-      { id: 20, itemNumber: "KIN-RUB-006", itemDescription: "Korean BBQ Rub", category: "Rub", location: "States (Los Angeles)", lotNumber: "167402", expirationDate: "2025-03-10", expirationBucket: "< 3 Months", lifecycleStatus: "Active", slobReason: "Expiring Soon", cogsValue: 13400, onHandQty: 490, junkValue: 4000, soldOrPromised: false }
+      { id: 19, itemNumber: "KIN-RUB-006", itemDescription: "Korean BBQ Rub", category: "Rub", location: "RJW (Chicago)", lotNumber: "167401", expirationDate: "2025-10-01", expirationBucket: "6-12 Months", lifecycleStatus: "Active", slobReason: "No Orders 120+ Days", cogsValue: 16800, onHandQty: 620, junkValue: 5000, soldOrPromised: false },
+      { id: 20, itemNumber: "KIN-RUB-006", itemDescription: "Korean BBQ Rub", category: "Rub", location: "States (Los Angeles)", lotNumber: "167402", expirationDate: "2026-05-10", expirationBucket: "> 12 Months", lifecycleStatus: "Active", slobReason: "No Orders 120+ Days", cogsValue: 13400, onHandQty: 490, junkValue: 4000, soldOrPromised: false }
     ];
 
     const benchmarks = { avgCogs: 185000, avgQty: 6800, avgJunk: 52000, avgRecovery: 0.42 };
@@ -767,10 +767,10 @@
         id: 'cluster-1',
         name: 'Expiring BBQ Bundle',
         type: 'expiring',
-        itemIds: [5, 6, 16], // Gold Label BBQ (both locations) + Teriyaki
-        suggestedQty: 2150,
-        suggestedPrice: 22950,
-        totalCogs: 54800,
+        itemIds: [5, 16, 9], // Gold Label BBQ + Teriyaki + Lemon Pepper
+        suggestedQty: 1850,
+        suggestedPrice: 20100,
+        totalCogs: 47800,
         recoveryRate: 42,
         reasoning: 'Similar to DEAL-2025-001 (Grocery Outlet)'
       },
@@ -778,32 +778,32 @@
         id: 'cluster-2', 
         name: 'Discontinued Seasonings',
         type: 'discontinued',
-        itemIds: [9, 10, 17], // Lemon Pepper (both) + Taco Seasoning
-        suggestedQty: 1000,
-        suggestedPrice: 11500,
-        totalCogs: 26800,
+        itemIds: [1, 10, 17], // The Blend + Lemon Pepper LA + Taco Seasoning
+        suggestedQty: 1040,
+        suggestedPrice: 12300,
+        totalCogs: 28600,
         recoveryRate: 43,
         reasoning: 'Matches Dollar General clearance pattern'
       },
       {
         id: 'cluster-3',
-        name: 'Chicago Rubs - Quick Move',
-        type: 'expiring',
-        itemIds: [3, 13, 19], // Woodfired Garlic, Cali Gold, Korean BBQ
+        name: 'Mid-Term Rubs Bundle',
+        type: 'slow',
+        itemIds: [3, 6, 19], // Woodfired Garlic, Gold Label LA, Korean BBQ
         suggestedQty: 1920,
-        suggestedPrice: 21800,
-        totalCogs: 52200,
+        suggestedPrice: 21300,
+        totalCogs: 50800,
         recoveryRate: 42,
-        reasoning: 'High-velocity rubs, exp. < 3 months'
+        reasoning: '6-12 month runway, bulk discount opportunity'
       },
       {
         id: 'cluster-4',
-        name: 'Slow Movers - Deep Discount',
+        name: 'Long Shelf Life - Deep Discount',
         type: 'slow',
-        itemIds: [4, 8, 11, 12, 18], // No Orders 120+ items
-        suggestedQty: 1040,
-        suggestedPrice: 8700,
-        totalCogs: 29000,
+        itemIds: [4, 8, 12, 14, 20], // > 12 Months items
+        suggestedQty: 2270,
+        suggestedPrice: 18400,
+        totalCogs: 61200,
         recoveryRate: 30,
         reasoning: 'Bundle for outlet stores at 30% recovery'
       }
