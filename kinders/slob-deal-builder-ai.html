@@ -44,8 +44,17 @@
     .info-icon-circle:hover { border-color: #6b7280; color: #6b7280; }
     
     .main-container { display: flex; }
-    .filter-drawer { width: 280px; background: white; border-right: 1px solid #e5e7eb; padding: 20px; height: calc(100vh - 73px); position: sticky; top: 73px; overflow-y: auto; }
-    .filter-drawer.hidden { display: none; }
+    .filter-panel { position: fixed; top: 0; right: -320px; width: 320px; height: 100vh; background: white; box-shadow: -4px 0 24px rgba(0,0,0,0.15); z-index: 1000; transition: right 0.3s ease; display: flex; flex-direction: column; }
+    .filter-panel.open { right: 0; }
+    .filter-panel-header { background: #f3f4f6; color: #1B1B1B; padding: 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e5e7eb; }
+    .filter-panel-title { font-size: 16px; font-weight: 700; display: flex; align-items: center; gap: 10px; }
+    .filter-panel-close { background: #e5e7eb; border: none; color: #6b7280; width: 32px; height: 32px; border-radius: 8px; cursor: pointer; font-size: 18px; transition: background 0.2s; }
+    .filter-panel-close:hover { background: #d1d5db; color: #374151; }
+    .filter-panel-body { flex: 1; overflow-y: auto; padding: 20px; background: #f9fafb; }
+    .filter-panel-footer { padding: 16px 20px; background: white; border-top: 1px solid #e5e7eb; }
+    .filter-panel .filter-group { margin-bottom: 20px; }
+    .filter-panel .filter-label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 8px; color: #374151; }
+    .filter-panel .filter-select { width: 100%; padding: 10px 12px; border: 1px solid #e5e7eb; border-radius: 8px; font-size: 14px; background: white; }
     .main-content { flex: 1; padding: 24px; }
     
     /* Buttons */
@@ -63,6 +72,7 @@
     /* Filter Pills */
     .filter-pills { margin-bottom: 16px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
     .filter-pill { padding: 4px 12px; background: rgba(219,96,19,0.1); color: #DB6013; border-radius: 9999px; font-size: 13px; cursor: pointer; border: none; }
+    .filter-pill.sankey-pill { background: rgba(79,45,82,0.15); color: #4f2d52; }
     
     /* KPI Cards */
     .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
@@ -82,41 +92,41 @@
     .analytics-section-title { font-size: 11px; font-weight: 600; color: #6b7280; text-transform: uppercase; letter-spacing: 0.5px; }
     .metric-toggle { padding: 2px; }
     .metric-toggle .toggle-tab { padding: 6px 12px; font-size: 12px; }
-    .analytics-section { display: grid; grid-template-columns: 1fr 2fr; gap: 16px; margin-bottom: 24px; min-height: 480px; }
-    .analytics-left { display: flex; flex-direction: column; gap: 16px; }
-    .analytics-right { display: flex; flex-direction: column; }
+    .analytics-section { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; height: 480px; overflow: hidden; }
+    .analytics-left { display: flex; flex-direction: column; height: 100%; overflow: hidden; }
+    .analytics-right { display: flex; flex-direction: column; height: 100%; overflow: hidden; }
     
     /* Chart Cards */
-    .chart-card { background: white; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); border: 1px solid #e5e7eb; overflow: hidden; display: flex; flex-direction: column; }
+    .chart-card { background: white; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); border: 1px solid #e5e7eb; overflow: hidden; display: flex; flex-direction: column; height: 100%; max-height: 100%; }
     .chart-card.equal-height { flex: 1; }
-    .chart-card.full-height { flex: 1; }
-    .chart-header { padding: 12px 16px; border-bottom: 1px solid #f3f4f6; }
+    .chart-card.full-height { height: 100%; max-height: 100%; }
+    .chart-header { padding: 12px 16px; border-bottom: 1px solid #f3f4f6; flex-shrink: 0; }
     .chart-title { font-weight: 600; font-size: 14px; }
-    .chart-body { padding: 12px; flex: 1; display: flex; flex-direction: column; justify-content: center; }
-    .chart-body-compact { padding: 10px 12px; flex: 1; overflow-y: auto; }
+    .chart-body { padding: 12px; flex: 1; display: flex; flex-direction: column; justify-content: center; overflow: hidden; min-height: 0; }
+    .chart-body-compact { padding: 8px 10px; flex: 1; overflow: hidden; min-height: 0; }
     
     /* SKU Table Styles */
-    .sku-table { width: 100%; font-size: 12px; border-collapse: collapse; }
-    .sku-table thead { background: #f9fafb; position: sticky; top: 0; }
-    .sku-table th { padding: 10px 8px; text-align: left; font-weight: 600; font-size: 11px; color: #6b7280; text-transform: uppercase; border-bottom: 1px solid #e5e7eb; }
+    .sku-table { width: 100%; font-size: 12px; border-collapse: collapse; table-layout: fixed; }
+    .sku-table thead { background: #f9fafb; }
+    .sku-table th { padding: 10px 8px; text-align: left; font-weight: 600; font-size: 10px; color: #6b7280; text-transform: uppercase; border-bottom: 1px solid #e5e7eb; }
     .sku-table th.right { text-align: right; }
-    .sku-table tbody tr { border-bottom: 1px solid #f3f4f6; cursor: pointer; transition: background 0.15s; }
+    .sku-table tbody tr { border-bottom: 1px solid #f3f4f6; cursor: pointer; transition: background 0.15s; height: 38px; }
     .sku-table tbody tr:hover { background: #f9fafb; }
     .sku-table tbody tr.dimmed { opacity: 0.4; }
     .sku-table tbody tr.active { background: rgba(219,96,19,0.08); }
-    .sku-table td { padding: 8px; vertical-align: middle; }
+    .sku-table td { padding: 8px 8px; vertical-align: middle; }
     .sku-table td.right { text-align: right; }
-    .sku-table td.mono { font-family: monospace; font-size: 10px; }
+    .sku-table td.mono { font-family: monospace; font-size: 11px; white-space: nowrap; }
     
     /* Data Bar */
-    .data-bar-cell { width: 140px; }
-    .data-bar-container { display: flex; align-items: center; gap: 8px; }
+    .data-bar-cell { }
+    .data-bar-container { display: flex; align-items: center; gap: 6px; }
     .data-bar-track { flex: 1; height: 18px; background: #f3f4f6; border-radius: 3px; overflow: hidden; }
     .data-bar-fill { height: 100%; background: linear-gradient(90deg, #DB6013, #E0A885); border-radius: 3px; }
     .data-bar-value { font-size: 11px; font-weight: 600; color: #DB6013; white-space: nowrap; min-width: 50px; text-align: right; }
     
     /* Recovery Rate Heatmap Cell */
-    .recovery-cell { padding: 4px 10px; border-radius: 4px; font-weight: 600; font-size: 11px; text-align: center; color: white; min-width: 50px; display: inline-block; }
+    .recovery-cell { padding: 3px 6px; border-radius: 4px; font-weight: 600; font-size: 10px; text-align: center; color: white; min-width: 44px; display: inline-block; }
     
     /* Bar Charts - Compact */
     .bar-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; cursor: pointer; transition: opacity 0.2s; }
@@ -310,7 +320,7 @@
     .ai-chat-btn:hover { background: #f3f4f6; border-color: #9ca3af; }
     .ai-chat-btn .ai-icon { width: 14px; height: 14px; }
     
-    .ai-panel { position: fixed; top: 0; right: -420px; width: 420px; height: 100vh; background: white; box-shadow: -4px 0 24px rgba(0,0,0,0.15); z-index: 1000; transition: right 0.3s ease; display: flex; flex-direction: column; }
+    .ai-panel { position: fixed; top: 0; right: -420px; width: 420px; height: 100vh; background: white; box-shadow: -4px 0 24px rgba(0,0,0,0.15); z-index: 1001; transition: right 0.3s ease; display: flex; flex-direction: column; }
     .ai-panel.open { right: 0; }
     
     .ai-panel-header { background: #f3f4f6; color: #1B1B1B; padding: 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e5e7eb; }
@@ -363,6 +373,20 @@
     .ai-insight-meta span { display: flex; align-items: center; gap: 3px; }
     .ai-insight-recommendation { font-size: 11px; color: #4F7942; font-weight: 500; background: #F0FDF4; padding: 4px 8px; border-radius: 4px; margin-top: 2px; }
     
+    /* Vertical Sankey Diagram */
+    .sankey-container { position: relative; width: 100%; height: calc(100% - 0px); flex: 1; min-height: 0; max-height: calc(480px - 50px); overflow: hidden; }
+    .sankey-svg { display: block; width: 100%; height: 100%; }
+    .sankey-node { cursor: pointer; transition: opacity 0.2s; }
+    .sankey-node:hover { opacity: 0.85; }
+    .sankey-node.dimmed { opacity: 0.25; }
+    .sankey-node.highlighted { opacity: 1; }
+    .sankey-node-label { font-size: 11px; font-weight: 600; text-anchor: middle; pointer-events: none; }
+    .sankey-flow { fill-opacity: 0.35; transition: fill-opacity 0.2s; cursor: pointer; }
+    .sankey-flow:hover { fill-opacity: 0.55; }
+    .sankey-flow.dimmed { fill-opacity: 0.08; }
+    .sankey-flow.highlighted { fill-opacity: 0.65; }
+    .sankey-level-label { font-size: 11px; font-weight: 700; fill: #374151; text-anchor: start; letter-spacing: 0.5px; }
+    
     /* Selected Items Table in Modal */
     .selected-items-table { background: #f9fafb; border-radius: 8px; max-height: 140px; overflow-y: auto; margin-bottom: 20px; }
     .selected-items-table table { font-size: 12px; }
@@ -400,13 +424,16 @@
     </div>
   </header>
 
-  <div class="main-container">
-    <!-- Filter Drawer -->
-    <aside id="filterDrawer" class="filter-drawer hidden slide-in scrollbar-thin">
-      <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
-        <h3 style="font-weight: 600;">Filters</h3>
-        <button id="clearFilters" style="font-size: 14px; color: #DB6013; background: none; border: none; cursor: pointer;">Clear All</button>
+  <!-- Filter Panel (Right Side) -->
+  <div id="filterPanel" class="filter-panel">
+    <div class="filter-panel-header">
+      <div class="filter-panel-title">
+        <svg style="width: 16px; height: 16px;" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
+        Filters
       </div>
+      <button id="filterPanelClose" class="filter-panel-close">×</button>
+    </div>
+    <div class="filter-panel-body">
       <div class="filter-group">
         <label class="filter-label">Location</label>
         <select id="filterLocation" class="filter-select"><option value="All">All</option></select>
@@ -423,8 +450,13 @@
         <label class="filter-label">Lifecycle Status</label>
         <select id="filterLifecycle" class="filter-select"><option value="All">All</option></select>
       </div>
-    </aside>
+    </div>
+    <div class="filter-panel-footer">
+      <button id="clearFilters" style="width: 100%; padding: 10px 16px; font-size: 14px; color: #DB6013; background: white; border: 1px solid #DB6013; border-radius: 8px; cursor: pointer; font-weight: 500;">Clear All Filters</button>
+    </div>
+  </div>
 
+  <div class="main-container">
     <!-- Main Content -->
     <main class="main-content">
       <!-- Cross Filter Pills -->
@@ -455,25 +487,17 @@
         </div>
       </div>
 
-      <!-- Analytics Section - 1:2 Layout -->
+      <!-- Analytics Section - 1:1 Layout -->
       <div class="analytics-section">
-        <!-- Left Column (1/3) - Stacked Charts -->
+        <!-- Left Column (50%) - Sankey Diagram -->
         <div class="analytics-left">
-          <div class="chart-card equal-height">
-            <div class="chart-header"><h3 class="chart-title">Top Categories</h3></div>
-            <div class="chart-body" id="categoryChart"></div>
-          </div>
-          <div class="chart-card equal-height">
-            <div class="chart-header"><h3 class="chart-title">Expiration Buckets</h3></div>
-            <div class="chart-body" id="expirationChart"></div>
-          </div>
-          <div class="chart-card equal-height">
-            <div class="chart-header"><h3 class="chart-title">Primary SLOB Reason</h3></div>
-            <div class="chart-body" id="reasonChart"></div>
+          <div class="chart-card full-height">
+            <div class="chart-header"><h3 class="chart-title">Inventory Flow</h3></div>
+            <div class="sankey-container" id="sankeyChart"></div>
           </div>
         </div>
         
-        <!-- Right Column (2/3) - Top 10 SKUs Table -->
+        <!-- Right Column (50%) - Top 10 SKUs Table -->
         <div class="analytics-right">
           <div class="chart-card full-height">
             <div class="chart-header"><h3 class="chart-title">Top 10 SKUs</h3></div>
@@ -822,7 +846,9 @@
       editingDeal: null,
       selectedMetric: 'cogs', // 'cogs', 'qty', or 'junk'
       lineItems: [], // For deal builder modal
-      activeCluster: null // For AI insight filtering
+      activeCluster: null, // For AI insight filtering
+      sankeyHighlight: null, // For Sankey path highlighting
+      sankeySelection: { reason: [], location: [], category: [], expiration: [] } // Multi-select cross-filter
     };
 
     // Metric configuration
@@ -865,7 +891,10 @@
       return data.filter(item => {
         const f = state.filters;
         const c = state.crossFilter;
-        return (f.location === 'All' || item.location === f.location) &&
+        const s = state.sankeySelection;
+        
+        // Standard filters
+        const passesFilters = (f.location === 'All' || item.location === f.location) &&
                (f.expirationBucket === 'All' || item.expirationBucket === f.expirationBucket) &&
                (f.lifecycleStatus === 'All' || item.lifecycleStatus === f.lifecycleStatus) &&
                (f.slobReason === 'All' || item.slobReason === f.slobReason) &&
@@ -873,6 +902,14 @@
                (!c.sku || item.itemNumber === c.sku) &&
                (!c.expiration || item.expirationBucket === c.expiration) &&
                (!c.reason || item.slobReason === c.reason);
+        
+        // Sankey multi-select cross-filter
+        const passesSankey = (s.reason.length === 0 || s.reason.includes(item.slobReason)) &&
+               (s.location.length === 0 || s.location.includes(item.location)) &&
+               (s.category.length === 0 || s.category.includes(item.category)) &&
+               (s.expiration.length === 0 || s.expiration.includes(item.expirationBucket));
+        
+        return passesFilters && passesSankey;
       });
     }
 
@@ -883,10 +920,8 @@
       const data = getFilteredData();
       renderKPIs(data);
       renderAiInsights();
-      renderCategoryChart(data);
-      renderExpirationChart(data);
+      renderSankey(data);
       renderSkuTable(data);
-      renderReasonChart(data);
       renderDetailTable(data);
       renderDealsTable();
       renderCrossFilterPills();
@@ -1006,6 +1041,323 @@
       }).join('');
     }
 
+    function renderSankey(data) {
+      const container = document.getElementById('sankeyChart');
+      const field = metricConfig[state.selectedMetric].field;
+      const formatFn = metricConfig[state.selectedMetric].format;
+      
+      // Get container dimensions - constrained to prevent overflow
+      const rect = container.getBoundingClientRect();
+      const width = rect.width || container.clientWidth || 500;
+      const maxHeight = 430; // Max height to prevent overflow
+      const height = Math.min(rect.height || container.clientHeight || 400, maxHeight);
+      const padding = { top: 15, right: 15, bottom: 15, left: 15 };
+      const innerWidth = width - padding.left - padding.right;
+      const innerHeight = height - padding.top - padding.bottom;
+      
+      // Define the four levels (top to bottom)
+      const levelLabels = ['SLOB REASON', 'LOCATION', 'CATEGORY', 'EXPIRATION'];
+      const numLevels = 4;
+      const nodeHeight = 34;
+      const nodeGap = 10;
+      const levelLabelWidth = 100;
+      const chartAreaWidth = innerWidth - levelLabelWidth;
+      
+      // Calculate vertical spacing - distribute levels evenly across available height
+      const totalNodeHeight = numLevels * nodeHeight;
+      const availableFlowSpace = innerHeight - totalNodeHeight;
+      const flowSpacing = Math.max(40, availableFlowSpace / (numLevels - 1));
+      
+      // Aggregate data for each level
+      const aggregations = {
+        reason: {},
+        location: {},
+        category: {},
+        expiration: {}
+      };
+      
+      // Flow aggregations
+      const flowMap = {};
+      
+      data.forEach(item => {
+        const r = item.slobReason;
+        const l = item.location;
+        const c = item.category;
+        const e = item.expirationBucket;
+        const v = item[field];
+        
+        // Aggregate nodes
+        aggregations.reason[r] = (aggregations.reason[r] || 0) + v;
+        aggregations.location[l] = (aggregations.location[l] || 0) + v;
+        aggregations.category[c] = (aggregations.category[c] || 0) + v;
+        aggregations.expiration[e] = (aggregations.expiration[e] || 0) + v;
+        
+        // Aggregate flows (reason -> location -> category -> expiration)
+        const flowKeys = [
+          `r:${r}|l:${l}`,
+          `l:${l}|c:${c}`,
+          `c:${c}|e:${e}`
+        ];
+        
+        flowKeys.forEach((key, idx) => {
+          if (!flowMap[key]) {
+            const [src, tgt] = key.split('|');
+            flowMap[key] = { source: src, target: tgt, value: 0, level: idx };
+          }
+          flowMap[key].value += v;
+        });
+      });
+      
+      // Convert to arrays and sort
+      const reasonNodes = Object.entries(aggregations.reason)
+        .map(([id, value]) => ({ id: `r:${id}`, label: id, value }))
+        .sort((a, b) => b.value - a.value);
+      const locationNodes = Object.entries(aggregations.location)
+        .map(([id, value]) => ({ id: `l:${id}`, label: id.replace('RJW (Chicago)', 'Chicago').replace('States (Los Angeles)', 'Los Angeles'), value }))
+        .sort((a, b) => b.value - a.value);
+      const categoryNodes = Object.entries(aggregations.category)
+        .map(([id, value]) => ({ id: `c:${id}`, label: id, value }))
+        .sort((a, b) => b.value - a.value);
+      const expirationOrder = ['< 3 Months', '3-6 Months', '6-12 Months', '> 12 Months'];
+      const expirationNodes = expirationOrder
+        .filter(e => aggregations.expiration[e])
+        .map(id => ({ id: `e:${id}`, label: id, value: aggregations.expiration[id] }));
+      
+      const levels = [reasonNodes, locationNodes, categoryNodes, expirationNodes];
+      
+      // Color palettes - updated per brand guidelines
+      const colors = {
+        // SLOB Reason - Gray shades
+        'r:No Orders 120+ Days': '#525252',    // Dark gray
+        'r:Discontinued': '#8F8F8F',           // Medium gray  
+        'r:Expiring Soon': '#B8B8B8',          // Light gray
+        // Location - Gold (unchanged)
+        'l:RJW (Chicago)': '#C9A227',          // Gold (app theme)
+        'l:States (Los Angeles)': '#E8D9A0',   // Light gold (app theme)
+        // Category - Distinct colors (no reds/oranges)
+        'c:Rub': '#4f2d52',                    // Dark purple
+        'c:Sauce': '#037170',                  // Teal
+        'c:Seasoning': '#588321',              // Green
+        // Expiration - Orange variations (urgency-based)
+        'e:< 3 Months': '#B84F0F',             // Dark orange/brown (most urgent)
+        'e:3-6 Months': '#DB6013',             // Medium orange
+        'e:6-12 Months': '#E8862F',            // Light orange
+        'e:> 12 Months': '#F5A66B'             // Lightest orange (safe)
+      };
+      
+      // Calculate node positions
+      const nodePositions = {};
+      levels.forEach((level, levelIdx) => {
+        const totalValue = level.reduce((s, n) => s + n.value, 0);
+        const availableWidth = chartAreaWidth - (level.length - 1) * nodeGap;
+        let currentX = padding.left + levelLabelWidth;
+        
+        // Calculate Y position: each level positioned to fill vertical space
+        const levelY = padding.top + levelIdx * (nodeHeight + flowSpacing);
+        
+        level.forEach(node => {
+          const nodeWidth = Math.max(50, (node.value / totalValue) * availableWidth);
+          nodePositions[node.id] = {
+            x: currentX,
+            y: levelY,
+            width: nodeWidth,
+            height: nodeHeight,
+            centerX: currentX + nodeWidth / 2,
+            value: node.value,
+            label: node.label
+          };
+          currentX += nodeWidth + nodeGap;
+        });
+      });
+      
+      // Build SVG - use calculated dimensions with viewBox for scaling
+      let svg = `<svg class="sankey-svg" viewBox="0 0 ${width} ${height}" preserveAspectRatio="xMidYMid meet">`;
+      
+      // Add level labels (left side)
+      levelLabels.forEach((label, idx) => {
+        const labelY = padding.top + idx * (nodeHeight + flowSpacing) + nodeHeight / 2 + 4;
+        svg += `<text class="sankey-level-label" x="${padding.left}" y="${labelY}">${label}</text>`;
+      });
+      
+      // Draw flows first (so nodes appear on top)
+      const flowList = Object.values(flowMap).sort((a, b) => b.value - a.value);
+      
+      // Calculate cumulative offsets for flow positioning
+      const sourceOffsets = {};
+      const targetOffsets = {};
+      
+      flowList.forEach(flow => {
+        const sourcePos = nodePositions[flow.source];
+        const targetPos = nodePositions[flow.target];
+        if (!sourcePos || !targetPos) return;
+        
+        // Initialize offsets
+        if (sourceOffsets[flow.source] === undefined) sourceOffsets[flow.source] = 0;
+        if (targetOffsets[flow.target] === undefined) targetOffsets[flow.target] = 0;
+        
+        // Calculate flow width proportional to value
+        const flowWidth = Math.max(3, (flow.value / sourcePos.value) * sourcePos.width * 0.9);
+        
+        const x1 = sourcePos.x + sourceOffsets[flow.source] + flowWidth / 2;
+        const y1 = sourcePos.y + sourcePos.height;
+        const x2 = targetPos.x + targetOffsets[flow.target] + flowWidth / 2;
+        const y2 = targetPos.y;
+        
+        sourceOffsets[flow.source] += flowWidth + 1;
+        targetOffsets[flow.target] += flowWidth + 1;
+        
+        // Get color from source node
+        const color = colors[flow.source] || '#9ca3af';
+        
+        // Create curved path (vertical flow)
+        const midY = (y1 + y2) / 2;
+        const path = `M ${x1 - flowWidth/2} ${y1} 
+                      C ${x1 - flowWidth/2} ${midY}, ${x2 - flowWidth/2} ${midY}, ${x2 - flowWidth/2} ${y2}
+                      L ${x2 + flowWidth/2} ${y2}
+                      C ${x2 + flowWidth/2} ${midY}, ${x1 + flowWidth/2} ${midY}, ${x1 + flowWidth/2} ${y1}
+                      Z`;
+        
+        const isHighlighted = state.sankeyHighlight && 
+          (state.sankeyHighlight.includes(flow.source) || state.sankeyHighlight.includes(flow.target));
+        const isDimmed = state.sankeyHighlight && !isHighlighted;
+        
+        svg += `<path class="sankey-flow ${isHighlighted ? 'highlighted' : ''} ${isDimmed ? 'dimmed' : ''}" 
+                      d="${path}" 
+                      fill="${color}"
+                      onclick="handleSankeyClick('${flow.source}', '${flow.target}')" />`;
+      });
+      
+      // Draw nodes
+      levels.forEach((level, levelIdx) => {
+        level.forEach(node => {
+          const pos = nodePositions[node.id];
+          const color = colors[node.id] || '#9ca3af';
+          const isHighlighted = state.sankeyHighlight && state.sankeyHighlight.includes(node.id);
+          const isDimmed = state.sankeyHighlight && !isHighlighted;
+          
+          // Check if this node is selected
+          const [type, ...valueParts] = node.id.split(':');
+          const value = valueParts.join(':');
+          const typeMap = { r: 'reason', l: 'location', c: 'category', e: 'expiration' };
+          const isSelected = state.sankeySelection[typeMap[type]]?.includes(value);
+          
+          // Draw selection outline if selected
+          if (isSelected) {
+            svg += `<rect class="sankey-node-selection" 
+                          x="${pos.x - 2}" y="${pos.y - 2}" 
+                          width="${pos.width + 4}" height="${pos.height + 4}" 
+                          rx="6" fill="none" stroke="#DB6013" stroke-width="3" />`;
+          }
+          
+          svg += `<rect class="sankey-node ${isHighlighted ? 'highlighted' : ''} ${isDimmed ? 'dimmed' : ''}" 
+                        x="${pos.x}" y="${pos.y}" 
+                        width="${pos.width}" height="${pos.height}" 
+                        rx="4" fill="${color}"
+                        onclick="handleSankeyNodeClick('${node.id}')" />`;
+          
+          // Add label (horizontal, inside node)
+          const labelY = pos.y + pos.height / 2 + 4;
+          const labelX = pos.centerX;
+          
+          // Truncate long labels based on node width
+          let displayLabel = pos.label;
+          const maxChars = Math.floor(pos.width / 7);
+          if (displayLabel.length > maxChars) {
+            displayLabel = displayLabel.substring(0, maxChars - 1) + '…';
+          }
+          
+          // Determine text color based on background (updated for new palette)
+          const lightBgNodes = ['l:States (Los Angeles)', 'e:> 12 Months', 'r:Expiring Soon'];
+          const isLightBg = node.id.includes('l:States') || node.id === 'e:> 12 Months' || node.id === 'r:Expiring Soon';
+          const textColor = isDimmed ? '#9ca3af' : (isLightBg ? '#374151' : '#ffffff');
+          
+          svg += `<text class="sankey-node-label" x="${labelX}" y="${labelY}" 
+                        style="fill: ${textColor}; font-size: 10px; font-weight: 600;">${displayLabel}</text>`;
+        });
+      });
+      
+      svg += '</svg>';
+      container.innerHTML = svg;
+    }
+    
+    function handleSankeyNodeClick(nodeId) {
+      // Parse node type and value
+      const [type, ...valueParts] = nodeId.split(':');
+      const value = valueParts.join(':'); // Handle values with colons
+      
+      // Map type prefix to selection array
+      const typeMap = { r: 'reason', l: 'location', c: 'category', e: 'expiration' };
+      const selectionKey = typeMap[type];
+      
+      if (!selectionKey) return;
+      
+      // Toggle selection in the appropriate array
+      const currentSelections = state.sankeySelection[selectionKey];
+      const index = currentSelections.indexOf(value);
+      
+      if (index > -1) {
+        // Remove from selection
+        currentSelections.splice(index, 1);
+      } else {
+        // Add to selection
+        currentSelections.push(value);
+      }
+      
+      // Update highlight based on all current selections
+      updateSankeyHighlight();
+      render();
+    }
+    
+    function handleSankeyClick(source, target) {
+      // Click on flow - select both source and target nodes
+      handleSankeyNodeClick(source);
+    }
+    
+    function updateSankeyHighlight() {
+      const sel = state.sankeySelection;
+      const hasSelection = sel.reason.length > 0 || sel.location.length > 0 || 
+                           sel.category.length > 0 || sel.expiration.length > 0;
+      
+      if (!hasSelection) {
+        state.sankeyHighlight = null;
+        return;
+      }
+      
+      // Build highlight array from all selected nodes
+      const highlight = [];
+      sel.reason.forEach(r => highlight.push(`r:${r}`));
+      sel.location.forEach(l => highlight.push(`l:${l}`));
+      sel.category.forEach(c => highlight.push(`c:${c}`));
+      sel.expiration.forEach(e => highlight.push(`e:${e}`));
+      
+      // Also find connected nodes through the data
+      const data = inventoryData.filter(item => item.dealStatus !== 'Active Deal');
+      const connectedNodes = new Set(highlight);
+      
+      data.forEach(item => {
+        // Check if this item matches any of the selected criteria
+        const matchesReason = sel.reason.length === 0 || sel.reason.includes(item.slobReason);
+        const matchesLocation = sel.location.length === 0 || sel.location.includes(item.location);
+        const matchesCategory = sel.category.length === 0 || sel.category.includes(item.category);
+        const matchesExpiration = sel.expiration.length === 0 || sel.expiration.includes(item.expirationBucket);
+        
+        // If item matches ALL selected filters across levels, include its nodes
+        if (matchesReason && matchesLocation && matchesCategory && matchesExpiration) {
+          connectedNodes.add(`r:${item.slobReason}`);
+          connectedNodes.add(`l:${item.location}`);
+          connectedNodes.add(`c:${item.category}`);
+          connectedNodes.add(`e:${item.expirationBucket}`);
+        }
+      });
+      
+      state.sankeyHighlight = Array.from(connectedNodes);
+    }
+    
+    function clearSankeySelection() {
+      state.sankeySelection = { reason: [], location: [], category: [], expiration: [] };
+      state.sankeyHighlight = null;
+    }
+
     function renderCategoryChart(data) {
       const grouped = {};
       const field = metricConfig[state.selectedMetric].field;
@@ -1074,12 +1426,12 @@
         <table class="sku-table">
           <thead>
             <tr>
-              <th>SKU</th>
-              <th>Description</th>
-              <th class="data-bar-cell">${metricLabel}</th>
-              <th class="right">Recovery %</th>
-              <th class="right">Unit Price</th>
-              <th class="right">Suggested Unit Price</th>
+              <th style="width: 18%;">SKU</th>
+              <th style="width: 25%;">Description</th>
+              <th class="data-bar-cell" style="width: 17%;">${metricLabel}</th>
+              <th class="right" style="width: 14%;">Recovery %</th>
+              <th class="right" style="width: 13%;">Unit Price</th>
+              <th class="right" style="width: 13%;">Sugg. Price</th>
             </tr>
           </thead>
           <tbody>
@@ -1089,9 +1441,6 @@
         const barWidth = maxValue > 0 ? (item.displayValue / maxValue) * 100 : 0;
         const isActive = activeItem === item.sku;
         const isDimmed = activeItem && !isActive;
-        
-        // Format value based on metric
-        const formattedValue = state.selectedMetric === 'qty' ? formatNumber(item.displayValue) : formatCurrency(item.displayValue);
         
         // Recovery rate heatmap color
         let recoveryColor;
@@ -1103,13 +1452,12 @@
         html += `
           <tr class="${isDimmed ? 'dimmed' : ''} ${isActive ? 'active' : ''}" onclick="toggleCrossFilter('sku', '${item.sku}')">
             <td class="mono" style="font-weight: 500;">${item.sku}</td>
-            <td style="max-width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${item.description}">${item.description}</td>
+            <td style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${item.description}">${item.description}</td>
             <td class="data-bar-cell">
               <div class="data-bar-container">
                 <div class="data-bar-track">
                   <div class="data-bar-fill" style="width: ${barWidth}%"></div>
                 </div>
-                <span class="data-bar-value">${formattedValue}</span>
               </div>
             </td>
             <td class="right">
@@ -1304,20 +1652,27 @@
 
     function renderCrossFilterPills() {
       const c = state.crossFilter;
+      const s = state.sankeySelection;
       const pills = [];
       
       // Add cluster pill if active
       if (state.activeCluster) {
         const cluster = aiClusters.find(cl => cl.id === state.activeCluster);
         if (cluster) {
-          pills.push({ key: 'cluster', label: 'Cluster: ' + cluster.name });
+          pills.push({ key: 'cluster', label: 'Cluster: ' + cluster.name, type: 'cluster' });
         }
       }
       
-      if (c.category) pills.push({ key: 'category', label: 'Category: ' + c.category });
-      if (c.expiration) pills.push({ key: 'expiration', label: 'Expiration: ' + c.expiration });
-      if (c.sku) pills.push({ key: 'sku', label: 'SKU: ' + c.sku });
-      if (c.reason) pills.push({ key: 'reason', label: 'Reason: ' + c.reason });
+      if (c.category) pills.push({ key: 'category', label: 'Category: ' + c.category, type: 'crossFilter' });
+      if (c.expiration) pills.push({ key: 'expiration', label: 'Expiration: ' + c.expiration, type: 'crossFilter' });
+      if (c.sku) pills.push({ key: 'sku', label: 'SKU: ' + c.sku, type: 'crossFilter' });
+      if (c.reason) pills.push({ key: 'reason', label: 'Reason: ' + c.reason, type: 'crossFilter' });
+      
+      // Add Sankey selection pills
+      s.reason.forEach(r => pills.push({ key: 'sankey-reason', value: r, label: 'SLOB: ' + r, type: 'sankey' }));
+      s.location.forEach(l => pills.push({ key: 'sankey-location', value: l, label: 'Loc: ' + l.replace('RJW (Chicago)', 'Chicago').replace('States (Los Angeles)', 'LA'), type: 'sankey' }));
+      s.category.forEach(cat => pills.push({ key: 'sankey-category', value: cat, label: 'Cat: ' + cat, type: 'sankey' }));
+      s.expiration.forEach(e => pills.push({ key: 'sankey-expiration', value: e, label: 'Exp: ' + e, type: 'sankey' }));
 
       const container = document.getElementById('crossFilterPills');
       if (pills.length === 0) {
@@ -1325,8 +1680,32 @@
       } else {
         container.style.display = 'flex';
         container.innerHTML = '<span style="font-size: 14px; color: #6b7280;">Active:</span>' +
-          pills.map(p => `<button class="filter-pill" onclick="${p.key === 'cluster' ? 'clearClusterFilter()' : `toggleCrossFilter('${p.key}', null)`}">${p.label} ✕</button>`).join('');
+          pills.map(p => {
+            if (p.type === 'cluster') {
+              return `<button class="filter-pill" onclick="clearClusterFilter()">${p.label} ✕</button>`;
+            } else if (p.type === 'sankey') {
+              return `<button class="filter-pill sankey-pill" onclick="removeSankeySelection('${p.key}', '${p.value}')">${p.label} ✕</button>`;
+            } else {
+              return `<button class="filter-pill" onclick="toggleCrossFilter('${p.key}', null)">${p.label} ✕</button>`;
+            }
+          }).join('');
       }
+    }
+    
+    function removeSankeySelection(key, value) {
+      const typeMap = {
+        'sankey-reason': 'reason',
+        'sankey-location': 'location', 
+        'sankey-category': 'category',
+        'sankey-expiration': 'expiration'
+      };
+      const selectionKey = typeMap[key];
+      const idx = state.sankeySelection[selectionKey].indexOf(value);
+      if (idx > -1) {
+        state.sankeySelection[selectionKey].splice(idx, 1);
+      }
+      updateSankeyHighlight();
+      render();
     }
 
     function clearClusterFilter() {
@@ -1649,8 +2028,14 @@
       // Event listeners
       document.getElementById('filterToggle').addEventListener('click', () => {
         state.showFilterDrawer = !state.showFilterDrawer;
-        document.getElementById('filterDrawer').classList.toggle('hidden', !state.showFilterDrawer);
+        document.getElementById('filterPanel').classList.toggle('open', state.showFilterDrawer);
         document.getElementById('filterToggle').classList.toggle('btn-active', state.showFilterDrawer);
+      });
+      
+      document.getElementById('filterPanelClose').addEventListener('click', () => {
+        state.showFilterDrawer = false;
+        document.getElementById('filterPanel').classList.remove('open');
+        document.getElementById('filterToggle').classList.remove('btn-active');
       });
 
       document.getElementById('clearFilters').addEventListener('click', () => {
@@ -1658,6 +2043,8 @@
         state.crossFilter = { category: null, sku: null, expiration: null, reason: null };
         state.activeCluster = null;
         state.selectedItems = [];
+        state.sankeyHighlight = null;
+        state.sankeySelection = { reason: [], location: [], category: [], expiration: [] };
         document.getElementById('filterLocation').value = 'All';
         document.getElementById('filterExpiration').value = 'All';
         document.getElementById('filterLifecycle').value = 'All';
@@ -1718,6 +2105,30 @@
 
       // Initial render
       render();
+      
+      // Re-render Sankey after layout is complete to get accurate dimensions
+      function delayedSankeyRender() {
+        const container = document.getElementById('sankeyChart');
+        const rect = container.getBoundingClientRect();
+        if (rect.width > 100 && rect.height > 100) {
+          const data = getFilteredData();
+          renderSankey(data);
+        } else {
+          // Container not ready, retry
+          setTimeout(delayedSankeyRender, 50);
+        }
+      }
+      setTimeout(delayedSankeyRender, 50);
+      
+      // Re-render Sankey on window resize
+      let resizeTimer;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+          const data = getFilteredData();
+          renderSankey(data);
+        }, 150);
+      });
     }
 
     // AI Chat Functions
