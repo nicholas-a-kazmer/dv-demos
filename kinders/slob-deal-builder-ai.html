@@ -2281,6 +2281,2227 @@
     init();
   </script>
 </body>
+</html>    .btn-primary { background: #DB6013; color: white; border: 1px solid #DB6013; }
+    .btn-primary:disabled { background: #d1d5db; border-color: #d1d5db; }
+    .btn-active { background: #DB6013; color: white; border-color: #DB6013; }
+    
+    /* Filter Select */
+    .filter-group { margin-bottom: 16px; }
+    .filter-label { display: block; font-size: 14px; font-weight: 500; margin-bottom: 6px; }
+    .filter-select { width: 100%; padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 14px; background: white; }
+    
+    /* Filter Pills */
+    .filter-pills { margin-bottom: 16px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .filter-pill { padding: 4px 12px; background: rgba(219,96,19,0.1); color: #DB6013; border-radius: 9999px; font-size: 13px; cursor: pointer; border: none; }
+    .filter-pill.sankey-pill { background: rgba(79,45,82,0.15); color: #4f2d52; }
+    
+    /* KPI Cards */
+    .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+    .kpi-card { background: white; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); border: 1px solid #e5e7eb; overflow: hidden; }
+    .kpi-accent { height: 6px; background: #DB6013; }
+    .kpi-content { padding: 16px; }
+    .kpi-title { font-size: 11px; font-weight: 600; color: #6b7280; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+    .kpi-value { font-size: 24px; font-weight: bold; }
+    .kpi-footer { margin-top: 12px; padding-top: 12px; border-top: 1px solid #f3f4f6; display: flex; justify-content: space-between; align-items: center; }
+    .kpi-change { padding: 2px 8px; border-radius: 9999px; font-size: 12px; font-weight: 500; }
+    .kpi-change.positive { background: #dcfce7; color: #166534; }
+    .kpi-change.negative { background: #fee2e2; color: #dc2626; }
+    .kpi-benchmark { font-size: 11px; color: #9ca3af; }
+    
+    /* Analytics Section - 1:2 Layout */
+    .analytics-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .analytics-section-title { font-size: 11px; font-weight: 600; color: #6b7280; text-transform: uppercase; letter-spacing: 0.5px; }
+    .metric-toggle { padding: 2px; }
+    .metric-toggle .toggle-tab { padding: 6px 12px; font-size: 12px; }
+    .analytics-section { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; height: 480px; overflow: hidden; }
+    .analytics-left { display: flex; flex-direction: column; height: 100%; overflow: hidden; }
+    .analytics-right { display: flex; flex-direction: column; height: 100%; overflow: hidden; }
+    
+    /* Chart Cards */
+    .chart-card { background: white; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); border: 1px solid #e5e7eb; overflow: hidden; display: flex; flex-direction: column; height: 100%; max-height: 100%; }
+    .chart-card.equal-height { flex: 1; }
+    .chart-card.full-height { height: 100%; max-height: 100%; }
+    .chart-header { padding: 12px 16px; border-bottom: 1px solid #f3f4f6; flex-shrink: 0; }
+    .chart-title { font-weight: 600; font-size: 14px; }
+    .chart-body { padding: 12px; flex: 1; display: flex; flex-direction: column; justify-content: center; overflow: hidden; min-height: 0; }
+    .chart-body-compact { padding: 8px 10px; flex: 1; overflow: hidden; min-height: 0; }
+    
+    /* SKU Table Styles */
+    .sku-table { width: 100%; font-size: 12px; border-collapse: collapse; table-layout: fixed; }
+    .sku-table thead { background: #f9fafb; }
+    .sku-table th { padding: 10px 8px; text-align: left; font-weight: 600; font-size: 10px; color: #6b7280; text-transform: uppercase; border-bottom: 1px solid #e5e7eb; }
+    .sku-table th.right { text-align: right; }
+    .sku-table tbody tr { border-bottom: 1px solid #f3f4f6; cursor: pointer; transition: background 0.15s; height: 38px; }
+    .sku-table tbody tr:hover { background: #f9fafb; }
+    .sku-table tbody tr.dimmed { opacity: 0.4; }
+    .sku-table tbody tr.active { background: rgba(219,96,19,0.08); }
+    .sku-table td { padding: 8px 8px; vertical-align: middle; }
+    .sku-table td.right { text-align: right; }
+    .sku-table td.mono { font-family: monospace; font-size: 11px; white-space: nowrap; }
+    
+    /* Data Bar */
+    .data-bar-cell { }
+    .data-bar-container { display: flex; align-items: center; gap: 6px; }
+    .data-bar-track { flex: 1; height: 18px; background: #f3f4f6; border-radius: 3px; overflow: hidden; }
+    .data-bar-fill { height: 100%; background: linear-gradient(90deg, #DB6013, #E0A885); border-radius: 3px; }
+    .data-bar-value { font-size: 11px; font-weight: 600; color: #DB6013; white-space: nowrap; min-width: 50px; text-align: right; }
+    
+    /* Recovery Rate Heatmap Cell */
+    .recovery-cell { padding: 3px 6px; border-radius: 4px; font-weight: 600; font-size: 10px; text-align: center; color: white; min-width: 44px; display: inline-block; }
+    
+    /* Bar Charts - Compact */
+    .bar-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; cursor: pointer; transition: opacity 0.2s; }
+    .bar-row.dimmed { opacity: 0.4; }
+    .bar-label { width: 70px; font-size: 11px; text-align: right; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .bar-track { flex: 1; height: 18px; background: #f3f4f6; border-radius: 3px; overflow: hidden; display: flex; }
+    .bar-track.active { outline: 2px solid #DB6013; }
+    .bar-segment { height: 100%; }
+    .bar-segment.chicago { background: #004E98; }
+    .bar-segment.la { background: #3A6EA5; }
+    .bar-value { width: 55px; font-size: 11px; font-weight: 600; text-align: right; color: #1B1B1B; }
+    
+    /* Vertical Bars - Compact */
+    .vbar-container { display: flex; align-items: flex-end; justify-content: space-around; height: 80px; gap: 6px; }
+    .vbar-group { display: flex; flex-direction: column; align-items: center; flex: 1; cursor: pointer; transition: opacity 0.2s; }
+    .vbar-group.dimmed { opacity: 0.4; }
+    .vbar-value { font-size: 8px; color: #1B1B1B; font-weight: 600; margin-bottom: 2px; }
+    .vbar-stack { width: 100%; max-width: 40px; display: flex; flex-direction: column-reverse; border-radius: 3px 3px 0 0; overflow: hidden; }
+    .vbar-stack.active { outline: 2px solid #DB6013; }
+    .vbar-segment { width: 100%; }
+    .vbar-segment.chicago { background: #004E98; }
+    .vbar-segment.la { background: #3A6EA5; }
+    .vbar-label { margin-top: 3px; font-size: 7px; color: #6b7280; text-align: center; max-width: 50px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    
+    /* Chart Legend - Compact */
+    .chart-legend { display: flex; gap: 12px; justify-content: center; margin-top: 8px; }
+    .legend-item { display: flex; align-items: center; gap: 4px; font-size: 10px; color: #6b7280; }
+    .legend-dot { width: 10px; height: 10px; border-radius: 2px; }
+    .legend-dot.chicago { background: #004E98; }
+    .legend-dot.la { background: #3A6EA5; }
+    
+    /* Location Legend in Header */
+    .location-legend { display: flex; gap: 16px; }
+    .location-legend .legend-item { font-size: 11px; }
+    .location-legend .legend-dot { width: 12px; height: 12px; }
+    
+    /* Info Icon & Tooltip */
+    .info-icon-wrapper { position: relative; display: inline-flex; }
+    .info-icon { font-size: 14px; color: #9ca3af; cursor: help; transition: color 0.2s; }
+    .info-icon:hover { color: #6b7280; }
+    .info-tooltip { position: absolute; left: 50%; transform: translateX(-50%); top: 32px; width: 300px; background: #1B1B1B; color: white; padding: 12px 14px; border-radius: 8px; font-size: 12px; line-height: 1.5; z-index: 100; opacity: 0; visibility: hidden; transition: opacity 0.2s, visibility 0.2s; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+    .info-tooltip::before { content: ''; position: absolute; top: -6px; left: 50%; transform: translateX(-50%); border-left: 6px solid transparent; border-right: 6px solid transparent; border-bottom: 6px solid #1B1B1B; }
+    .info-tooltip.tooltip-left { left: -8px; transform: none; }
+    .info-tooltip.tooltip-left::before { left: 20px; transform: none; }
+    .info-icon-wrapper:hover .info-tooltip { opacity: 1; visibility: visible; }
+    
+    /* Heatmap - Column Layout */
+    .heatmap-container { display: flex; gap: 8px; height: 100%; }
+    .heatmap-cell { flex: 1; display: flex; flex-direction: column; justify-content: space-between; padding: 12px 10px; border-radius: 6px; cursor: pointer; border: none; transition: opacity 0.2s; min-height: 80px; }
+    .heatmap-cell.dimmed { opacity: 0.4; }
+    .heatmap-cell.active { outline: 2px solid #1B1B1B; }
+    .heatmap-label { color: white; font-weight: 600; font-size: 11px; line-height: 1.3; }
+    .heatmap-value { color: rgba(255,255,255,0.9); font-weight: bold; font-size: 13px; margin-top: auto; }
+    
+    /* Detail Section */
+    .detail-section { background: white; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); border: 1px solid #e5e7eb; overflow: hidden; }
+    .detail-header { padding: 16px; border-bottom: 1px solid #e5e7eb; display: flex; justify-content: space-between; align-items: center; }
+    .detail-title { font-size: 18px; font-weight: bold; }
+    .detail-subtitle { font-size: 14px; color: #6b7280; margin-top: 4px; }
+    
+    /* Toggle Tabs */
+    .toggle-tabs { display: flex; background: #f3f4f6; border-radius: 8px; padding: 4px; }
+    .toggle-tab { padding: 8px 16px; border: none; background: transparent; font-size: 13px; font-weight: 500; color: #6b7280; cursor: pointer; border-radius: 6px; transition: all 0.2s; }
+    .toggle-tab:hover { color: #1B1B1B; }
+    .toggle-tab.active { background: white; color: #DB6013; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    
+    /* Deals Table */
+    .deals-table { font-size: 12px; }
+    .deals-table th { font-size: 10px; padding: 10px 8px; }
+    .deals-table td { padding: 8px; }
+    .deal-id { font-family: monospace; font-size: 10px; color: #DB6013; font-weight: 600; }
+    .deal-group-first { border-top: 2px solid #e5e7eb; }
+    .deal-group-row { background: rgba(219,96,19,0.02); }
+    
+    /* Status Badges */
+    .status-badge { padding: 4px 10px; border-radius: 9999px; font-size: 11px; font-weight: 500; }
+    .status-pending { background: #fef3c7; color: #d97706; }
+    .status-approved { background: #dcfce7; color: #166534; }
+    .status-rejected { background: #fee2e2; color: #dc2626; }
+    
+    /* Action Buttons */
+    .action-btn { padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 500; border: none; cursor: pointer; margin-right: 4px; }
+    .action-btn.approve { background: #dcfce7; color: #166534; }
+    .action-btn.approve:hover { background: #bbf7d0; }
+    .action-btn.reject { background: #fee2e2; color: #dc2626; }
+    .action-btn.reject:hover { background: #fecaca; }
+    .action-btn.edit { background: #f3f4f6; color: #374151; }
+    .action-btn.edit:hover { background: #e5e7eb; }
+    
+    /* Table */
+    .table-container { overflow-x: auto; }
+    table { width: 100%; font-size: 13px; border-collapse: collapse; }
+    thead tr { background: #f9fafb; color: #1B1B1B; }
+    th { padding: 12px; text-align: left; font-weight: 600; font-size: 12px; color: #6b7280; text-transform: uppercase; border-bottom: 1px solid #e5e7eb; }
+    th.right, td.right { text-align: right; }
+    tbody tr { border-bottom: 1px solid #f3f4f6; }
+    tbody tr:nth-child(even) { background: #f9fafb; }
+    tbody tr.selected { background: rgba(219,96,19,0.05); }
+    td { padding: 10px 12px; }
+    td.mono { font-family: monospace; font-size: 11px; }
+    tfoot tr { background: #f3f4f6; font-weight: 600; }
+    
+    /* Badges */
+    .badge { padding: 2px 8px; border-radius: 4px; font-size: 11px; }
+    .badge-gray { background: #f3f4f6; }
+    .badge-chicago { background: rgba(0,78,152,0.15); color: #004E98; }
+    .badge-la { background: rgba(58,110,165,0.15); color: #3A6EA5; }
+    .badge-red { background: rgba(184,79,15,0.15); color: #B84F0F; }
+    .badge-yellow { background: rgba(219,96,19,0.15); color: #DB6013; }
+    .badge-green { background: rgba(245,166,107,0.25); color: #C4854A; }
+    .badge-exp-3 { background: rgba(184,79,15,0.15); color: #B84F0F; }
+    .badge-exp-6 { background: rgba(219,96,19,0.15); color: #DB6013; }
+    .badge-exp-12 { background: rgba(232,134,47,0.15); color: #C46D1F; }
+    .badge-exp-12plus { background: rgba(245,166,107,0.25); color: #C4854A; }
+    
+    /* Modal */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 50; padding: 16px; }
+    .modal-overlay.hidden { display: none; }
+    .modal { background: white; border-radius: 12px; box-shadow: 0 25px 50px rgba(0,0,0,0.25); max-width: 900px; width: 100%; max-height: 90vh; overflow: hidden; display: flex; flex-direction: column; }
+    .modal-header { background: white; padding: 20px 24px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e5e7eb; }
+    .modal-title { font-size: 18px; font-weight: 700; color: #1B1B1B; }
+    .modal-subtitle { color: #6b7280; font-size: 13px; margin-top: 2px; }
+    .modal-close { color: #6b7280; background: none; border: none; font-size: 24px; cursor: pointer; }
+    .modal-close:hover { color: #1B1B1B; }
+    .modal-body { padding: 24px; overflow-y: auto; flex: 1; background: #f9fafb; }
+    .modal-footer { padding: 16px 24px; background: white; border-top: 1px solid #e5e7eb; display: flex; justify-content: space-between; align-items: center; }
+    
+    /* Form - Modal */
+    .form-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; background: white; padding: 20px; border-radius: 8px; }
+    .form-group { }
+    .form-label { display: block; font-size: 13px; font-weight: 600; color: #1B1B1B; margin-bottom: 8px; }
+    .form-input { width: 100%; padding: 12px 14px; border: 1px solid #e5e7eb; border-radius: 8px; font-size: 14px; background: white; }
+    .form-input:focus { border-color: #DB6013; outline: none; }
+    .form-input-prefix { padding-left: 32px; }
+    .input-wrapper { position: relative; }
+    .input-prefix { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #9ca3af; font-size: 14px; }
+    
+    /* Line Items Section */
+    .line-items-section { background: white; border-radius: 8px; padding: 20px; margin-bottom: 20px; }
+    .line-items-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #e5e7eb; }
+    .line-items-icon { font-size: 18px; color: #6b7280; }
+    .line-items-title { font-size: 11px; font-weight: 600; color: #6b7280; text-transform: uppercase; letter-spacing: 1px; }
+    
+    /* Line Item Card */
+    .line-item-card { background: white; border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px 20px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
+    .line-item-info { }
+    .line-item-sku { font-size: 15px; font-weight: 700; color: #1B1B1B; margin-bottom: 2px; }
+    .line-item-desc { font-size: 14px; color: #374151; margin-bottom: 4px; }
+    .line-item-avail { font-size: 13px; color: #9ca3af; }
+    .line-item-fields { display: flex; align-items: center; gap: 20px; }
+    .line-item-field { text-align: center; }
+    .line-item-field-label { font-size: 10px; font-weight: 600; color: #6b7280; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+    .line-item-field-value { font-size: 15px; font-weight: 600; color: #1B1B1B; }
+    .line-item-field-input { width: 90px; padding: 10px 12px; border: 1px solid #e5e7eb; border-radius: 6px; font-size: 14px; text-align: center; }
+    .line-item-field-input:focus { border-color: #DB6013; outline: none; }
+    .line-item-field-input.price { text-align: left; padding-left: 24px; }
+    .line-item-total { font-size: 16px; font-weight: 700; color: #1B1B1B; }
+    
+    /* Comments Section */
+    .comments-section { background: white; border-radius: 8px; padding: 20px; }
+    .comments-label { font-size: 14px; font-weight: 600; color: #1B1B1B; margin-bottom: 10px; }
+    .comments-textarea { width: 100%; min-height: 100px; padding: 12px 14px; border: 1px solid #e5e7eb; border-radius: 8px; font-size: 14px; resize: vertical; font-family: inherit; }
+    .comments-textarea:focus { border-color: #DB6013; outline: none; }
+    
+    /* Legacy form grid for edit modal */
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+    .form-input-dollar { padding-left: 28px; }
+    
+    /* Impact Summary */
+    .impact-section { background: #f9fafb; border-radius: 12px; padding: 16px; border: 1px solid #e5e7eb; }
+    .impact-title { font-weight: 600; font-size: 14px; margin-bottom: 12px; }
+    .impact-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    .impact-card { background: white; padding: 12px; border-radius: 8px; border: 1px solid #e5e7eb; }
+    .impact-card.highlight { border: 2px solid #DB6013; }
+    .impact-label { font-size: 10px; color: #6b7280; text-transform: uppercase; margin-bottom: 4px; }
+    .impact-label.highlight { color: #DB6013; }
+    .impact-value { font-size: 18px; font-weight: bold; }
+    .impact-value.highlight { color: #DB6013; }
+    .impact-value.green { color: #4F7942; }
+    .impact-value.orange { color: #DB6013; }
+    .impact-value.red { color: #E73E09; }
+    .impact-footer { margin-top: 12px; display: flex; justify-content: space-between; font-size: 14px; }
+    .impact-footer-label { color: #6b7280; }
+    .impact-footer-value { font-weight: bold; }
+    .impact-footer-value.green { color: #4F7942; }
+    .impact-footer-value.red { color: #E73E09; }
+    
+    /* Toast */
+    .toast { position: fixed; bottom: 24px; right: 24px; z-index: 60; }
+    .toast.hidden { display: none; }
+    .toast-content { padding: 16px 24px; border-radius: 8px; background: #4F7942; color: white; box-shadow: 0 10px 25px rgba(0,0,0,0.2); display: flex; align-items: center; gap: 12px; font-weight: 500; }
+    
+    /* AI Chat Side Panel */
+    .ai-chat-btn { background: #f9fafb; color: #374151; border: 1px solid #d1d5db; padding: 8px 16px; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: all 0.2s; }
+    .ai-chat-btn:hover { background: #f3f4f6; border-color: #9ca3af; }
+    .ai-chat-btn .ai-icon { width: 14px; height: 14px; }
+    
+    .ai-panel { position: fixed; top: 0; right: -420px; width: 420px; height: 100vh; background: white; box-shadow: -4px 0 24px rgba(0,0,0,0.15); z-index: 1001; transition: right 0.3s ease; display: flex; flex-direction: column; }
+    .ai-panel.open { right: 0; }
+    
+    .ai-panel-header { background: #f3f4f6; color: #1B1B1B; padding: 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e5e7eb; }
+    .ai-panel-title { font-size: 16px; font-weight: 700; display: flex; align-items: center; gap: 10px; }
+    .ai-panel-close { background: #e5e7eb; border: none; color: #6b7280; width: 32px; height: 32px; border-radius: 8px; cursor: pointer; font-size: 18px; transition: background 0.2s; }
+    .ai-panel-close:hover { background: #d1d5db; color: #374151; }
+    
+    .ai-chat-container { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 16px; background: #f9fafb; }
+    
+    .ai-message { max-width: 90%; padding: 14px 16px; border-radius: 12px; font-size: 14px; line-height: 1.5; }
+    .ai-message.assistant { background: white; border: 1px solid #e5e7eb; align-self: flex-start; border-bottom-left-radius: 4px; }
+    .ai-message.user { background: #374151; color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
+    .ai-message.typing { background: white; border: 1px solid #e5e7eb; align-self: flex-start; }
+    .typing-indicator { display: flex; gap: 4px; padding: 4px 0; }
+    .typing-indicator span { width: 8px; height: 8px; background: #9ca3af; border-radius: 50%; animation: bounce 1.4s infinite ease-in-out; }
+    .typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
+    .typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
+    @keyframes bounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
+    
+    .ai-suggestions { padding: 12px 20px; background: white; border-top: 1px solid #e5e7eb; }
+    .ai-suggestions-label { font-size: 11px; color: #6b7280; text-transform: uppercase; font-weight: 600; margin-bottom: 10px; letter-spacing: 0.5px; }
+    .ai-suggestion-btn { display: block; width: 100%; text-align: left; background: #f3f4f6; border: 1px solid #e5e7eb; padding: 10px 14px; border-radius: 8px; font-size: 13px; color: #374151; cursor: pointer; margin-bottom: 8px; transition: all 0.2s; }
+    .ai-suggestion-btn:hover { background: #e5e7eb; border-color: #9ca3af; }
+    .ai-suggestion-btn:last-child { margin-bottom: 0; }
+    
+    .ai-input-area { padding: 16px 20px; background: white; border-top: 1px solid #e5e7eb; display: flex; gap: 10px; }
+    .ai-input { flex: 1; padding: 12px 14px; border: 1px solid #e5e7eb; border-radius: 8px; font-size: 14px; resize: none; font-family: inherit; }
+    .ai-input:focus { outline: none; border-color: #9ca3af; }
+    .ai-send-btn { background: #374151; color: white; border: none; width: 44px; height: 44px; border-radius: 8px; cursor: pointer; font-size: 18px; transition: background 0.2s; }
+    .ai-send-btn:hover { background: #1f2937; }
+    .ai-send-btn:disabled { background: #d1d5db; cursor: not-allowed; }
+    
+    .main-content { transition: margin-right 0.3s ease; }
+    .main-content.shifted { margin-right: 420px; }
+    
+    /* AI Insight Clusters */
+    .ai-insights-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .ai-insights-title { font-size: 11px; font-weight: 600; color: #6b7280; text-transform: uppercase; letter-spacing: 0.5px; }
+    .ai-insights-row { display: flex; gap: 12px; margin-bottom: 20px; align-items: stretch; }
+    .ai-insight-tile { flex: 1; background: white; border: 1px solid #e5e7eb; border-radius: 8px; padding: 12px 16px; cursor: pointer; transition: all 0.2s; display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+    .ai-insight-tile:hover { border-color: #DB6013; box-shadow: 0 2px 8px rgba(219, 96, 19, 0.12); }
+    .ai-insight-tile.active { border-color: #DB6013; background: #FFF8F5; box-shadow: 0 2px 8px rgba(219, 96, 19, 0.15); }
+    .ai-insight-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+    .ai-insight-name { font-size: 13px; font-weight: 600; color: #1B1B1B; line-height: 1.3; }
+    .ai-insight-badge { font-size: 10px; font-weight: 600; padding: 2px 6px; border-radius: 4px; white-space: nowrap; }
+    .ai-insight-badge.expiring { background: rgba(241,191,152,0.4); color: #8B6B4A; }
+    .ai-insight-badge.discontinued { background: rgba(186,203,169,0.4); color: #5A6B4A; }
+    .ai-insight-badge.slow { background: rgba(63,71,57,0.2); color: #3F4739; }
+    .ai-insight-meta { display: flex; gap: 12px; font-size: 11px; color: #6b7280; }
+    .ai-insight-meta span { display: flex; align-items: center; gap: 3px; }
+    .ai-insight-recommendation { font-size: 11px; color: #4F7942; font-weight: 500; background: #F0FDF4; padding: 4px 8px; border-radius: 4px; margin-top: 2px; }
+    
+    /* Vertical Sankey Diagram */
+    .sankey-container { position: relative; width: 100%; height: calc(100% - 0px); flex: 1; min-height: 0; max-height: calc(480px - 50px); overflow: hidden; }
+    .sankey-svg { display: block; width: 100%; height: 100%; }
+    .sankey-node { cursor: pointer; transition: opacity 0.2s; }
+    .sankey-node:hover { opacity: 0.85; }
+    .sankey-node.dimmed { opacity: 0.25; }
+    .sankey-node.highlighted { opacity: 1; }
+    .sankey-node-label { font-size: 11px; font-weight: 600; text-anchor: middle; pointer-events: none; }
+    .sankey-flow { fill-opacity: 0.35; transition: fill-opacity 0.2s; cursor: pointer; }
+    .sankey-flow:hover { fill-opacity: 0.55; }
+    .sankey-flow.dimmed { fill-opacity: 0.08; }
+    .sankey-flow.highlighted { fill-opacity: 0.65; }
+    .sankey-level-label { font-size: 11px; font-weight: 700; fill: #374151; text-anchor: start; letter-spacing: 0.5px; }
+    
+    /* Selected Items Table in Modal */
+    .selected-items-table { background: #f9fafb; border-radius: 8px; max-height: 140px; overflow-y: auto; margin-bottom: 20px; }
+    .selected-items-table table { font-size: 12px; }
+    .selected-items-table thead { background: #f3f4f6; }
+    .selected-items-table th { padding: 8px; }
+    .selected-items-table td { padding: 8px; }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-inner">
+      <div style="display: flex; align-items: center; gap: 16px;">
+        <div class="title-block">
+          <h1 class="page-title">SLOB Deal Builder</h1>
+          <p class="page-subtitle">INVENTORY OPTIMIZATION</p>
+        </div>
+        <div class="info-icon-wrapper">
+          <span class="info-icon-circle">i</span>
+          <div class="info-tooltip tooltip-left">
+            <strong>SLOB Definition</strong><br>
+            <strong>Slow-Moving:</strong> Inventory with no orders in the last 120+ days or approaching expiration within 6 months.<br><br>
+            <strong>Obsolete:</strong> Discontinued products or items past their sellable date that require liquidation or write-off.
+          </div>
+        </div>
+      </div>
+      <div style="display: flex; align-items: center; gap: 16px;">
+        <button id="aiChatToggle" class="ai-chat-btn"><svg class="ai-icon" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v5m0 8v5m9-9h-5m-8 0H3m15.36-6.36l-3.54 3.54m-7.64 7.64l-3.54 3.54m0-14.14l3.54 3.54m7.64 7.64l3.54 3.54"/></svg> Ask AI</button>
+        <button id="filterToggle" class="btn">☰ Filters</button>
+        <div class="logo-section">
+          <div class="logo-box"><svg style="width: 20px; height: 20px;" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
+          <span class="font-display" style="font-size: 20px; font-weight: bold;">Acme Co</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Filter Panel (Right Side) -->
+  <div id="filterPanel" class="filter-panel">
+    <div class="filter-panel-header">
+      <div class="filter-panel-title">
+        <svg style="width: 16px; height: 16px;" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
+        Filters
+      </div>
+      <button id="filterPanelClose" class="filter-panel-close">×</button>
+    </div>
+    <div class="filter-panel-body">
+      <div class="filter-group">
+        <label class="filter-label">Location</label>
+        <select id="filterLocation" class="filter-select"><option value="All">All</option></select>
+      </div>
+      <div class="filter-group">
+        <label class="filter-label">SLOB Reason</label>
+        <select id="filterReason" class="filter-select"><option value="All">All</option></select>
+      </div>
+      <div class="filter-group">
+        <label class="filter-label">Expiration Bucket</label>
+        <select id="filterExpiration" class="filter-select"><option value="All">All</option></select>
+      </div>
+      <div class="filter-group">
+        <label class="filter-label">Lifecycle Status</label>
+        <select id="filterLifecycle" class="filter-select"><option value="All">All</option></select>
+      </div>
+    </div>
+    <div class="filter-panel-footer">
+      <button id="clearFilters" style="width: 100%; padding: 10px 16px; font-size: 14px; color: #DB6013; background: white; border: 1px solid #DB6013; border-radius: 8px; cursor: pointer; font-weight: 500;">Clear All Filters</button>
+    </div>
+  </div>
+
+  <div class="main-container">
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Cross Filter Pills -->
+      <div id="crossFilterPills" class="filter-pills" style="display: none;"></div>
+
+      <!-- KPI Cards -->
+      <div id="kpiGrid" class="kpi-grid"></div>
+
+      <!-- AI Insight Clusters -->
+      <div class="ai-insights-header">
+        <h3 class="ai-insights-title">AI-Suggested Deal Clusters</h3>
+      </div>
+      <div id="aiInsightsRow" class="ai-insights-row"></div>
+
+      <!-- Analytics Section Header -->
+      <div class="analytics-header">
+        <h3 class="analytics-section-title">Breakdowns by On Hand COGS Value</h3>
+        <div style="display: flex; align-items: center; gap: 20px;">
+          <div class="location-legend">
+            <div class="legend-item"><div class="legend-dot chicago"></div>RJW (Chicago)</div>
+            <div class="legend-item"><div class="legend-dot la"></div>States (Los Angeles)</div>
+          </div>
+          <div class="toggle-tabs metric-toggle">
+            <button id="metricCogs" class="toggle-tab active">COGS Value</button>
+            <button id="metricQty" class="toggle-tab">Quantity</button>
+            <button id="metricJunk" class="toggle-tab">Junk Value</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Analytics Section - 1:1 Layout -->
+      <div class="analytics-section">
+        <!-- Left Column (50%) - Sankey Diagram -->
+        <div class="analytics-left">
+          <div class="chart-card full-height">
+            <div class="chart-header"><h3 class="chart-title">Inventory Flow</h3></div>
+            <div class="sankey-container" id="sankeyChart"></div>
+          </div>
+        </div>
+        
+        <!-- Right Column (50%) - Top 10 SKUs Table -->
+        <div class="analytics-right">
+          <div class="chart-card full-height">
+            <div class="chart-header"><h3 class="chart-title">Top 10 SKUs</h3></div>
+            <div class="chart-body-compact scrollbar-thin" id="skuTableContainer"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Detail Section -->
+      <div class="detail-section">
+        <div class="detail-header">
+          <div>
+            <h3 class="detail-title" id="detailTitle">Item & Lot Detail</h3>
+            <p class="detail-subtitle" id="detailSubtitle">0 items • 0 selected</p>
+          </div>
+          <div style="display: flex; align-items: center; gap: 16px;">
+            <div class="toggle-tabs">
+              <button id="tabInventory" class="toggle-tab active">Inventory</button>
+              <button id="tabDeals" class="toggle-tab">Recent Deals</button>
+            </div>
+            <button id="buildDealBtn" class="btn btn-primary" disabled>+ Build Deal (0)</button>
+          </div>
+        </div>
+        
+        <!-- Inventory Table -->
+        <div id="inventoryTableContainer" class="table-container scrollbar-thin">
+          <table>
+            <thead>
+              <tr>
+                <th style="width: 40px;"><input type="checkbox" id="selectAll"></th>
+                <th>Item #</th>
+                <th>Description</th>
+                <th>Category</th>
+                <th>Location</th>
+                <th>Lot #</th>
+                <th>Expiration</th>
+                <th>SLOB Reason</th>
+                <th class="right">COGS</th>
+                <th class="right">Qty</th>
+              </tr>
+            </thead>
+            <tbody id="detailTableBody"></tbody>
+            <tfoot id="detailTableFoot"></tfoot>
+          </table>
+        </div>
+        
+        <!-- Deals Table -->
+        <div id="dealsTableContainer" class="table-container scrollbar-thin" style="display: none;">
+          <table class="deals-table">
+            <thead>
+              <tr>
+                <th style="width: 40px;"><input type="checkbox" id="selectAllDeals"></th>
+                <th>Deal ID</th>
+                <th>Item #</th>
+                <th>Description</th>
+                <th>Location</th>
+                <th class="right">COGS</th>
+                <th class="right">Qty</th>
+                <th class="right">Proposed Price</th>
+                <th>Buyer</th>
+                <th>Reason</th>
+                <th>Approver</th>
+                <th>Status</th>
+                <th style="width: 140px;">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="dealsTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Modal -->
+  <div id="dealModal" class="modal-overlay hidden">
+    <div class="modal fade-in">
+      <div class="modal-header">
+        <div>
+          <h2 class="modal-title">Deal Builder</h2>
+          <p class="modal-subtitle" id="modalSubtitle">0 items selected</p>
+        </div>
+        <button id="closeModal" class="modal-close">×</button>
+      </div>
+      <div class="modal-body scrollbar-thin">
+        <!-- Top Form Row -->
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Buyer Name / Channel</label>
+            <input type="text" id="buyerName" class="form-input" placeholder="e.g. Grocery Outlet">
+          </div>
+          <div class="form-group">
+            <label class="form-label">ERP Order Number</label>
+            <div class="input-wrapper">
+              <span class="input-prefix">#</span>
+              <input type="text" id="erpOrderNumber" class="form-input form-input-prefix" placeholder="Order #">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Reason Code</label>
+            <select id="reasonCode" class="form-input">
+              <option>Closeout</option>
+              <option>Clearance</option>
+              <option>Approaching Expiration</option>
+              <option>Promotional Bundle</option>
+            </select>
+          </div>
+        </div>
+        
+        <!-- Line Items Section -->
+        <div class="line-items-section">
+          <div class="line-items-header">
+            <span class="line-items-icon">📦</span>
+            <span class="line-items-title">Line Items</span>
+          </div>
+          <div id="lineItemsContainer"></div>
+        </div>
+        
+        <!-- Impact Summary -->
+        <div class="impact-section">
+          <h3 class="impact-title">Deal Impact Summary</h3>
+          <div class="impact-grid">
+            <div class="impact-card">
+              <p class="impact-label">Total COGS</p>
+              <p class="impact-value" id="impactCogs">$0</p>
+            </div>
+            <div class="impact-card">
+              <p class="impact-label">Total Qty</p>
+              <p class="impact-value" id="impactQty">0</p>
+            </div>
+            <div class="impact-card highlight">
+              <p class="impact-label highlight">Recovery</p>
+              <p class="impact-value highlight" id="impactRecovery">$0</p>
+            </div>
+            <div class="impact-card">
+              <p class="impact-label">Rate</p>
+              <p class="impact-value" id="impactRate">0%</p>
+            </div>
+          </div>
+          <div class="impact-footer">
+            <span class="impact-footer-label">Variance from COGS:</span>
+            <span class="impact-footer-value" id="impactVariance">$0</span>
+          </div>
+        </div>
+        
+        <!-- Comments Section -->
+        <div class="comments-section">
+          <label class="comments-label">Deal Comments / Notes</label>
+          <textarea id="dealComments" class="comments-textarea" placeholder="Enter any additional details about this deal..."></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div class="deal-totals">
+          <span style="font-size: 13px; color: #6b7280;">Deal Total:</span>
+          <span id="dealTotal" style="font-size: 18px; font-weight: 700; color: #1B1B1B; margin-left: 8px;">$0.00</span>
+        </div>
+        <div style="display: flex; gap: 12px;">
+          <button id="cancelDeal" class="btn">Cancel</button>
+          <button id="submitDeal" class="btn btn-primary">Submit Deal</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI Chat Side Panel -->
+  <div id="aiPanel" class="ai-panel">
+    <div class="ai-panel-header">
+      <div class="ai-panel-title">
+        <svg style="width: 16px; height: 16px;" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v5m0 8v5m9-9h-5m-8 0H3m15.36-6.36l-3.54 3.54m-7.64 7.64l-3.54 3.54m0-14.14l3.54 3.54m7.64 7.64l3.54 3.54"/></svg> SLOB Assistant
+      </div>
+      <button id="aiPanelClose" class="ai-panel-close">×</button>
+    </div>
+    <div id="aiChatContainer" class="ai-chat-container">
+      <div class="ai-message assistant">
+        Hi! I'm your SLOB inventory assistant. I can help you analyze slow-moving inventory, suggest deal strategies, and answer questions about your data. What would you like to know?
+      </div>
+    </div>
+    <div class="ai-suggestions">
+      <div class="ai-suggestions-label">Suggested Questions</div>
+      <button class="ai-suggestion-btn" onclick="askSuggestedQuestion(this)">What's driving the SLOB inventory in Chicago?</button>
+      <button class="ai-suggestion-btn" onclick="askSuggestedQuestion(this)">Which items should I prioritize for deals?</button>
+      <button class="ai-suggestion-btn" onclick="askSuggestedQuestion(this)">What recovery rate should I target?</button>
+    </div>
+    <div class="ai-input-area">
+      <input type="text" id="aiInput" class="ai-input" placeholder="Ask about your SLOB inventory...">
+      <button id="aiSendBtn" class="ai-send-btn">➤</button>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="toast hidden">
+    <div class="toast-content">✓ <span id="toastMessage">Deal submitted!</span></div>
+  </div>
+
+  <!-- Edit Deal Modal -->
+  <div id="editDealModal" class="modal-overlay hidden">
+    <div class="modal fade-in" style="max-width: 600px;">
+      <div class="modal-header">
+        <div>
+          <h2 class="modal-title">Edit Deal</h2>
+          <p class="modal-subtitle" id="editDealId">DEAL-2025-XXX</p>
+        </div>
+        <button id="closeEditModal" class="modal-close">×</button>
+      </div>
+      <div class="modal-body" style="background: white;">
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Proposed Price *</label>
+            <div class="input-wrapper">
+              <span class="input-prefix">$</span>
+              <input type="number" id="editProposedPrice" class="form-input form-input-dollar" placeholder="0.00">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Buyer Name *</label>
+            <input type="text" id="editBuyerName" class="form-input" placeholder="e.g., Grocery Outlet">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Reason Code</label>
+            <select id="editReasonCode" class="form-input">
+              <option>Closeout Sale</option>
+              <option>Clearance</option>
+              <option>Approaching Expiration</option>
+              <option>Promotional Bundle</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Approver Email *</label>
+            <input type="email" id="editApproverEmail" class="form-input" placeholder="manager@acmeco.com">
+          </div>
+        </div>
+        <div style="background: #f9fafb; padding: 12px; border-radius: 8px; margin-top: 12px;">
+          <p style="font-size: 12px; color: #6b7280; margin-bottom: 8px;">Deal Items:</p>
+          <div id="editDealItems" style="font-size: 13px;"></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="deleteDeal" class="btn" style="color: #dc2626;">Delete Deal</button>
+        <div style="display: flex; gap: 12px;">
+          <button id="cancelEditDeal" class="btn">Cancel</button>
+          <button id="saveEditDeal" class="btn btn-primary">Save Changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ============================================
+    // DATA
+    // ============================================
+    const inventoryData = [
+      { id: 1, itemNumber: "KIN-RUB-001", itemDescription: "The Blend Seasoning", category: "Rub", location: "RJW (Chicago)", lotNumber: "166297", expirationDate: "2025-03-15", expirationBucket: "< 3 Months", lifecycleStatus: "Discontinued", slobReason: "Discontinued", cogsValue: 12500, onHandQty: 450, junkValue: 3200, soldOrPromised: false },
+      { id: 2, itemNumber: "KIN-RUB-001", itemDescription: "The Blend Seasoning", category: "Rub", location: "States (Los Angeles)", lotNumber: "166298", expirationDate: "2025-04-20", expirationBucket: "3-6 Months", lifecycleStatus: "Discontinued", slobReason: "Discontinued", cogsValue: 8900, onHandQty: 320, junkValue: 2100, soldOrPromised: false },
+      { id: 3, itemNumber: "KIN-RUB-002", itemDescription: "Woodfired Garlic Rub", category: "Rub", location: "RJW (Chicago)", lotNumber: "167001", expirationDate: "2025-08-28", expirationBucket: "6-12 Months", lifecycleStatus: "Active", slobReason: "No Orders 120+ Days", cogsValue: 15800, onHandQty: 580, junkValue: 4500, soldOrPromised: false },
+      { id: 4, itemNumber: "KIN-RUB-003", itemDescription: "Buttery Steakhouse Rub", category: "Rub", location: "States (Los Angeles)", lotNumber: "167102", expirationDate: "2026-02-15", expirationBucket: "> 12 Months", lifecycleStatus: "Active", slobReason: "No Orders 120+ Days", cogsValue: 14200, onHandQty: 510, junkValue: 4100, soldOrPromised: false },
+      { id: 5, itemNumber: "KIN-SAU-001", itemDescription: "Gold Label BBQ Sauce", category: "Sauce", location: "RJW (Chicago)", lotNumber: "168501", expirationDate: "2025-01-31", expirationBucket: "< 3 Months", lifecycleStatus: "Active", slobReason: "Expiring Soon", cogsValue: 22400, onHandQty: 890, junkValue: 6700, soldOrPromised: false },
+      { id: 6, itemNumber: "KIN-SAU-001", itemDescription: "Gold Label BBQ Sauce", category: "Sauce", location: "States (Los Angeles)", lotNumber: "168502", expirationDate: "2025-09-15", expirationBucket: "6-12 Months", lifecycleStatus: "Active", slobReason: "No Orders 120+ Days", cogsValue: 18200, onHandQty: 720, junkValue: 5400, soldOrPromised: false },
+      { id: 7, itemNumber: "KIN-SAU-002", itemDescription: "Honey Hot BBQ Sauce", category: "Sauce", location: "RJW (Chicago)", lotNumber: "168601", expirationDate: "2025-08-20", expirationBucket: "6-12 Months", lifecycleStatus: "Inactive", slobReason: "Discontinued", cogsValue: 9800, onHandQty: 380, junkValue: 2900, soldOrPromised: true },
+      { id: 8, itemNumber: "KIN-SAU-003", itemDescription: "Roasted Garlic BBQ", category: "Sauce", location: "States (Los Angeles)", lotNumber: "168701", expirationDate: "2026-03-10", expirationBucket: "> 12 Months", lifecycleStatus: "Active", slobReason: "No Orders 120+ Days", cogsValue: 12600, onHandQty: 490, junkValue: 3700, soldOrPromised: false },
+      { id: 9, itemNumber: "KIN-SEA-001", itemDescription: "Lemon Pepper Seasoning", category: "Seasoning", location: "RJW (Chicago)", lotNumber: "169001", expirationDate: "2025-03-25", expirationBucket: "< 3 Months", lifecycleStatus: "Discontinued", slobReason: "Discontinued", cogsValue: 11200, onHandQty: 420, junkValue: 3300, soldOrPromised: false },
+      { id: 10, itemNumber: "KIN-SEA-001", itemDescription: "Lemon Pepper Seasoning", category: "Seasoning", location: "States (Los Angeles)", lotNumber: "169002", expirationDate: "2025-04-05", expirationBucket: "3-6 Months", lifecycleStatus: "Discontinued", slobReason: "Discontinued", cogsValue: 8400, onHandQty: 310, junkValue: 2500, soldOrPromised: false },
+      { id: 11, itemNumber: "KIN-SEA-002", itemDescription: "Prime Rib Seasoning", category: "Seasoning", location: "RJW (Chicago)", lotNumber: "169101", expirationDate: "2025-07-15", expirationBucket: "6-12 Months", lifecycleStatus: "Active", slobReason: "No Orders 120+ Days", cogsValue: 13400, onHandQty: 490, junkValue: 3900, soldOrPromised: false },
+      { id: 12, itemNumber: "KIN-SEA-003", itemDescription: "Cajun Seasoning", category: "Seasoning", location: "States (Los Angeles)", lotNumber: "169201", expirationDate: "2026-01-30", expirationBucket: "> 12 Months", lifecycleStatus: "Active", slobReason: "No Orders 120+ Days", cogsValue: 11200, onHandQty: 410, junkValue: 3300, soldOrPromised: false },
+      { id: 13, itemNumber: "KIN-RUB-004", itemDescription: "Cali Gold Rub", category: "Rub", location: "RJW (Chicago)", lotNumber: "167201", expirationDate: "2025-02-10", expirationBucket: "< 3 Months", lifecycleStatus: "Active", slobReason: "Expiring Soon", cogsValue: 19600, onHandQty: 720, junkValue: 5800, soldOrPromised: false },
+      { id: 14, itemNumber: "KIN-RUB-005", itemDescription: "Cherry Chipotle Rub", category: "Rub", location: "States (Los Angeles)", lotNumber: "167301", expirationDate: "2026-04-01", expirationBucket: "> 12 Months", lifecycleStatus: "Inactive", slobReason: "Discontinued", cogsValue: 9800, onHandQty: 360, junkValue: 2900, soldOrPromised: false },
+      { id: 15, itemNumber: "KIN-SAU-004", itemDescription: "Mild BBQ Sauce", category: "Sauce", location: "RJW (Chicago)", lotNumber: "168801", expirationDate: "2025-04-30", expirationBucket: "3-6 Months", lifecycleStatus: "Active", slobReason: "No Orders 120+ Days", cogsValue: 6800, onHandQty: 260, junkValue: 2000, soldOrPromised: false },
+      { id: 16, itemNumber: "KIN-SAU-005", itemDescription: "Teriyaki Sauce", category: "Sauce", location: "States (Los Angeles)", lotNumber: "168901", expirationDate: "2025-01-20", expirationBucket: "< 3 Months", lifecycleStatus: "Active", slobReason: "Expiring Soon", cogsValue: 14200, onHandQty: 540, junkValue: 4200, soldOrPromised: false },
+      { id: 17, itemNumber: "KIN-SEA-004", itemDescription: "Taco Seasoning", category: "Seasoning", location: "RJW (Chicago)", lotNumber: "169301", expirationDate: "2025-05-20", expirationBucket: "3-6 Months", lifecycleStatus: "Discontinued", slobReason: "Discontinued", cogsValue: 7200, onHandQty: 270, junkValue: 2100, soldOrPromised: false },
+      { id: 18, itemNumber: "KIN-SEA-005", itemDescription: "Italian Herb Blend", category: "Seasoning", location: "States (Los Angeles)", lotNumber: "169401", expirationDate: "2025-06-15", expirationBucket: "3-6 Months", lifecycleStatus: "Active", slobReason: "No Orders 120+ Days", cogsValue: 5600, onHandQty: 200, junkValue: 1700, soldOrPromised: false },
+      { id: 19, itemNumber: "KIN-RUB-006", itemDescription: "Korean BBQ Rub", category: "Rub", location: "RJW (Chicago)", lotNumber: "167401", expirationDate: "2025-10-01", expirationBucket: "6-12 Months", lifecycleStatus: "Active", slobReason: "No Orders 120+ Days", cogsValue: 16800, onHandQty: 620, junkValue: 5000, soldOrPromised: false },
+      { id: 20, itemNumber: "KIN-RUB-006", itemDescription: "Korean BBQ Rub", category: "Rub", location: "States (Los Angeles)", lotNumber: "167402", expirationDate: "2026-05-10", expirationBucket: "> 12 Months", lifecycleStatus: "Active", slobReason: "No Orders 120+ Days", cogsValue: 13400, onHandQty: 490, junkValue: 4000, soldOrPromised: false }
+    ];
+
+    const benchmarks = { avgCogs: 185000, avgQty: 6800, avgJunk: 52000, avgRecovery: 0.42 };
+
+    // Sample Deals Data
+    let dealsData = [
+      { dealId: 'DEAL-2025-001', lineId: 1, itemNumber: 'KIN-SAU-001', itemDescription: 'Gold Label BBQ Sauce', location: 'RJW (Chicago)', cogsValue: 22400, qty: 890, proposedPrice: 9400, buyerName: 'Grocery Outlet', reasonCode: 'Approaching Expiration', approverEmail: 'john.smith@acmeco.com', status: 'pending', submittedDate: '2025-01-20' },
+      { dealId: 'DEAL-2025-001', lineId: 2, itemNumber: 'KIN-SAU-001', itemDescription: 'Gold Label BBQ Sauce', location: 'States (Los Angeles)', cogsValue: 18200, qty: 720, proposedPrice: 7600, buyerName: 'Grocery Outlet', reasonCode: 'Approaching Expiration', approverEmail: 'john.smith@acmeco.com', status: 'pending', submittedDate: '2025-01-20' },
+      { dealId: 'DEAL-2025-002', lineId: 3, itemNumber: 'KIN-RUB-004', itemDescription: 'Cali Gold Rub', location: 'RJW (Chicago)', cogsValue: 19600, qty: 720, proposedPrice: 8200, buyerName: 'Big Lots', reasonCode: 'Closeout Sale', approverEmail: 'sarah.jones@acmeco.com', status: 'approved', submittedDate: '2025-01-18' },
+      { dealId: 'DEAL-2025-003', lineId: 4, itemNumber: 'KIN-SEA-001', itemDescription: 'Lemon Pepper Seasoning', location: 'RJW (Chicago)', cogsValue: 11200, qty: 420, proposedPrice: 4700, buyerName: 'Dollar General', reasonCode: 'Clearance', approverEmail: 'mike.wilson@acmeco.com', status: 'rejected', submittedDate: '2025-01-15' },
+      { dealId: 'DEAL-2025-003', lineId: 5, itemNumber: 'KIN-SEA-001', itemDescription: 'Lemon Pepper Seasoning', location: 'States (Los Angeles)', cogsValue: 8400, qty: 310, proposedPrice: 3500, buyerName: 'Dollar General', reasonCode: 'Clearance', approverEmail: 'mike.wilson@acmeco.com', status: 'rejected', submittedDate: '2025-01-15' },
+      { dealId: 'DEAL-2025-004', lineId: 6, itemNumber: 'KIN-RUB-002', itemDescription: 'Woodfired Garlic Rub', location: 'RJW (Chicago)', cogsValue: 15800, qty: 580, proposedPrice: 6600, buyerName: 'Ollie\'s Bargain Outlet', reasonCode: 'Approaching Expiration', approverEmail: 'john.smith@acmeco.com', status: 'pending', submittedDate: '2025-01-22' },
+      { dealId: 'DEAL-2025-005', lineId: 7, itemNumber: 'KIN-SAU-005', itemDescription: 'Teriyaki Sauce', location: 'States (Los Angeles)', cogsValue: 14200, qty: 540, proposedPrice: 5900, buyerName: '99 Cents Only', reasonCode: 'Approaching Expiration', approverEmail: 'sarah.jones@acmeco.com', status: 'approved', submittedDate: '2025-01-19' }
+    ];
+
+    let nextDealNumber = 6;
+
+    // AI-Generated Deal Clusters (based on past deal patterns)
+    const aiClusters = [
+      {
+        id: 'cluster-1',
+        name: 'Expiring BBQ Bundle',
+        type: 'expiring',
+        itemIds: [5, 16, 9], // Gold Label BBQ + Teriyaki + Lemon Pepper
+        suggestedQty: 1850,
+        suggestedPrice: 20100,
+        totalCogs: 47800,
+        recoveryRate: 42,
+        reasoning: 'Similar to DEAL-2025-001 (Grocery Outlet)'
+      },
+      {
+        id: 'cluster-2', 
+        name: 'Discontinued Seasonings',
+        type: 'discontinued',
+        itemIds: [1, 10, 17], // The Blend + Lemon Pepper LA + Taco Seasoning
+        suggestedQty: 1040,
+        suggestedPrice: 12300,
+        totalCogs: 28600,
+        recoveryRate: 43,
+        reasoning: 'Matches Dollar General clearance pattern'
+      },
+      {
+        id: 'cluster-3',
+        name: 'Mid-Term Rubs Bundle',
+        type: 'slow',
+        itemIds: [3, 6, 19], // Woodfired Garlic, Gold Label LA, Korean BBQ
+        suggestedQty: 1920,
+        suggestedPrice: 21300,
+        totalCogs: 50800,
+        recoveryRate: 42,
+        reasoning: '6-12 month runway, bulk discount opportunity'
+      },
+      {
+        id: 'cluster-4',
+        name: 'Long Shelf Life - Deep Discount',
+        type: 'slow',
+        itemIds: [4, 8, 12, 14, 20], // > 12 Months items
+        suggestedQty: 2270,
+        suggestedPrice: 18400,
+        totalCogs: 61200,
+        recoveryRate: 30,
+        reasoning: 'Bundle for outlet stores at 30% recovery'
+      }
+    ];
+
+    // ============================================
+    // STATE
+    // ============================================
+    let state = {
+      filters: { location: 'All', expirationBucket: 'All', lifecycleStatus: 'All', slobReason: 'All' },
+      crossFilter: { category: null, sku: null, expiration: null, reason: null },
+      selectedItems: [],
+      selectedDeals: [],
+      showFilterDrawer: false,
+      activeTab: 'inventory',
+      editingDeal: null,
+      selectedMetric: 'cogs', // 'cogs', 'qty', or 'junk'
+      lineItems: [], // For deal builder modal
+      activeCluster: null, // For AI insight filtering
+      sankeyHighlight: null, // For Sankey path highlighting
+      sankeySelection: { reason: [], location: [], category: [], expiration: [] } // Multi-select cross-filter
+    };
+
+    // Metric configuration
+    const metricConfig = {
+      cogs: { field: 'cogsValue', label: 'On Hand COGS Value', format: formatCurrency },
+      qty: { field: 'onHandQty', label: 'On Hand Quantity', format: formatNumber },
+      junk: { field: 'junkValue', label: 'Junk Value', format: formatCurrency }
+    };
+
+    function getMetricValue(item) {
+      return item[metricConfig[state.selectedMetric].field];
+    }
+
+    function formatMetricValue(value) {
+      return metricConfig[state.selectedMetric].format(value);
+    }
+
+    // ============================================
+    // UTILITIES
+    // ============================================
+    function formatCurrency(v) { return '$' + v.toLocaleString(); }
+    function formatNumber(v) { return v.toLocaleString(); }
+    function formatPercent(v) { return (v * 100).toFixed(1) + '%'; }
+
+    function getAvailableInventory() {
+      return inventoryData.filter(item => !item.soldOrPromised);
+    }
+
+    function getFilteredData() {
+      let data = getAvailableInventory();
+      
+      // If a cluster is active, filter to only those items
+      if (state.activeCluster) {
+        const cluster = aiClusters.find(c => c.id === state.activeCluster);
+        if (cluster) {
+          data = data.filter(item => cluster.itemIds.includes(item.id));
+        }
+      }
+      
+      return data.filter(item => {
+        const f = state.filters;
+        const c = state.crossFilter;
+        const s = state.sankeySelection;
+        
+        // Standard filters
+        const passesFilters = (f.location === 'All' || item.location === f.location) &&
+               (f.expirationBucket === 'All' || item.expirationBucket === f.expirationBucket) &&
+               (f.lifecycleStatus === 'All' || item.lifecycleStatus === f.lifecycleStatus) &&
+               (f.slobReason === 'All' || item.slobReason === f.slobReason) &&
+               (!c.category || item.category === c.category) &&
+               (!c.sku || item.itemNumber === c.sku) &&
+               (!c.expiration || item.expirationBucket === c.expiration) &&
+               (!c.reason || item.slobReason === c.reason);
+        
+        // Sankey multi-select cross-filter
+        const passesSankey = (s.reason.length === 0 || s.reason.includes(item.slobReason)) &&
+               (s.location.length === 0 || s.location.includes(item.location)) &&
+               (s.category.length === 0 || s.category.includes(item.category)) &&
+               (s.expiration.length === 0 || s.expiration.includes(item.expirationBucket));
+        
+        return passesFilters && passesSankey;
+      });
+    }
+
+    // ============================================
+    // RENDER FUNCTIONS
+    // ============================================
+    function render() {
+      const data = getFilteredData();
+      renderKPIs(data);
+      renderAiInsights();
+      renderSankey(data);
+      renderSkuTable(data);
+      renderDetailTable(data);
+      renderDealsTable();
+      renderCrossFilterPills();
+      updateBuildDealButton();
+      updateTabVisibility();
+      updateMetricToggle();
+    }
+
+    function updateMetricToggle() {
+      // Update section title
+      document.querySelector('.analytics-section-title').textContent = 
+        'Breakdowns by ' + metricConfig[state.selectedMetric].label;
+      
+      // Update toggle button states
+      document.getElementById('metricCogs').classList.toggle('active', state.selectedMetric === 'cogs');
+      document.getElementById('metricQty').classList.toggle('active', state.selectedMetric === 'qty');
+      document.getElementById('metricJunk').classList.toggle('active', state.selectedMetric === 'junk');
+    }
+
+    function renderAiInsights() {
+      const container = document.getElementById('aiInsightsRow');
+      
+      const tilesHtml = aiClusters.map(cluster => {
+        const isActive = state.activeCluster === cluster.id;
+        const badgeClass = cluster.type === 'expiring' ? 'expiring' : 
+                          cluster.type === 'discontinued' ? 'discontinued' : 'slow';
+        const badgeText = cluster.type === 'expiring' ? 'Expiring' : 
+                         cluster.type === 'discontinued' ? 'Discontinued' : 'Slow Moving';
+        
+        return `
+          <div class="ai-insight-tile ${isActive ? 'active' : ''}" onclick="toggleClusterFilter('${cluster.id}')">
+            <div class="ai-insight-header">
+              <span class="ai-insight-name">${cluster.name}</span>
+              <span class="ai-insight-badge ${badgeClass}">${badgeText}</span>
+            </div>
+            <div class="ai-insight-meta">
+              <span>${cluster.itemIds.length} items</span>
+              <span>${formatCurrency(cluster.totalCogs)} COGS</span>
+              <span>${cluster.recoveryRate}% recovery</span>
+            </div>
+            <div class="ai-insight-recommendation">${cluster.reasoning}</div>
+          </div>
+        `;
+      }).join('');
+      
+      container.innerHTML = tilesHtml;
+    }
+
+    function toggleClusterFilter(clusterId) {
+      if (state.activeCluster === clusterId) {
+        // Deactivate cluster filter
+        state.activeCluster = null;
+        state.selectedItems = [];
+      } else {
+        // Activate cluster filter and pre-select items
+        state.activeCluster = clusterId;
+        const cluster = aiClusters.find(c => c.id === clusterId);
+        if (cluster) {
+          state.selectedItems = [...cluster.itemIds];
+        }
+      }
+      // Clear other cross-filters when using cluster
+      state.crossFilter = { category: null, sku: null, expiration: null, reason: null };
+      render();
+    }
+
+    function updateTabVisibility() {
+      const inventoryContainer = document.getElementById('inventoryTableContainer');
+      const dealsContainer = document.getElementById('dealsTableContainer');
+      const buildDealBtn = document.getElementById('buildDealBtn');
+      const detailTitle = document.getElementById('detailTitle');
+      
+      if (state.activeTab === 'inventory') {
+        inventoryContainer.style.display = 'block';
+        dealsContainer.style.display = 'none';
+        buildDealBtn.style.display = 'flex';
+        detailTitle.textContent = 'Item & Lot Detail';
+      } else {
+        inventoryContainer.style.display = 'none';
+        dealsContainer.style.display = 'block';
+        buildDealBtn.style.display = 'none';
+        detailTitle.textContent = 'Recent Deals';
+      }
+      
+      document.getElementById('tabInventory').classList.toggle('active', state.activeTab === 'inventory');
+      document.getElementById('tabDeals').classList.toggle('active', state.activeTab === 'deals');
+    }
+
+    function renderKPIs(data) {
+      const totalCogs = data.reduce((s, i) => s + i.cogsValue, 0);
+      const totalQty = data.reduce((s, i) => s + i.onHandQty, 0);
+      const totalJunk = data.reduce((s, i) => s + i.junkValue, 0);
+      const recovery = totalCogs > 0 ? (totalCogs - totalJunk) / totalCogs : 0;
+
+      const kpis = [
+        { title: 'On Hand COGS Value', value: formatCurrency(totalCogs), change: ((totalCogs - benchmarks.avgCogs) / benchmarks.avgCogs) * 100, benchmark: formatCurrency(benchmarks.avgCogs), inverse: true, note: 'vs. 4wk avg' },
+        { title: 'On Hand Quantity', value: formatNumber(totalQty) + ' units', change: ((totalQty - benchmarks.avgQty) / benchmarks.avgQty) * 100, benchmark: formatNumber(benchmarks.avgQty), inverse: true, note: 'vs. 4wk avg' },
+        { title: 'Junk Value', value: formatCurrency(totalJunk), change: ((totalJunk - benchmarks.avgJunk) / benchmarks.avgJunk) * 100, benchmark: formatCurrency(benchmarks.avgJunk), inverse: true, note: 'vs. 4wk avg' },
+        { title: 'Recovery Rate', value: formatPercent(recovery), change: ((recovery - benchmarks.avgRecovery) / benchmarks.avgRecovery) * 100, benchmark: formatPercent(benchmarks.avgRecovery), inverse: false, note: 'vs. prev 90 days' }
+      ];
+
+      document.getElementById('kpiGrid').innerHTML = kpis.map(kpi => {
+        const isPositive = kpi.inverse ? kpi.change < 0 : kpi.change > 0;
+        return `
+          <div class="kpi-card">
+            <div class="kpi-accent"></div>
+            <div class="kpi-content">
+              <p class="kpi-title">${kpi.title}</p>
+              <p class="kpi-value">${kpi.value}</p>
+              <div class="kpi-footer">
+                <span class="kpi-change ${isPositive ? 'positive' : 'negative'}">${isPositive ? '↑' : '↓'} ${Math.abs(kpi.change).toFixed(1)}% <span style="font-weight: 400; opacity: 0.8;">${kpi.note}</span></span>
+                <span class="kpi-benchmark">${kpi.benchmark}</span>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderSankey(data) {
+      const container = document.getElementById('sankeyChart');
+      const field = metricConfig[state.selectedMetric].field;
+      const formatFn = metricConfig[state.selectedMetric].format;
+      
+      // Get container dimensions - constrained to prevent overflow
+      const rect = container.getBoundingClientRect();
+      const width = rect.width || container.clientWidth || 500;
+      const maxHeight = 430; // Max height to prevent overflow
+      const height = Math.min(rect.height || container.clientHeight || 400, maxHeight);
+      const padding = { top: 15, right: 15, bottom: 15, left: 15 };
+      const innerWidth = width - padding.left - padding.right;
+      const innerHeight = height - padding.top - padding.bottom;
+      
+      // Define the four levels (top to bottom)
+      const levelLabels = ['SLOB REASON', 'LOCATION', 'CATEGORY', 'EXPIRATION'];
+      const numLevels = 4;
+      const nodeHeight = 34;
+      const nodeGap = 10;
+      const levelLabelWidth = 100;
+      const chartAreaWidth = innerWidth - levelLabelWidth;
+      
+      // Calculate vertical spacing - distribute levels evenly across available height
+      const totalNodeHeight = numLevels * nodeHeight;
+      const availableFlowSpace = innerHeight - totalNodeHeight;
+      const flowSpacing = Math.max(40, availableFlowSpace / (numLevels - 1));
+      
+      // Aggregate data for each level
+      const aggregations = {
+        reason: {},
+        location: {},
+        category: {},
+        expiration: {}
+      };
+      
+      // Flow aggregations
+      const flowMap = {};
+      
+      data.forEach(item => {
+        const r = item.slobReason;
+        const l = item.location;
+        const c = item.category;
+        const e = item.expirationBucket;
+        const v = item[field];
+        
+        // Aggregate nodes
+        aggregations.reason[r] = (aggregations.reason[r] || 0) + v;
+        aggregations.location[l] = (aggregations.location[l] || 0) + v;
+        aggregations.category[c] = (aggregations.category[c] || 0) + v;
+        aggregations.expiration[e] = (aggregations.expiration[e] || 0) + v;
+        
+        // Aggregate flows (reason -> location -> category -> expiration)
+        const flowKeys = [
+          `r:${r}|l:${l}`,
+          `l:${l}|c:${c}`,
+          `c:${c}|e:${e}`
+        ];
+        
+        flowKeys.forEach((key, idx) => {
+          if (!flowMap[key]) {
+            const [src, tgt] = key.split('|');
+            flowMap[key] = { source: src, target: tgt, value: 0, level: idx };
+          }
+          flowMap[key].value += v;
+        });
+      });
+      
+      // Convert to arrays and sort
+      const reasonNodes = Object.entries(aggregations.reason)
+        .map(([id, value]) => ({ id: `r:${id}`, label: id, value }))
+        .sort((a, b) => b.value - a.value);
+      const locationNodes = Object.entries(aggregations.location)
+        .map(([id, value]) => ({ id: `l:${id}`, label: id.replace('RJW (Chicago)', 'Chicago').replace('States (Los Angeles)', 'Los Angeles'), value }))
+        .sort((a, b) => b.value - a.value);
+      const categoryNodes = Object.entries(aggregations.category)
+        .map(([id, value]) => ({ id: `c:${id}`, label: id, value }))
+        .sort((a, b) => b.value - a.value);
+      const expirationOrder = ['< 3 Months', '3-6 Months', '6-12 Months', '> 12 Months'];
+      const expirationNodes = expirationOrder
+        .filter(e => aggregations.expiration[e])
+        .map(id => ({ id: `e:${id}`, label: id, value: aggregations.expiration[id] }));
+      
+      const levels = [reasonNodes, locationNodes, categoryNodes, expirationNodes];
+      
+      // Color palettes - updated per brand guidelines
+      const colors = {
+        // SLOB Reason - New palette colors
+        'r:No Orders 120+ Days': '#3F4739',    // Charcoal Brown (Slow Moving)
+        'r:Discontinued': '#BACBA9',           // Dry Sage (Discontinued)
+        'r:Expiring Soon': '#F1BF98',          // Peach Glow (Expiring)
+        // Location - Blue palette
+        'l:RJW (Chicago)': '#004E98',          // Steel Azure
+        'l:States (Los Angeles)': '#3A6EA5',   // Cornflower Ocean
+        // Category - Purple variations
+        'c:Rub': '#4f2d52',                    // Dark purple
+        'c:Sauce': '#74526e',                  // Medium purple
+        'c:Seasoning': '#98798d',              // Light purple
+        // Expiration - Orange variations (urgency-based)
+        'e:< 3 Months': '#B84F0F',             // Dark orange/brown (most urgent)
+        'e:3-6 Months': '#DB6013',             // Medium orange
+        'e:6-12 Months': '#E8862F',            // Light orange
+        'e:> 12 Months': '#F5A66B'             // Lightest orange (safe)
+      };
+      
+      // Calculate node positions
+      const nodePositions = {};
+      levels.forEach((level, levelIdx) => {
+        const totalValue = level.reduce((s, n) => s + n.value, 0);
+        const availableWidth = chartAreaWidth - (level.length - 1) * nodeGap;
+        let currentX = padding.left + levelLabelWidth;
+        
+        // Calculate Y position: each level positioned to fill vertical space
+        const levelY = padding.top + levelIdx * (nodeHeight + flowSpacing);
+        
+        level.forEach(node => {
+          const nodeWidth = Math.max(50, (node.value / totalValue) * availableWidth);
+          nodePositions[node.id] = {
+            x: currentX,
+            y: levelY,
+            width: nodeWidth,
+            height: nodeHeight,
+            centerX: currentX + nodeWidth / 2,
+            value: node.value,
+            label: node.label
+          };
+          currentX += nodeWidth + nodeGap;
+        });
+      });
+      
+      // Build SVG - use calculated dimensions with viewBox for scaling
+      let svg = `<svg class="sankey-svg" viewBox="0 0 ${width} ${height}" preserveAspectRatio="xMidYMid meet">`;
+      
+      // Add level labels (left side)
+      levelLabels.forEach((label, idx) => {
+        const labelY = padding.top + idx * (nodeHeight + flowSpacing) + nodeHeight / 2 + 4;
+        svg += `<text class="sankey-level-label" x="${padding.left}" y="${labelY}">${label}</text>`;
+      });
+      
+      // Draw flows first (so nodes appear on top)
+      const flowList = Object.values(flowMap).sort((a, b) => b.value - a.value);
+      
+      // Calculate cumulative offsets for flow positioning
+      const sourceOffsets = {};
+      const targetOffsets = {};
+      
+      flowList.forEach(flow => {
+        const sourcePos = nodePositions[flow.source];
+        const targetPos = nodePositions[flow.target];
+        if (!sourcePos || !targetPos) return;
+        
+        // Initialize offsets
+        if (sourceOffsets[flow.source] === undefined) sourceOffsets[flow.source] = 0;
+        if (targetOffsets[flow.target] === undefined) targetOffsets[flow.target] = 0;
+        
+        // Calculate flow width proportional to value
+        const flowWidth = Math.max(3, (flow.value / sourcePos.value) * sourcePos.width * 0.9);
+        
+        const x1 = sourcePos.x + sourceOffsets[flow.source] + flowWidth / 2;
+        const y1 = sourcePos.y + sourcePos.height;
+        const x2 = targetPos.x + targetOffsets[flow.target] + flowWidth / 2;
+        const y2 = targetPos.y;
+        
+        sourceOffsets[flow.source] += flowWidth + 1;
+        targetOffsets[flow.target] += flowWidth + 1;
+        
+        // Get color from source node
+        const color = colors[flow.source] || '#9ca3af';
+        
+        // Create tooltip for flow
+        const sourceLabel = sourcePos.label;
+        const targetLabel = targetPos.label;
+        const flowTooltip = `${sourceLabel} → ${targetLabel}: ${formatFn(flow.value)}`;
+        
+        // Create curved path (vertical flow)
+        const midY = (y1 + y2) / 2;
+        const path = `M ${x1 - flowWidth/2} ${y1} 
+                      C ${x1 - flowWidth/2} ${midY}, ${x2 - flowWidth/2} ${midY}, ${x2 - flowWidth/2} ${y2}
+                      L ${x2 + flowWidth/2} ${y2}
+                      C ${x2 + flowWidth/2} ${midY}, ${x1 + flowWidth/2} ${midY}, ${x1 + flowWidth/2} ${y1}
+                      Z`;
+        
+        const isHighlighted = state.sankeyHighlight && 
+          (state.sankeyHighlight.includes(flow.source) || state.sankeyHighlight.includes(flow.target));
+        const isDimmed = state.sankeyHighlight && !isHighlighted;
+        
+        svg += `<path class="sankey-flow ${isHighlighted ? 'highlighted' : ''} ${isDimmed ? 'dimmed' : ''}" 
+                      d="${path}" 
+                      fill="${color}"
+                      onclick="handleSankeyClick('${flow.source}', '${flow.target}')">
+                      <title>${flowTooltip}</title>
+                </path>`;
+      });
+      
+      // Draw nodes
+      levels.forEach((level, levelIdx) => {
+        level.forEach(node => {
+          const pos = nodePositions[node.id];
+          const color = colors[node.id] || '#9ca3af';
+          const isHighlighted = state.sankeyHighlight && state.sankeyHighlight.includes(node.id);
+          const isDimmed = state.sankeyHighlight && !isHighlighted;
+          
+          // Check if this node is selected
+          const [type, ...valueParts] = node.id.split(':');
+          const value = valueParts.join(':');
+          const typeMap = { r: 'reason', l: 'location', c: 'category', e: 'expiration' };
+          const isSelected = state.sankeySelection[typeMap[type]]?.includes(value);
+          
+          // Format value for tooltip
+          const tooltipValue = formatFn(pos.value);
+          const tooltipText = `${pos.label}: ${tooltipValue}`;
+          
+          // Draw selection outline if selected
+          if (isSelected) {
+            svg += `<rect class="sankey-node-selection" 
+                          x="${pos.x - 2}" y="${pos.y - 2}" 
+                          width="${pos.width + 4}" height="${pos.height + 4}" 
+                          rx="6" fill="none" stroke="#DB6013" stroke-width="3" />`;
+          }
+          
+          svg += `<rect class="sankey-node ${isHighlighted ? 'highlighted' : ''} ${isDimmed ? 'dimmed' : ''}" 
+                        x="${pos.x}" y="${pos.y}" 
+                        width="${pos.width}" height="${pos.height}" 
+                        rx="4" fill="${color}"
+                        onclick="handleSankeyNodeClick('${node.id}')">
+                        <title>${tooltipText}</title>
+                  </rect>`;
+          
+          // Add label (horizontal, inside node)
+          const labelY = pos.y + pos.height / 2 + 4;
+          const labelX = pos.centerX;
+          
+          // Truncate long labels based on node width
+          let displayLabel = pos.label;
+          const maxChars = Math.floor(pos.width / 7);
+          if (displayLabel.length > maxChars) {
+            displayLabel = displayLabel.substring(0, maxChars - 1) + '…';
+          }
+          
+          // Determine text color based on background (updated for new palette)
+          const lightBgNodes = ['r:Discontinued', 'r:Expiring Soon', 'e:6-12 Months', 'e:> 12 Months', 'c:Seasoning'];
+          const isLightBg = node.id === 'r:Discontinued' || node.id === 'r:Expiring Soon' || 
+                            node.id === 'e:6-12 Months' || node.id === 'e:> 12 Months' || node.id === 'c:Seasoning';
+          const textColor = isDimmed ? '#9ca3af' : (isLightBg ? '#374151' : '#ffffff');
+          
+          svg += `<text class="sankey-node-label" x="${labelX}" y="${labelY}" 
+                        style="fill: ${textColor}; font-size: 10px; font-weight: 600;">${displayLabel}</text>`;
+        });
+      });
+      
+      svg += '</svg>';
+      container.innerHTML = svg;
+    }
+    
+    function handleSankeyNodeClick(nodeId) {
+      // Parse node type and value
+      const [type, ...valueParts] = nodeId.split(':');
+      const value = valueParts.join(':'); // Handle values with colons
+      
+      // Map type prefix to selection array
+      const typeMap = { r: 'reason', l: 'location', c: 'category', e: 'expiration' };
+      const selectionKey = typeMap[type];
+      
+      if (!selectionKey) return;
+      
+      // Toggle selection in the appropriate array
+      const currentSelections = state.sankeySelection[selectionKey];
+      const index = currentSelections.indexOf(value);
+      
+      if (index > -1) {
+        // Remove from selection
+        currentSelections.splice(index, 1);
+      } else {
+        // Add to selection
+        currentSelections.push(value);
+      }
+      
+      // Update highlight based on all current selections
+      updateSankeyHighlight();
+      render();
+    }
+    
+    function handleSankeyClick(source, target) {
+      // Click on flow - select both source and target nodes
+      handleSankeyNodeClick(source);
+    }
+    
+    function updateSankeyHighlight() {
+      const sel = state.sankeySelection;
+      const hasSelection = sel.reason.length > 0 || sel.location.length > 0 || 
+                           sel.category.length > 0 || sel.expiration.length > 0;
+      
+      if (!hasSelection) {
+        state.sankeyHighlight = null;
+        return;
+      }
+      
+      // Build highlight array from all selected nodes
+      const highlight = [];
+      sel.reason.forEach(r => highlight.push(`r:${r}`));
+      sel.location.forEach(l => highlight.push(`l:${l}`));
+      sel.category.forEach(c => highlight.push(`c:${c}`));
+      sel.expiration.forEach(e => highlight.push(`e:${e}`));
+      
+      // Also find connected nodes through the data
+      const data = inventoryData.filter(item => item.dealStatus !== 'Active Deal');
+      const connectedNodes = new Set(highlight);
+      
+      data.forEach(item => {
+        // Check if this item matches any of the selected criteria
+        const matchesReason = sel.reason.length === 0 || sel.reason.includes(item.slobReason);
+        const matchesLocation = sel.location.length === 0 || sel.location.includes(item.location);
+        const matchesCategory = sel.category.length === 0 || sel.category.includes(item.category);
+        const matchesExpiration = sel.expiration.length === 0 || sel.expiration.includes(item.expirationBucket);
+        
+        // If item matches ALL selected filters across levels, include its nodes
+        if (matchesReason && matchesLocation && matchesCategory && matchesExpiration) {
+          connectedNodes.add(`r:${item.slobReason}`);
+          connectedNodes.add(`l:${item.location}`);
+          connectedNodes.add(`c:${item.category}`);
+          connectedNodes.add(`e:${item.expirationBucket}`);
+        }
+      });
+      
+      state.sankeyHighlight = Array.from(connectedNodes);
+    }
+    
+    function clearSankeySelection() {
+      state.sankeySelection = { reason: [], location: [], category: [], expiration: [] };
+      state.sankeyHighlight = null;
+    }
+
+    function renderCategoryChart(data) {
+      const grouped = {};
+      const field = metricConfig[state.selectedMetric].field;
+      data.forEach(i => {
+        if (!grouped[i.category]) grouped[i.category] = { label: i.category, chicago: 0, la: 0, total: 0 };
+        if (i.location === 'RJW (Chicago)') grouped[i.category].chicago += i[field];
+        else grouped[i.category].la += i[field];
+        grouped[i.category].total += i[field];
+      });
+      const chartData = Object.values(grouped).sort((a, b) => b.total - a.total).slice(0, 5);
+      renderHorizontalBarChart('categoryChart', chartData, 'category');
+    }
+
+    function renderExpirationChart(data) {
+      const order = ['< 3 Months', '3-6 Months', '6-12 Months', '> 12 Months'];
+      const grouped = {};
+      const field = metricConfig[state.selectedMetric].field;
+      order.forEach(b => { grouped[b] = { label: b, chicago: 0, la: 0, total: 0 }; });
+      data.forEach(i => {
+        if (grouped[i.expirationBucket]) {
+          if (i.location === 'RJW (Chicago)') grouped[i.expirationBucket].chicago += i[field];
+          else grouped[i.expirationBucket].la += i[field];
+          grouped[i.expirationBucket].total += i[field];
+        }
+      });
+      const chartData = order.map(b => grouped[b]).filter(d => d.total > 0);
+      renderVerticalBarChart('expirationChart', chartData, 'expiration');
+    }
+
+    function renderSkuTable(data) {
+      // Aggregate by SKU (itemNumber) with all needed metrics
+      const grouped = {};
+      data.forEach(i => {
+        if (!grouped[i.itemNumber]) {
+          grouped[i.itemNumber] = { 
+            sku: i.itemNumber, 
+            description: i.itemDescription,
+            totalCogs: 0, 
+            totalQty: 0,
+            totalJunk: 0
+          };
+        }
+        grouped[i.itemNumber].totalCogs += i.cogsValue;
+        grouped[i.itemNumber].totalQty += i.onHandQty;
+        grouped[i.itemNumber].totalJunk += i.junkValue;
+      });
+      
+      // Determine which field to use for sorting and display based on selected metric
+      const metricField = state.selectedMetric === 'cogs' ? 'totalCogs' : state.selectedMetric === 'qty' ? 'totalQty' : 'totalJunk';
+      const metricLabel = state.selectedMetric === 'cogs' ? 'COGS Value' : state.selectedMetric === 'qty' ? 'Quantity' : 'Junk Value';
+      
+      // Calculate derived fields and sort by selected metric
+      const skuData = Object.values(grouped).map(s => ({
+        ...s,
+        displayValue: s[metricField],
+        unitPrice: s.totalQty > 0 ? s.totalCogs / s.totalQty : 0,
+        recoveryRate: s.totalCogs > 0 ? ((s.totalCogs - s.totalJunk) / s.totalCogs) * 100 : 0,
+        suggestedUnitPrice: s.totalQty > 0 ? (s.totalCogs * 0.42) / s.totalQty : 0 // Target 42% recovery per unit
+      })).sort((a, b) => b.displayValue - a.displayValue).slice(0, 10);
+      
+      const maxValue = Math.max(...skuData.map(d => d.displayValue));
+      const activeItem = state.crossFilter.sku;
+      
+      // Build table HTML
+      let html = `
+        <table class="sku-table">
+          <thead>
+            <tr>
+              <th style="width: 18%;">SKU</th>
+              <th style="width: 25%;">Description</th>
+              <th class="data-bar-cell" style="width: 17%;">${metricLabel}</th>
+              <th class="right" style="width: 14%;">Recovery %</th>
+              <th class="right" style="width: 13%;">Unit Price</th>
+              <th class="right" style="width: 13%;">Sugg. Price</th>
+            </tr>
+          </thead>
+          <tbody>
+      `;
+      
+      skuData.forEach(item => {
+        const barWidth = maxValue > 0 ? (item.displayValue / maxValue) * 100 : 0;
+        const isActive = activeItem === item.sku;
+        const isDimmed = activeItem && !isActive;
+        
+        // Format value for tooltip
+        const formattedValue = state.selectedMetric === 'qty' ? formatNumber(item.displayValue) : formatCurrency(item.displayValue);
+        
+        // Recovery rate heatmap color
+        let recoveryColor;
+        if (item.recoveryRate >= 70) recoveryColor = '#4F7942'; // Green
+        else if (item.recoveryRate >= 50) recoveryColor = '#6B8E23'; // Olive green
+        else if (item.recoveryRate >= 35) recoveryColor = '#DB6013'; // Orange
+        else recoveryColor = '#B84F0F'; // Dark orange/red
+        
+        html += `
+          <tr class="${isDimmed ? 'dimmed' : ''} ${isActive ? 'active' : ''}" onclick="toggleCrossFilter('sku', '${item.sku}')">
+            <td class="mono" style="font-weight: 500;">${item.sku}</td>
+            <td style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${item.description}">${item.description}</td>
+            <td class="data-bar-cell" title="${metricLabel}: ${formattedValue}">
+              <div class="data-bar-container">
+                <div class="data-bar-track">
+                  <div class="data-bar-fill" style="width: ${barWidth}%"></div>
+                </div>
+              </div>
+            </td>
+            <td class="right">
+              <span class="recovery-cell" style="background: ${recoveryColor};">${item.recoveryRate.toFixed(1)}%</span>
+            </td>
+            <td class="right" style="font-weight: 500;">$${item.unitPrice.toFixed(2)}</td>
+            <td class="right" style="color: #4F7942; font-weight: 600;">$${item.suggestedUnitPrice.toFixed(2)}</td>
+          </tr>
+        `;
+      });
+      
+      html += '</tbody></table>';
+      document.getElementById('skuTableContainer').innerHTML = html;
+    }
+
+    function renderReasonChart(data) {
+      const field = metricConfig[state.selectedMetric].field;
+      const grouped = {};
+      data.forEach(i => {
+        if (!grouped[i.slobReason]) grouped[i.slobReason] = { reason: i.slobReason, value: 0 };
+        grouped[i.slobReason].value += i[field];
+      });
+      const chartData = Object.values(grouped).sort((a, b) => b.value - a.value);
+      
+      // Color mapping aligned with Sankey and AI clusters
+      const reasonColors = {
+        'No Orders 120+ Days': '#3F4739',  // Charcoal Brown (Slow Moving)
+        'Discontinued': '#BACBA9',          // Dry Sage
+        'Expiring Soon': '#F1BF98'          // Peach Glow
+      };
+      
+      // Text colors for each reason (dark text on light backgrounds)
+      const reasonTextColors = {
+        'No Orders 120+ Days': '#ffffff',
+        'Discontinued': '#374151',
+        'Expiring Soon': '#374151'
+      };
+      
+      let html = '<div class="heatmap-container">';
+      html += chartData.map(item => {
+        const color = reasonColors[item.reason] || '#DB6013';
+        const textColor = reasonTextColors[item.reason] || '#ffffff';
+        const isActive = state.crossFilter.reason === item.reason;
+        const isDimmed = state.crossFilter.reason && !isActive;
+        return `<button class="heatmap-cell ${isDimmed ? 'dimmed' : ''} ${isActive ? 'active' : ''}" style="background: ${color};" onclick="toggleCrossFilter('reason', '${item.reason}')">
+          <span class="heatmap-label" style="color: ${textColor};">${item.reason}</span>
+          <span class="heatmap-value" style="color: ${textColor}; opacity: 0.9;">${formatMetricValue(item.value)}</span>
+        </button>`;
+      }).join('');
+      html += '</div>';
+      
+      document.getElementById('reasonChart').innerHTML = html;
+    }
+
+    function renderHorizontalBarChart(containerId, data, filterType) {
+      const maxVal = Math.max(...data.map(d => d.total));
+      const activeItem = state.crossFilter[filterType];
+      
+      let html = data.map(item => {
+        const chicagoW = maxVal > 0 ? (item.chicago / maxVal) * 100 : 0;
+        const laW = maxVal > 0 ? (item.la / maxVal) * 100 : 0;
+        const isActive = activeItem === item.label;
+        const isDimmed = activeItem && !isActive;
+        return `
+          <div class="bar-row ${isDimmed ? 'dimmed' : ''}" onclick="toggleCrossFilter('${filterType}', '${item.label}')">
+            <div class="bar-label" title="${item.label}">${item.label}</div>
+            <div class="bar-track ${isActive ? 'active' : ''}">
+              <div class="bar-segment chicago" style="width: ${chicagoW}%"></div>
+              <div class="bar-segment la" style="width: ${laW}%"></div>
+            </div>
+            <div class="bar-value">${formatMetricValue(item.total)}</div>
+          </div>
+        `;
+      }).join('');
+      
+      document.getElementById(containerId).innerHTML = html;
+    }
+
+    function renderVerticalBarChart(containerId, data, filterType) {
+      const maxVal = Math.max(...data.map(d => d.total));
+      const activeItem = state.crossFilter[filterType];
+      
+      let html = '<div class="vbar-container">';
+      html += data.map(item => {
+        const chicagoH = maxVal > 0 ? (item.chicago / maxVal) * 70 : 0;
+        const laH = maxVal > 0 ? (item.la / maxVal) * 70 : 0;
+        const isActive = activeItem === item.label;
+        const isDimmed = activeItem && !isActive;
+        return `
+          <div class="vbar-group ${isDimmed ? 'dimmed' : ''}" onclick="toggleCrossFilter('${filterType}', '${item.label}')">
+            <div class="vbar-value">${formatMetricValue(item.total)}</div>
+            <div class="vbar-stack ${isActive ? 'active' : ''}">
+              <div class="vbar-segment chicago" style="height: ${chicagoH}px"></div>
+              <div class="vbar-segment la" style="height: ${laH}px"></div>
+            </div>
+            <div class="vbar-label" title="${item.label}">${item.label}</div>
+          </div>
+        `;
+      }).join('');
+      html += '</div>';
+      
+      document.getElementById(containerId).innerHTML = html;
+    }
+
+    function renderDetailTable(data) {
+      document.getElementById('detailSubtitle').textContent = `${data.length} items • ${state.selectedItems.length} selected`;
+      
+      // Expiration badge mapping to match Sankey colors
+      const expBadgeMap = {
+        '< 3 Months': 'badge-exp-3',
+        '3-6 Months': 'badge-exp-6',
+        '6-12 Months': 'badge-exp-12',
+        '> 12 Months': 'badge-exp-12plus'
+      };
+      
+      document.getElementById('detailTableBody').innerHTML = data.map((item, idx) => {
+        const isSelected = state.selectedItems.includes(item.id);
+        const locBadge = item.location === 'RJW (Chicago)' ? 'badge-chicago' : 'badge-la';
+        const expBadge = expBadgeMap[item.expirationBucket] || 'badge-exp-12plus';
+        return `
+          <tr class="${isSelected ? 'selected' : ''}">
+            <td><input type="checkbox" ${isSelected ? 'checked' : ''} onchange="toggleItemSelection(${item.id})"></td>
+            <td class="mono">${item.itemNumber}</td>
+            <td style="font-weight: 500;">${item.itemDescription}</td>
+            <td><span class="badge badge-gray">${item.category}</span></td>
+            <td><span class="badge ${locBadge}">${item.location}</span></td>
+            <td class="mono">${item.lotNumber}</td>
+            <td>
+              <span style="font-size: 11px;">${new Date(item.expirationDate).toLocaleDateString()}</span>
+              <span class="badge ${expBadge}" style="margin-left: 6px; font-size: 10px;">${item.expirationBucket}</span>
+            </td>
+            <td style="font-size: 11px;">${item.slobReason}</td>
+            <td class="right" style="font-weight: 600; color: #DB6013;">${formatCurrency(item.cogsValue)}</td>
+            <td class="right">${formatNumber(item.onHandQty)}</td>
+          </tr>
+        `;
+      }).join('');
+
+      const totalCogs = data.reduce((s, i) => s + i.cogsValue, 0);
+      const totalQty = data.reduce((s, i) => s + i.onHandQty, 0);
+      document.getElementById('detailTableFoot').innerHTML = `
+        <tr>
+          <td colspan="8">Total (${data.length} items)</td>
+          <td class="right" style="color: #DB6013;">${formatCurrency(totalCogs)}</td>
+          <td class="right">${formatNumber(totalQty)}</td>
+        </tr>
+      `;
+
+      // Update select all checkbox
+      const allSelected = data.length > 0 && data.every(item => state.selectedItems.includes(item.id));
+      document.getElementById('selectAll').checked = allSelected;
+    }
+
+    function renderDealsTable() {
+      // Group deals by dealId to identify first row of each group
+      const dealGroups = {};
+      dealsData.forEach(deal => {
+        if (!dealGroups[deal.dealId]) dealGroups[deal.dealId] = [];
+        dealGroups[deal.dealId].push(deal);
+      });
+      
+      // Update subtitle based on active tab
+      if (state.activeTab === 'deals') {
+        const uniqueDeals = Object.keys(dealGroups).length;
+        document.getElementById('detailSubtitle').textContent = `${dealsData.length} line items • ${uniqueDeals} deals`;
+      }
+      
+      let html = '';
+      let prevDealId = null;
+      
+      dealsData.forEach((deal, idx) => {
+        const isFirstInGroup = deal.dealId !== prevDealId;
+        const isSelected = state.selectedDeals.includes(deal.lineId);
+        const locBadge = deal.location === 'RJW (Chicago)' ? 'badge-chicago' : 'badge-la';
+        
+        let statusClass = 'status-pending';
+        let statusText = 'Pending';
+        if (deal.status === 'approved') { statusClass = 'status-approved'; statusText = 'Approved'; }
+        if (deal.status === 'rejected') { statusClass = 'status-rejected'; statusText = 'Rejected'; }
+        
+        // Calculate recovery rate for this line
+        const recoveryRate = deal.cogsValue > 0 ? (deal.proposedPrice / deal.cogsValue * 100).toFixed(1) : 0;
+        
+        html += `
+          <tr class="${isFirstInGroup ? 'deal-group-first' : 'deal-group-row'} ${isSelected ? 'selected' : ''}">
+            <td><input type="checkbox" ${isSelected ? 'checked' : ''} onchange="toggleDealSelection(${deal.lineId})"></td>
+            <td class="deal-id">${isFirstInGroup ? deal.dealId : ''}</td>
+            <td class="mono" style="font-weight: 500;">${deal.itemNumber}</td>
+            <td style="max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${deal.itemDescription}">${deal.itemDescription}</td>
+            <td><span class="badge ${locBadge}" style="font-size: 10px;">${deal.location}</span></td>
+            <td class="right" style="color: #DB6013;">${formatCurrency(deal.cogsValue)}</td>
+            <td class="right">${formatNumber(deal.qty)}</td>
+            <td class="right" style="font-weight: 600; color: #4F7942;">${formatCurrency(deal.proposedPrice)} <span style="font-size: 10px; color: #6b7280;">(${recoveryRate}%)</span></td>
+            <td style="font-size: 11px;">${deal.buyerName}</td>
+            <td style="font-size: 10px;">${deal.reasonCode}</td>
+            <td style="font-size: 11px;">${deal.approverEmail.split('@')[0]}</td>
+            <td><span class="status-badge ${statusClass}">${statusText}</span></td>
+            <td>
+              ${deal.status === 'pending' ? `
+                <button class="action-btn approve" onclick="approveDeal('${deal.dealId}')" title="Approve">✓</button>
+                <button class="action-btn reject" onclick="rejectDeal('${deal.dealId}')" title="Reject">✕</button>
+              ` : ''}
+              <button class="action-btn edit" onclick="openEditDeal('${deal.dealId}')" title="Edit">✎</button>
+            </td>
+          </tr>
+        `;
+        
+        prevDealId = deal.dealId;
+      });
+      
+      document.getElementById('dealsTableBody').innerHTML = html;
+    }
+
+    function renderCrossFilterPills() {
+      const c = state.crossFilter;
+      const s = state.sankeySelection;
+      const pills = [];
+      
+      // Add cluster pill if active
+      if (state.activeCluster) {
+        const cluster = aiClusters.find(cl => cl.id === state.activeCluster);
+        if (cluster) {
+          pills.push({ key: 'cluster', label: 'Cluster: ' + cluster.name, type: 'cluster' });
+        }
+      }
+      
+      if (c.category) pills.push({ key: 'category', label: 'Category: ' + c.category, type: 'crossFilter' });
+      if (c.expiration) pills.push({ key: 'expiration', label: 'Expiration: ' + c.expiration, type: 'crossFilter' });
+      if (c.sku) pills.push({ key: 'sku', label: 'SKU: ' + c.sku, type: 'crossFilter' });
+      if (c.reason) pills.push({ key: 'reason', label: 'Reason: ' + c.reason, type: 'crossFilter' });
+      
+      // Add Sankey selection pills
+      s.reason.forEach(r => pills.push({ key: 'sankey-reason', value: r, label: 'SLOB: ' + r, type: 'sankey' }));
+      s.location.forEach(l => pills.push({ key: 'sankey-location', value: l, label: 'Loc: ' + l.replace('RJW (Chicago)', 'Chicago').replace('States (Los Angeles)', 'LA'), type: 'sankey' }));
+      s.category.forEach(cat => pills.push({ key: 'sankey-category', value: cat, label: 'Cat: ' + cat, type: 'sankey' }));
+      s.expiration.forEach(e => pills.push({ key: 'sankey-expiration', value: e, label: 'Exp: ' + e, type: 'sankey' }));
+
+      const container = document.getElementById('crossFilterPills');
+      if (pills.length === 0) {
+        container.style.display = 'none';
+      } else {
+        container.style.display = 'flex';
+        container.innerHTML = '<span style="font-size: 14px; color: #6b7280;">Active:</span>' +
+          pills.map(p => {
+            if (p.type === 'cluster') {
+              return `<button class="filter-pill" onclick="clearClusterFilter()">${p.label} ✕</button>`;
+            } else if (p.type === 'sankey') {
+              return `<button class="filter-pill sankey-pill" onclick="removeSankeySelection('${p.key}', '${p.value}')">${p.label} ✕</button>`;
+            } else {
+              return `<button class="filter-pill" onclick="toggleCrossFilter('${p.key}', null)">${p.label} ✕</button>`;
+            }
+          }).join('');
+      }
+    }
+    
+    function removeSankeySelection(key, value) {
+      const typeMap = {
+        'sankey-reason': 'reason',
+        'sankey-location': 'location', 
+        'sankey-category': 'category',
+        'sankey-expiration': 'expiration'
+      };
+      const selectionKey = typeMap[key];
+      const idx = state.sankeySelection[selectionKey].indexOf(value);
+      if (idx > -1) {
+        state.sankeySelection[selectionKey].splice(idx, 1);
+      }
+      updateSankeyHighlight();
+      render();
+    }
+
+    function clearClusterFilter() {
+      state.activeCluster = null;
+      state.selectedItems = [];
+      render();
+    }
+
+    function updateBuildDealButton() {
+      const btn = document.getElementById('buildDealBtn');
+      btn.textContent = `+ Build Deal (${state.selectedItems.length})`;
+      btn.disabled = state.selectedItems.length === 0;
+    }
+
+    // ============================================
+    // EVENT HANDLERS
+    // ============================================
+    function toggleCrossFilter(type, value) {
+      state.crossFilter[type] = state.crossFilter[type] === value ? null : value;
+      render();
+    }
+
+    function toggleItemSelection(id) {
+      const idx = state.selectedItems.indexOf(id);
+      if (idx > -1) {
+        state.selectedItems.splice(idx, 1);
+      } else {
+        state.selectedItems.push(id);
+      }
+      render();
+    }
+
+    function selectAllVisible() {
+      const data = getFilteredData();
+      const visibleIds = data.map(item => item.id);
+      const allSelected = visibleIds.every(id => state.selectedItems.includes(id));
+      
+      if (allSelected) {
+        state.selectedItems = state.selectedItems.filter(id => !visibleIds.includes(id));
+      } else {
+        visibleIds.forEach(id => {
+          if (!state.selectedItems.includes(id)) state.selectedItems.push(id);
+        });
+      }
+      render();
+    }
+
+    function openDealModal() {
+      if (state.selectedItems.length === 0) return;
+      
+      const data = getFilteredData().filter(item => state.selectedItems.includes(item.id));
+      document.getElementById('modalSubtitle').textContent = `${data.length} items selected`;
+      
+      // Initialize line items state
+      state.lineItems = data.map(item => ({
+        id: item.id,
+        itemNumber: item.itemNumber,
+        itemDescription: item.itemDescription,
+        location: item.location,
+        maxQty: item.onHandQty,
+        dealQty: item.onHandQty,
+        unitCost: item.cogsValue / item.onHandQty,
+        propPrice: 0
+      }));
+      
+      renderLineItems();
+      
+      document.getElementById('buyerName').value = '';
+      document.getElementById('erpOrderNumber').value = '';
+      document.getElementById('reasonCode').value = 'Closeout';
+      document.getElementById('dealComments').value = '';
+      updateDealTotal();
+      
+      document.getElementById('dealModal').classList.remove('hidden');
+    }
+    
+    function renderLineItems() {
+      const container = document.getElementById('lineItemsContainer');
+      container.innerHTML = state.lineItems.map((item, idx) => `
+        <div class="line-item-card">
+          <div class="line-item-info">
+            <div class="line-item-sku">${item.itemNumber}</div>
+            <div class="line-item-desc">${item.itemDescription}</div>
+            <div class="line-item-avail">Max Avail: ${formatNumber(item.maxQty)}</div>
+          </div>
+          <div class="line-item-fields">
+            <div class="line-item-field">
+              <div class="line-item-field-label">Deal Qty</div>
+              <input type="number" class="line-item-field-input" value="${item.dealQty}" max="${item.maxQty}" min="0" onchange="updateLineItemQty(${idx}, this.value)">
+            </div>
+            <div class="line-item-field">
+              <div class="line-item-field-label">Unit Cost</div>
+              <div class="line-item-field-value">$${item.unitCost.toFixed(2)}</div>
+            </div>
+            <div class="line-item-field">
+              <div class="line-item-field-label">Prop. Price</div>
+              <div class="input-wrapper" style="position: relative;">
+                <span style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: #9ca3af;">$</span>
+                <input type="number" class="line-item-field-input price" value="${item.propPrice.toFixed(2)}" step="0.01" min="0" onchange="updateLineItemPrice(${idx}, this.value)">
+              </div>
+            </div>
+            <div class="line-item-field">
+              <div class="line-item-field-label">Line Total</div>
+              <div class="line-item-total">$${(item.dealQty * item.propPrice).toFixed(2)}</div>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+    
+    function updateLineItemQty(idx, value) {
+      const qty = parseInt(value) || 0;
+      state.lineItems[idx].dealQty = Math.min(qty, state.lineItems[idx].maxQty);
+      renderLineItems();
+      updateDealTotal();
+    }
+    
+    function updateLineItemPrice(idx, value) {
+      state.lineItems[idx].propPrice = parseFloat(value) || 0;
+      renderLineItems();
+      updateDealTotal();
+    }
+    
+    function updateDealTotal() {
+      // Calculate totals
+      const totalCogs = state.lineItems.reduce((sum, item) => sum + (item.dealQty * item.unitCost), 0);
+      const totalQty = state.lineItems.reduce((sum, item) => sum + item.dealQty, 0);
+      const totalRecovery = state.lineItems.reduce((sum, item) => sum + (item.dealQty * item.propPrice), 0);
+      const recoveryRate = totalCogs > 0 ? (totalRecovery / totalCogs) * 100 : 0;
+      const variance = totalRecovery - totalCogs;
+      
+      // Update deal total
+      document.getElementById('dealTotal').textContent = '$' + totalRecovery.toFixed(2);
+      
+      // Update impact tiles
+      document.getElementById('impactCogs').textContent = formatCurrency(Math.round(totalCogs));
+      document.getElementById('impactQty').textContent = formatNumber(totalQty);
+      document.getElementById('impactRecovery').textContent = formatCurrency(Math.round(totalRecovery));
+      
+      const rateEl = document.getElementById('impactRate');
+      rateEl.textContent = recoveryRate.toFixed(1) + '%';
+      rateEl.className = 'impact-value ' + (recoveryRate >= 50 ? 'green' : recoveryRate >= 25 ? 'orange' : 'red');
+      
+      const varianceEl = document.getElementById('impactVariance');
+      varianceEl.textContent = (variance >= 0 ? '+' : '') + formatCurrency(Math.round(variance));
+      varianceEl.className = 'impact-footer-value ' + (variance >= 0 ? 'green' : 'red');
+      
+      const canSubmit = document.getElementById('buyerName').value && state.lineItems.some(item => item.dealQty > 0 && item.propPrice > 0);
+      document.getElementById('submitDeal').disabled = !canSubmit;
+    }
+
+    function closeDealModal() {
+      document.getElementById('dealModal').classList.add('hidden');
+    }
+
+    function submitDeal() {
+      const buyerName = document.getElementById('buyerName').value;
+      const reasonCode = document.getElementById('reasonCode').value;
+      const erpOrderNumber = document.getElementById('erpOrderNumber').value;
+      const dealComments = document.getElementById('dealComments').value;
+      
+      // Generate new deal ID
+      const dealId = `DEAL-2025-${String(nextDealNumber).padStart(3, '0')}`;
+      nextDealNumber++;
+      
+      // Add each line item to the deal
+      state.lineItems.forEach(item => {
+        if (item.dealQty > 0) {
+          dealsData.push({
+            dealId: dealId,
+            lineId: Math.max(...dealsData.map(d => d.lineId), 0) + 1,
+            itemNumber: item.itemNumber,
+            itemDescription: item.itemDescription,
+            location: item.location,
+            cogsValue: item.unitCost * item.dealQty,
+            qty: item.dealQty,
+            proposedPrice: item.dealQty * item.propPrice,
+            buyerName: buyerName,
+            reasonCode: reasonCode,
+            approverEmail: 'pending@acmeco.com',
+            status: 'pending',
+            submittedDate: new Date().toISOString().split('T')[0]
+          });
+        }
+      });
+      
+      const count = state.lineItems.filter(i => i.dealQty > 0).length;
+      closeDealModal();
+      state.selectedItems = [];
+      state.activeTab = 'deals'; // Switch to deals tab
+      render();
+      showToast(`Deal ${dealId} submitted! ${count} items sent for approval.`);
+    }
+
+    // ============================================
+    // DEAL MANAGEMENT HANDLERS
+    // ============================================
+    function toggleDealSelection(lineId) {
+      const idx = state.selectedDeals.indexOf(lineId);
+      if (idx > -1) {
+        state.selectedDeals.splice(idx, 1);
+      } else {
+        state.selectedDeals.push(lineId);
+      }
+      render();
+    }
+
+    function approveDeal(dealId) {
+      dealsData.forEach(deal => {
+        if (deal.dealId === dealId) {
+          deal.status = 'approved';
+        }
+      });
+      render();
+      showToast(`Deal ${dealId} approved!`);
+    }
+
+    function rejectDeal(dealId) {
+      dealsData.forEach(deal => {
+        if (deal.dealId === dealId) {
+          deal.status = 'rejected';
+        }
+      });
+      render();
+      showToast(`Deal ${dealId} rejected.`);
+    }
+
+    function openEditDeal(dealId) {
+      state.editingDeal = dealId;
+      const dealLines = dealsData.filter(d => d.dealId === dealId);
+      if (dealLines.length === 0) return;
+      
+      const firstLine = dealLines[0];
+      document.getElementById('editDealId').textContent = dealId;
+      document.getElementById('editProposedPrice').value = dealLines.reduce((s, d) => s + d.proposedPrice, 0);
+      document.getElementById('editBuyerName').value = firstLine.buyerName;
+      document.getElementById('editReasonCode').value = firstLine.reasonCode;
+      document.getElementById('editApproverEmail').value = firstLine.approverEmail;
+      
+      // Show deal items
+      document.getElementById('editDealItems').innerHTML = dealLines.map(d => 
+        `<div style="display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px solid #e5e7eb;">
+          <span>${d.itemDescription} <span style="color: #6b7280;">(${d.itemNumber})</span></span>
+          <span style="font-weight: 500;">${formatCurrency(d.cogsValue)}</span>
+        </div>`
+      ).join('');
+      
+      document.getElementById('editDealModal').classList.remove('hidden');
+    }
+
+    function closeEditDeal() {
+      document.getElementById('editDealModal').classList.add('hidden');
+      state.editingDeal = null;
+    }
+
+    function saveEditDeal() {
+      if (!state.editingDeal) return;
+      
+      const editingDealId = state.editingDeal;
+      const dealLines = dealsData.filter(d => d.dealId === editingDealId);
+      const newProposedPrice = parseFloat(document.getElementById('editProposedPrice').value) || 0;
+      const newBuyerName = document.getElementById('editBuyerName').value;
+      const newReasonCode = document.getElementById('editReasonCode').value;
+      const newApproverEmail = document.getElementById('editApproverEmail').value;
+      
+      // Calculate proportional price per item
+      const totalCogs = dealLines.reduce((s, d) => s + d.cogsValue, 0);
+      
+      dealLines.forEach(deal => {
+        const proportion = deal.cogsValue / totalCogs;
+        deal.proposedPrice = Math.round(newProposedPrice * proportion);
+        deal.buyerName = newBuyerName;
+        deal.reasonCode = newReasonCode;
+        deal.approverEmail = newApproverEmail;
+        deal.status = 'pending'; // Reset to pending after edit
+      });
+      
+      closeEditDeal();
+      render();
+      showToast(`Deal ${editingDealId} updated!`);
+    }
+
+    function deleteDeal() {
+      if (!state.editingDeal) return;
+      
+      const dealId = state.editingDeal;
+      dealsData = dealsData.filter(d => d.dealId !== dealId);
+      
+      closeEditDeal();
+      render();
+      showToast(`Deal ${dealId} deleted.`);
+    }
+
+    function showToast(message) {
+      document.getElementById('toastMessage').textContent = message;
+      const toast = document.getElementById('toast');
+      toast.classList.remove('hidden');
+      toast.classList.add('toast-enter');
+      setTimeout(() => {
+        toast.classList.add('hidden');
+      }, 4000);
+    }
+
+    // ============================================
+    // INITIALIZATION
+    // ============================================
+    function init() {
+      // Populate filter dropdowns
+      const available = getAvailableInventory();
+      const locations = [...new Set(available.map(i => i.location))];
+      const expirations = [...new Set(available.map(i => i.expirationBucket))];
+      const lifecycles = [...new Set(available.map(i => i.lifecycleStatus))];
+      const reasons = [...new Set(available.map(i => i.slobReason))];
+
+      document.getElementById('filterLocation').innerHTML = '<option value="All">All</option>' + locations.map(l => `<option value="${l}">${l}</option>`).join('');
+      document.getElementById('filterExpiration').innerHTML = '<option value="All">All</option>' + expirations.map(e => `<option value="${e}">${e}</option>`).join('');
+      document.getElementById('filterLifecycle').innerHTML = '<option value="All">All</option>' + lifecycles.map(l => `<option value="${l}">${l}</option>`).join('');
+      document.getElementById('filterReason').innerHTML = '<option value="All">All</option>' + reasons.map(r => `<option value="${r}">${r}</option>`).join('');
+
+      // Event listeners
+      document.getElementById('filterToggle').addEventListener('click', () => {
+        state.showFilterDrawer = !state.showFilterDrawer;
+        document.getElementById('filterPanel').classList.toggle('open', state.showFilterDrawer);
+        document.getElementById('filterToggle').classList.toggle('btn-active', state.showFilterDrawer);
+      });
+      
+      document.getElementById('filterPanelClose').addEventListener('click', () => {
+        state.showFilterDrawer = false;
+        document.getElementById('filterPanel').classList.remove('open');
+        document.getElementById('filterToggle').classList.remove('btn-active');
+      });
+
+      document.getElementById('clearFilters').addEventListener('click', () => {
+        state.filters = { location: 'All', expirationBucket: 'All', lifecycleStatus: 'All', slobReason: 'All' };
+        state.crossFilter = { category: null, sku: null, expiration: null, reason: null };
+        state.activeCluster = null;
+        state.selectedItems = [];
+        state.sankeyHighlight = null;
+        state.sankeySelection = { reason: [], location: [], category: [], expiration: [] };
+        document.getElementById('filterLocation').value = 'All';
+        document.getElementById('filterExpiration').value = 'All';
+        document.getElementById('filterLifecycle').value = 'All';
+        document.getElementById('filterReason').value = 'All';
+        render();
+      });
+
+      document.getElementById('filterLocation').addEventListener('change', (e) => { state.filters.location = e.target.value; render(); });
+      document.getElementById('filterExpiration').addEventListener('change', (e) => { state.filters.expirationBucket = e.target.value; render(); });
+      document.getElementById('filterLifecycle').addEventListener('change', (e) => { state.filters.lifecycleStatus = e.target.value; render(); });
+      document.getElementById('filterReason').addEventListener('change', (e) => { state.filters.slobReason = e.target.value; render(); });
+
+      document.getElementById('selectAll').addEventListener('change', selectAllVisible);
+      document.getElementById('buildDealBtn').addEventListener('click', openDealModal);
+      document.getElementById('closeModal').addEventListener('click', closeDealModal);
+      document.getElementById('cancelDeal').addEventListener('click', closeDealModal);
+      document.getElementById('submitDeal').addEventListener('click', submitDeal);
+
+      document.getElementById('buyerName').addEventListener('input', updateDealTotal);
+
+      // Metric toggle listeners
+      document.getElementById('metricCogs').addEventListener('click', () => {
+        state.selectedMetric = 'cogs';
+        render();
+      });
+      document.getElementById('metricQty').addEventListener('click', () => {
+        state.selectedMetric = 'qty';
+        render();
+      });
+      document.getElementById('metricJunk').addEventListener('click', () => {
+        state.selectedMetric = 'junk';
+        render();
+      });
+
+      // Tab toggle listeners
+      document.getElementById('tabInventory').addEventListener('click', () => {
+        state.activeTab = 'inventory';
+        render();
+      });
+      document.getElementById('tabDeals').addEventListener('click', () => {
+        state.activeTab = 'deals';
+        render();
+      });
+
+      // Edit Deal Modal listeners
+      document.getElementById('closeEditModal').addEventListener('click', closeEditDeal);
+      document.getElementById('cancelEditDeal').addEventListener('click', closeEditDeal);
+      document.getElementById('saveEditDeal').addEventListener('click', saveEditDeal);
+      document.getElementById('deleteDeal').addEventListener('click', deleteDeal);
+
+      // AI Chat Panel listeners
+      document.getElementById('aiChatToggle').addEventListener('click', toggleAiPanel);
+      document.getElementById('aiPanelClose').addEventListener('click', toggleAiPanel);
+      document.getElementById('aiSendBtn').addEventListener('click', sendAiMessage);
+      document.getElementById('aiInput').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') sendAiMessage();
+      });
+
+      // Initial render
+      render();
+      
+      // Re-render Sankey after layout is complete to get accurate dimensions
+      function delayedSankeyRender() {
+        const container = document.getElementById('sankeyChart');
+        const rect = container.getBoundingClientRect();
+        if (rect.width > 100 && rect.height > 100) {
+          const data = getFilteredData();
+          renderSankey(data);
+        } else {
+          // Container not ready, retry
+          setTimeout(delayedSankeyRender, 50);
+        }
+      }
+      setTimeout(delayedSankeyRender, 50);
+      
+      // Re-render Sankey on window resize
+      let resizeTimer;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+          const data = getFilteredData();
+          renderSankey(data);
+        }, 150);
+      });
+    }
+
+    // AI Chat Functions
+    function toggleAiPanel() {
+      const panel = document.getElementById('aiPanel');
+      panel.classList.toggle('open');
+    }
+
+    function askSuggestedQuestion(btn) {
+      const question = btn.textContent;
+      document.getElementById('aiInput').value = question;
+      sendAiMessage();
+    }
+
+    function sendAiMessage() {
+      const input = document.getElementById('aiInput');
+      const message = input.value.trim();
+      if (!message) return;
+
+      const container = document.getElementById('aiChatContainer');
+      
+      // Add user message
+      container.innerHTML += `<div class="ai-message user">${message}</div>`;
+      input.value = '';
+      
+      // Add typing indicator
+      container.innerHTML += `<div class="ai-message typing" id="typingIndicator">
+        <div class="typing-indicator"><span></span><span></span><span></span></div>
+      </div>`;
+      container.scrollTop = container.scrollHeight;
+
+      // Simulate AI response after delay
+      setTimeout(() => {
+        document.getElementById('typingIndicator')?.remove();
+        const response = getAiResponse(message);
+        container.innerHTML += `<div class="ai-message assistant">${response}</div>`;
+        container.scrollTop = container.scrollHeight;
+      }, 1500);
+    }
+
+    function getAiResponse(question) {
+      const q = question.toLowerCase();
+      
+      // Calculate current stats for context-aware responses
+      const chicagoItems = inventoryData.filter(i => i.location === 'Chicago');
+      const laItems = inventoryData.filter(i => i.location === 'Los Angeles');
+      const chicagoCogs = chicagoItems.reduce((sum, i) => sum + i.cogsValue, 0);
+      const laCogs = laItems.reduce((sum, i) => sum + i.cogsValue, 0);
+      const expiringItems = inventoryData.filter(i => i.primaryReason === 'Expiring Soon');
+      const discontinuedItems = inventoryData.filter(i => i.primaryReason === 'Discontinued');
+      const noOrderItems = inventoryData.filter(i => i.primaryReason === 'No Orders 120+ Days');
+      
+      // Scripted responses based on question patterns
+      if (q.includes('chicago') || q.includes('driving')) {
+        return `<strong>Chicago SLOB Analysis:</strong><br><br>
+        Chicago currently holds <strong>${formatCurrency(chicagoCogs)}</strong> in SLOB inventory across <strong>${chicagoItems.length} SKUs</strong>.<br><br>
+        <strong>Key Drivers:</strong><br>
+        • <strong>Expiring Soon:</strong> ${chicagoItems.filter(i => i.primaryReason === 'Expiring Soon').length} items need immediate attention<br>
+        • <strong>Discontinued:</strong> ${chicagoItems.filter(i => i.primaryReason === 'Discontinued').length} SKUs being phased out<br>
+        • <strong>No Orders 120+ Days:</strong> ${chicagoItems.filter(i => i.primaryReason === 'No Orders 120+ Days').length} items with no demand<br><br>
+        <strong>Recommendation:</strong> Focus on expiring items first. Consider bundling discontinued items with active SKUs for promotional deals with grocery outlets.`;
+      }
+      
+      if (q.includes('prioritize') || q.includes('priority') || q.includes('which items')) {
+        const urgentItems = inventoryData.filter(i => i.primaryReason === 'Expiring Soon').slice(0, 3);
+        return `<strong>Deal Priority Recommendations:</strong><br><br>
+        <strong>🔴 High Priority (Expiring Soon):</strong><br>
+        ${urgentItems.map(i => `• ${i.itemNumber}: ${i.itemDescription} - ${formatCurrency(i.cogsValue)}`).join('<br>')}<br><br>
+        <strong>🟡 Medium Priority (Discontinued):</strong><br>
+        ${discontinuedItems.slice(0, 2).map(i => `• ${i.itemNumber}: ${i.itemDescription}`).join('<br>')}<br><br>
+        <strong>💡 Strategy:</strong> Expiring items should be moved within 30 days. Target 40-60% recovery rate for quick liquidation. Consider Grocery Outlet or Big Lots as primary channels for bulk deals.`;
+      }
+      
+      if (q.includes('recovery rate') || q.includes('target') || q.includes('what rate')) {
+        return `<strong>Recovery Rate Guidelines:</strong><br><br>
+        Based on industry benchmarks and your historical data:<br><br>
+        <strong>By Item Type:</strong><br>
+        • <strong>Expiring Soon:</strong> Target 35-50% (time-sensitive)<br>
+        • <strong>Discontinued:</strong> Target 50-70% (still has value)<br>
+        • <strong>No Orders 120+ Days:</strong> Target 25-40% (demand issue)<br><br>
+        <strong>By Channel:</strong><br>
+        • <strong>Grocery Outlet:</strong> Typically 40-55%<br>
+        • <strong>Big Lots:</strong> Typically 35-50%<br>
+        • <strong>Dollar Stores:</strong> Typically 25-40%<br><br>
+        <strong>Current Insight:</strong> Your total SLOB value is <strong>${formatCurrency(chicagoCogs + laCogs)}</strong>. A 45% blended recovery would yield approximately <strong>${formatCurrency((chicagoCogs + laCogs) * 0.45)}</strong>.`;
+      }
+      
+      if (q.includes('los angeles') || q.includes('la ')) {
+        return `<strong>Los Angeles SLOB Analysis:</strong><br><br>
+        LA currently holds <strong>${formatCurrency(laCogs)}</strong> in SLOB inventory across <strong>${laItems.length} SKUs</strong>.<br><br>
+        <strong>Breakdown:</strong><br>
+        • Expiring Soon: ${laItems.filter(i => i.primaryReason === 'Expiring Soon').length} items<br>
+        • Discontinued: ${laItems.filter(i => i.primaryReason === 'Discontinued').length} items<br>
+        • No Orders 120+ Days: ${laItems.filter(i => i.primaryReason === 'No Orders 120+ Days').length} items<br><br>
+        LA has good proximity to discount grocery chains in Southern California. Consider regional deals with Grocery Outlet locations in the area.`;
+      }
+      
+      // Default response
+      return `I can help you with:<br><br>
+      • <strong>Inventory analysis</strong> by location or reason code<br>
+      • <strong>Deal recommendations</strong> and pricing strategies<br>
+      • <strong>Recovery rate guidance</strong> by item type and channel<br>
+      • <strong>Prioritization</strong> of items for liquidation<br><br>
+      Try asking about specific locations (Chicago, LA), item priorities, or target recovery rates!`;
+    }
+
+    // Start the app
+    init();
+  </script>
+</body>
 </html>    .btn-active { background: #DB6013; color: white; border-color: #DB6013; }
     
     /* Filter Select */
